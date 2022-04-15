@@ -58,7 +58,7 @@ public class WalletService {
 
     }
 
-    public Wallet getWalletById(){
+    /*public Wallet getWalletById(){
 
     }
 
@@ -72,7 +72,7 @@ public class WalletService {
 
     public void deleteWallet(){
 
-    }
+    }*/
 
 
 }
