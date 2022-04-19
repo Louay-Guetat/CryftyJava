@@ -247,7 +247,26 @@ public class GroupeChatService {
         }
     }
     }
+    public ArrayList<User> getUsers( int id)
+    {
+        ArrayList<User> user = new ArrayList();
+        String req = "select id ,username from user where id !=?" ;
+        try {
+            PreparedStatement st = DataSource.getInstance().getCnx().prepareStatement(req);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+                u.setId(rs.getInt(1));
+                u.setUsername(rs.getString("username"));
+                user.add(u);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
 
+        return user;
+    }
 
 
 }

@@ -90,12 +90,14 @@ public class PrivateChatService {
 
         return user.get(0);
     }
-    public ArrayList<PrivateChat> privateChat(){
+    public ArrayList<PrivateChat> privateChat(User Currentuser){
         ArrayList<PrivateChat> PrivateChatEntities = new ArrayList();
-        String request = "select * from private_chat  ";
+        String request = "select * from private_chat  where sender_id=? or received_id=?";
         try{
-            Statement st = DataSource.getInstance().getCnx().createStatement();
-            ResultSet rs = st.executeQuery(request);
+            PreparedStatement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            st.setInt(1, Currentuser.getId());
+            st.setInt(2, Currentuser.getId());
+            ResultSet rs = st.executeQuery();
 
             while(rs.next()){
 

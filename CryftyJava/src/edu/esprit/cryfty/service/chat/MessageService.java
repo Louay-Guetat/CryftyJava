@@ -68,23 +68,51 @@ public class MessageService {
         return conversation.get(0);
     }
 
-    public ArrayList<Message> getMessage(Conversation c){
+    public ArrayList<Message> getMessageByCon(Conversation c){
         ArrayList<Message> MessageEntities = new ArrayList();
-        String request = "select * from message where conversation_id = ?";
+        String request = "select * from message where conversation_id = ? ";
         try{
             PreparedStatement st = DataSource.getInstance().getCnx().prepareStatement(request);
             st.setInt(1,c.getId());
+
             ResultSet rs = st.executeQuery();
 
             while(rs.next()){
 
                 Message msg=new Message();
                 msg.setId(rs.getInt(1));
-                msg.setCreatedAt(rs.getDate("created_at"));
+                msg.setCreatedAt((rs.getString("created_at")));
                 msg.setContenu((rs.getString("contenu")));
                 msg.setSender(getUserById(rs.getInt("sender_id")));
                 msg.setConversation(getConversationById(rs.getInt("conversation_id")));
+                //st.setInt(2,rs.getInt(1));
+                MessageEntities.add(msg);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
 
+        return MessageEntities;
+    }
+
+    public ArrayList<Message> getMessageById(int  id){
+        ArrayList<Message> MessageEntities = new ArrayList();
+        String request = "select * from message where   id = ?";
+        try{
+            PreparedStatement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            st.setInt(1,id);
+
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()){
+
+                Message msg=new Message();
+                msg.setId(rs.getInt(1));
+                msg.setCreatedAt(rs.getString("created_at"));
+                msg.setContenu((rs.getString("contenu")));
+                msg.setSender(getUserById(rs.getInt("sender_id")));
+                msg.setConversation(getConversationById(rs.getInt("conversation_id")));
+                //st.setInt(2,rs.getInt(1));
                 MessageEntities.add(msg);
             }
         }catch(SQLException ex){

@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.Controller">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="256.0" style="-fx-background-color: #05071F;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -128,8 +121,9 @@
             <Pane fx:id="pnlCustomer" prefHeight="200.0" prefWidth="200.0" />
             <Pane fx:id="pnlOrders" prefHeight="200.0" prefWidth="200.0" />
             <Pane fx:id="pnlMenus" prefHeight="200.0" prefWidth="200.0" />
-            <Pane fx:id="pnlOverview" prefHeight="554.0" prefWidth="793.0">
+            <Pane fx:id="pnlOverview" prefHeight="565.0" prefWidth="788.0">
                <children>
+                  <Circle id="boule" fx:id="boule" fill="WHITE" layoutX="769.0" layoutY="553.0" onMouseClicked="#afficheListConversation" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                   <TextField layoutX="590.0" layoutY="47.0" prefHeight="27.0" prefWidth="183.0" promptText="search" style="-fx-background-color: #02030A; -fx-border-color: #B7C3D7; -fx-border-radius: 2em;" />
                   <Label layoutX="57.0" layoutY="25.0" text="Restaurant Orders" textFill="#e7e5e5">
                      <font>
@@ -209,12 +203,15 @@
                         </Label>
                      </children>
                   </HBox>
-                  <ScrollPane layoutX="14.0" layoutY="232.0" prefHeight="320.0" prefWidth="746.0" stylesheets="@../style.css">
+                  <ScrollPane layoutX="14.0" layoutY="234.0" prefHeight="318.0" prefWidth="725.0" stylesheets="@../style.css">
                      <content>
-                        <VBox fx:id="pnItems" prefHeight="318.0" prefWidth="744.0" spacing="5.0" style="-fx-background-color: #02030A;">
+                        <VBox fx:id="pnItems" prefHeight="311.0" prefWidth="731.0" spacing="5.0" style="-fx-background-color: #02030A;">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
+                           <children>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="172.0" prefWidth="158.0" style="-fx-background-radius: 10;" />
+                           </children>
                         </VBox>
                      </content>
                   </ScrollPane>
@@ -223,6 +220,73 @@
                         <Image url="@../../images/icons8_Search_52px.png" />
                      </image>
                   </ImageView>
+                  <Pane prefHeight="239.0" prefWidth="200.0" />
+                  <ImageView fitHeight="27.0" fitWidth="33.0" layoutX="755.0" layoutY="542.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/blue-chat.png" />
+                     </image>
+                  </ImageView>
+                  <SplitPane id="ListConversation" fx:id="ListConversation" cache="true" dividerPositions="0.1111111111111111" layoutX="622.0" layoutY="328.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" style="-fx-background-color: white; -fx-background-radius: 10;" translateX="5.0">
+                    <items>
+                      <AnchorPane fx:id="titleListConv" focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="blue">
+                           <children>
+                              <Label layoutX="11.0" layoutY="2.0" text="Your chat" />
+                              <Label fx:id="addGroup" layoutX="92.0" layoutY="2.0" onMouseClicked="#addGroup" style="-fx-background-color: #0066CC; -fx-background-radius: 2;" text="Add group" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-radius: 10;">
+                           <children>
+                              <Pane fx:id="PaneListConv" layoutX="-2.0" prefHeight="173.0" prefWidth="160.0" style="-fx-background-radius: 10; -fx-background-color: white;">
+                                 <children>
+                                    <ScrollPane fx:id="SpListConv" layoutX="1.0" prefHeight="170.0" prefWidth="160.0" style="-fx-border-radius: 10;">
+                                      <content>
+                                        <AnchorPane prefHeight="1.0" prefWidth="0.0" style="-fx-border-radius: 10;">
+                                             <children>
+                                                <ImageView fx:id="imageDelete" fitHeight="22.0" fitWidth="22.0" layoutX="83.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                   <image>
+                                                      <Image url="@../../images/deleteIcon-removebg-preview.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children></AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                 </children></Pane>
+                           </children></AnchorPane>
+                    </items>
+                  </SplitPane>
+                  <SplitPane id="conv" fx:id="conv" cache="true" dividerPositions="0.12626262626262627" layoutX="458.0" layoutY="330.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+                    <items>
+                      <AnchorPane fx:id="HeadConversation" focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #3399FF; -fx-background-radius: 10 10 0 0;">
+                           <children>
+                              <Label fx:id="NomConv" layoutX="17.0" layoutY="3.0" text="Label" />
+                              <ImageView fx:id="closeConv" fitHeight="16.0" fitWidth="8.0" layoutX="146.0" layoutY="6.0" onMouseClicked="#closeConv" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/red-close-icon-png-removebg-preview.png" />
+                                 </image>
+                              </ImageView>
+                           </children></AnchorPane>
+                      <AnchorPane fx:id="affichConv" focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="127.0" prefWidth="158.0">
+                           <children>
+                              <TextField fx:id="TfieldMessage" layoutY="137.0" prefHeight="35.0" prefWidth="158.0" style="-fx-background-radius: 10; -fx-background-color: #F4F1FA;" />
+                              <ImageView fx:id="ImgSendMsg" fitHeight="27.0" fitWidth="33.0" layoutX="128.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true" rotate="50.0">
+                                 <image>
+                                    <Image url="@../../images/SendMsgIcon-removebg-preview.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="PaneMsgs" layoutX="-1.0" prefHeight="137.0" prefWidth="120.0">
+                                 <children>
+                                    <ScrollPane fx:id="s" layoutX="2.0" layoutY="-1.0" prefHeight="143.0" prefWidth="158.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="120.0">
+                                             <children>
+                                                <ImageView fitHeight="42.0" fitWidth="51.0" layoutX="-11.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
+                                             </children></AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                 </children></Pane>
+                           </children></AnchorPane>
+                    </items>
+                  </SplitPane>
                </children>
             </Pane>
          </children>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.AddGroupController">
+   <children>
+      <Pane fx:id="Formulaire" layoutX="89.0" layoutY="57.0" prefHeight="264.0" prefWidth="442.0">
+         <children>
+            <Label layoutX="58.0" layoutY="21.0" text="Name Group" />
+            <TextField fx:id="TfieldNameGroup" layoutX="52.0" layoutY="52.0" />
+            <Button fx:id="btnAddGroup" layoutX="332.0" layoutY="209.0" mnemonicParsing="false" onAction="#SelectItems" text="Add Group" />
+            <TableView fx:id="tabUsers" cache="true" layoutX="33.0" layoutY="109.0" prefHeight="132.0" prefWidth="293.0" style="-fx-border-color: red;">
+              <columns>
+                <TableColumn fx:id="nameUser" prefWidth="215.0" text="Name User" />
+                  <TableColumn fx:id="select" minWidth="0.0" text="Select" />
+                  <TableColumn fx:id="idUser" minWidth="0.0" prefWidth="5.0" text="id" />
+              </columns>
+            </TableView>
+            <Label fx:id="msgError" layoutX="58.0" layoutY="38.0" text="Label" visible="false" />
+            <Label fx:id="msgErrorCheck" layoutX="58.0" layoutY="92.0" text="Label" visible="false" />
+         </children></Pane>
+   </children>
+</AnchorPane>

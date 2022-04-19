@@ -5,13 +5,23 @@ import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.entity.Node;
+import edu.esprit.cryfty.entity.User;
+import edu.esprit.cryfty.entity.chat.Conversation;
+import edu.esprit.cryfty.entity.chat.GroupeChat;
+import edu.esprit.cryfty.entity.chat.Message;
+import edu.esprit.cryfty.entity.chat.PrivateChat;
 import edu.esprit.cryfty.service.Nft.NftService;
+import edu.esprit.cryfty.service.chat.GroupeChatService;
+import edu.esprit.cryfty.service.chat.MessageService;
+import edu.esprit.cryfty.service.chat.PrivateChatService;
+import edu.esprit.cryfty.utils.DataSource;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ClassMain {
     public static void main(String[]args){
-        Client client = new Client();
+       /* Client client = new Client();
         client.setId(1);
         Node nd = new Node();
         nd.setId(1);
@@ -37,9 +47,74 @@ public class ClassMain {
         ClientService clientSrv = new ClientService();
         clientSrv.addClient(cl);*/
 
-        Nft nft = new Nft(25,"","testUpdate","testDescrption",(float)13.0,nd,ct,subCt,client,now,0);
+       /* Nft nft = new Nft(25,"","testUpdate","testDescrption",(float)13.0,nd,ct,subCt,client,now,0);
         NftService nftSrv = new NftService();
-        System.out.println(nftSrv.showNfts());
+        System.out.println(nftSrv.showNfts());*/
+
+
+
+       //test chat
+
+     /*   MessageService msgService = new MessageService();
+        GroupeChatService GrCRUD= new GroupeChatService();
+        ArrayList <GroupeChat> groupsUser = GrCRUD.getGroups();
+        //Conversation conv= msgService.getConversationById(124);
+        for (int i=0;i<groupsUser.size();i++)
+        {
+            ArrayList <User> Participants = groupsUser.get(i).getParticipants();
+            for (int j=0;j<Participants.size();j++)
+            {
+                if(Participants.get(j).getId()==4)
+                {
+                    System.out.println(groupsUser.get(i));
+                }
+            }
+        }
+        DataSource d1 = DataSource.getInstance();
+        Conversation conv2= msgService.getConversationById(6);
+
+        System.out.println(msgService.getMessageByCon(conv2));*/
+        //  delete message
+       //  msgService.deleteMessage(msgService.getMessageById(66).get(0));
+        // System.out.println(msgService.getMessage(conv2));
+
+
+
+
+/*
+        User u=   GrCRUD.getUserById(2);
+        System.out.println(u);
+        // add message
+       /* Conversation convmsg= msgService.getConversationById(142);
+        Message msg=new Message("test ",convmsg,u);
+        msgService.SendMsg(msg);
+*/
+/*
+        ArrayList<User> Participants = new ArrayList<>();
+        User u3=   GrCRUD.getUserById(3);
+        Participants.add(u3);
+        User u2=   GrCRUD.getUserById(4);
+        Participants.add(u);
+        // add group avec Participants
+
+       /* GroupeChat group = new GroupeChat("testgr",u,Participants);
+        GrCRUD.AjouterGroupe(group); */
+        //update group
+
+       /*
+        conv2.setNom("test update3");
+        GrCRUD.updateConversation(conv2);
+
+        */
+     //  add private chat
+      /*  PrivateChat prv =new PrivateChat(u2,u);
+        PrivateChatService prvService = new PrivateChatService();
+        prvService.AjouterPrivateChat(prv);
+        //affich private chat
+        System.out.println(prvService.privateChat());
+*/
+         //delete group
+        //GrCRUD.deleteGroup(msgService.getConversationById(126));
 
     }
 }
