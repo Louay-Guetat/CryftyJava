@@ -62,6 +62,9 @@ public class SubCategoryService {
     }
 
     public List<SubCategory> showSubCategories(){
+        CategoryService categorySrv = new CategoryService();
+        List<Category>categories = categorySrv.showCategories();
+
         List subCategories = new ArrayList();
         String request = "select * from sub_category";
         try{
@@ -73,8 +76,11 @@ public class SubCategoryService {
                 subCategory.setName(rs.getString("name"));
                 subCategory.setCreationDate(rs.getDate("creation_date"));
                 subCategory.setNbrNfts(rs.getInt("nbr_nft"));
-                // subCategory.setCategory((Category)rs.getObject("category_id"));
-
+                for(int i=0;i<categories.size();i++){
+                    if(rs.getInt("category_id") == categories.get(i).getId()){
+                        subCategory.setCategory(categories.get(i));
+                    }
+                }
                 subCategories.add(subCategory);
             }
         }catch(SQLException ex){
@@ -105,5 +111,45 @@ public class SubCategoryService {
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
+    }
+
+    public SubCategory findSubCategoryByName(String name){
+        SubCategory subcategory = new SubCategory();
+        String request = "select * from sub_category where name LIKE '"+name+"'";
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                subcategory.setId(rs.getInt("id"));
+                subcategory.setName(rs.getString("name"));
+                subcategory.setCreationDate(rs.getDate("creation_date"));
+                subcategory.setNbrNfts(rs.getInt("nbr_nft"));
+                CategoryService categoryService = new CategoryService();
+                categoryService.findCategoryById(rs.getInt("category_id"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return subcategory;
+    }
+
+    public SubCategory findSubCategoryById(int id){
+        SubCategory subcategory = new SubCategory();
+        String request = "select * from sub_category where id="+id;
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                subcategory.setId(rs.getInt("id"));
+                subcategory.setName(rs.getString("name"));
+                subcategory.setCreationDate(rs.getDate("creation_date"));
+                subcategory.setNbrNfts(rs.getInt("nbr_nft"));
+                CategoryService categoryService = new CategoryService();
+                categoryService.findCategoryById(rs.getInt("category_id"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return subcategory;
     }
 }

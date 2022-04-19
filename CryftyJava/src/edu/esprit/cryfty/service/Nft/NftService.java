@@ -5,6 +5,7 @@ import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.service.ClientService;
+import edu.esprit.cryfty.service.NodeService;
 import edu.esprit.cryfty.utils.DataSource;
 
 import java.sql.PreparedStatement;
@@ -91,12 +92,8 @@ public class NftService {
     public List<Nft> showNfts(){
         CategoryService categorySrv = new CategoryService();
         SubCategoryService subCategorySrv = new SubCategoryService();
-
-        List<Category>categories = new ArrayList();
-        categories = categorySrv.showCategories();
-
-        List<SubCategory> subCategories = new ArrayList();
-        subCategories = subCategorySrv.showSubCategories();
+        NodeService nodeService = new NodeService();
+        ClientService clientSrv = new ClientService();
 
         List<Nft> nfts = new ArrayList();
         String request = "select * from nft";
@@ -113,19 +110,11 @@ public class NftService {
                 nft.setImage(rs.getString("image"));
                 nft.setLikes(rs.getInt("likes"));
 
-                for(int i=0;i<categories.size();i++){
-                    if(rs.getInt("category_id") == categories.get(i).getId()){
-                        nft.setCategory(categories.get(i));
-                    }
-                }
-                for(int i=0; i<subCategories.size();i++){
-                    if(rs.getInt("sub_category_id")==subCategories.get(i).getId()){
-                        nft.setSubCategory(subCategories.get(i));
-                    }
-                }
-                //nft.setCurrency(rs.getInt("currency_id"));
-                ClientService clientSrv = new ClientService();
-                Client client = clientSrv.getClientById(1);
+                nft.setCategory(categorySrv.findCategoryById(rs.getInt("category_id")));
+                nft.setSubCategory(subCategorySrv.findSubCategoryById(rs.getInt("sub_category_id")));
+                nft.setCurrency(nodeService.getNodeById(rs.getInt("currency_id")));
+
+                Client client = clientSrv.getClientById(rs.getInt("owner_id"));
                 nft.setOwner(client);
 
                 nfts.add(nft);

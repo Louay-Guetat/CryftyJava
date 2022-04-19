@@ -29,6 +29,11 @@ public class Client extends User {
         this.couverture = couverture;
     }
 
+    public Client(int id, String username){
+        this.id = id;
+        this.setUsername(username);
+    }
+
     public int getId() {
         return id;
     }

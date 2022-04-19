@@ -1,5 +1,7 @@
 package edu.esprit.cryfty.entity.Nft;
 
+import edu.esprit.cryfty.entity.User;
+
 import java.util.Date;
 
 public class NftComment {
@@ -9,13 +11,13 @@ public class NftComment {
     int likes;
     int dislikes;
     Nft nft;
-    int user;
+    User user;
 
     public NftComment(){
 
     }
 
-    public NftComment(int id, String content, Date postDate, int likes, int dislikes, Nft nft, int user) {
+    public NftComment(int id, String content, Date postDate, int likes, int dislikes, Nft nft, User user) {
         this.id = id;
         this.content = content;
         this.postDate = postDate;
@@ -73,11 +75,11 @@ public class NftComment {
         this.nft = nft;
     }
 
-    public int getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(int user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
