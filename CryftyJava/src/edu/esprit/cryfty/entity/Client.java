@@ -15,6 +15,11 @@ public class Client extends User {
 
     public Client() {
     }
+    public Client(int id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public Client(int id,String username, String roles,String password,String firstName, String lastName,
                   String email, int phoneNumber, int age, String address,String avatar,String couverture) {

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane accessibleRole="TABLE_VIEW" prefHeight="564.0" prefWidth="764.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.CartController">
+   <children>
+      <TableView fx:id="TableCart" accessibleRole="TABLE_CELL" layoutX="36.0" layoutY="85.0" prefHeight="200.0" prefWidth="537.0" style="-fx-background-color: #02030A;">
+        <columns>
+          <TableColumn fx:id="nftId" maxWidth="750.0" minWidth="30.0" prefWidth="120.0" style="-fx-background-color: #02030A;" styleClass="-fx-color:white" text="Nft" />
+          <TableColumn fx:id="titleNft" maxWidth="750.0" minWidth="28.0" prefWidth="75.0" style="-fx-background-color: #02030A;" text="Title" />
+            <TableColumn fx:id="descNft" maxWidth="750.0" minWidth="11.0" prefWidth="157.0" style="-fx-background-color: #02030A;" text="Description" />
+            <TableColumn fx:id="PriceNft" maxWidth="750.0" minWidth="20.0" prefWidth="87.0" style="-fx-background-color: #02030A;" text="Price" />
+            <TableColumn fx:id="ActionNft" prefWidth="115.0" style="-fx-background-color: #02030A;" text="Action" />
+        </columns>
+      </TableView>
+      <Label layoutX="57.0" layoutY="25.0" prefWidth="235.0" text="Your Cart" textFill="#e7e5e5">
+          <font>
+              <Font size="24.0" />
+          </font>
+      </Label>
+       <TextField fx:id="searchId" layoutX="573.0" layoutY="40.0" prefHeight="27.0" prefWidth="183.0" promptText="search" style="-fx-background-color: #02030A; -fx-border-color: #B7C3D7; -fx-border-radius: 2em;" />
+       <ImageView fitHeight="17.0" fitWidth="16.0" layoutX="733.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@../../images/icons8_Search_52px.png" />
+           </image>
+       </ImageView>
+      <Pane layoutX="526.0" layoutY="338.0" prefHeight="200.0" prefWidth="215.0" style="-fx-border-color: white; -fx-border-radius: 20;">
+         <children>
+             <Button fx:id="cartWalletBtn" layoutX="13.0" layoutY="83.0" mnemonicParsing="false" onAction="#PayCartTransaction" prefHeight="35.0" prefWidth="190.0" style="-fx-background-color: #807eff;" text="Pay your cart with Wallet" textFill="#e7e5e5">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="24.0" layoutY="30.0" prefHeight="17.0" prefWidth="62.0" text="Total :" textFill="#e7e5e5">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="101.0" layoutY="126.0" text="Or" textFill="#e7e5e5" />
+            <Button fx:id="StripebtnWallet" layoutX="16.0" layoutY="152.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="190.0" style="-fx-background-color: #807eff;" text="Pay your cart with CardVisa" textFill="#e7e5e5">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Label fx:id="totalId" layoutX="86.0" layoutY="31.0" prefHeight="27.0" prefWidth="99.0" textFill="#fcfcfc" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

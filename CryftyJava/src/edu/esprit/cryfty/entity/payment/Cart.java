@@ -2,6 +2,7 @@ package edu.esprit.cryfty.entity.payment;
 
 import edu.esprit.cryfty.entity.Client;
 import edu.esprit.cryfty.entity.Nft.Nft;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,7 +65,7 @@ public class Cart {
         this.id = id;
     }
 
-    public double getTotal() {
+    public Double getTotal() {
         return total;
     }
 

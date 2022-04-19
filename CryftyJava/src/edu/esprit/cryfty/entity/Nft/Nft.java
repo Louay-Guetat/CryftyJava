@@ -37,6 +37,19 @@ public class Nft {
         this.likes = likes;
     }
 
+    public Nft(String title, String description, float price) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+    }
+
+    public Nft(int id, String title, String description, float price) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+    }
+
     public int getId() {
         return id;
     }
@@ -133,9 +146,9 @@ public class Nft {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 //", currency=" + currency.getCoinCode() +
-                ", category=" + category.getName() +
-                ", subCategory=" + subCategory.getName() +
-                ", owner=" + owner.getId() +
+                //", category=" + category.getName() +
+                //", subCategory=" + subCategory.getName() +
+                //", owner=" + owner.getId() +
                 ", creationDate=" + creationDate +
                 ", likes=" + likes +
                 '}';

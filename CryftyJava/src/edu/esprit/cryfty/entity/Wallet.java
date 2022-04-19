@@ -19,7 +19,10 @@ public class Wallet {
     public Wallet() {
 
     }
-
+    public Wallet(int id, String walletAddress) {
+        this.id = id;
+        this.walletAddress = walletAddress;
+    }
     public int getId() {
         return id;
     }

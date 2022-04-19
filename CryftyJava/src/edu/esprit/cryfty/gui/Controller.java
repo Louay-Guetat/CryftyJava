@@ -30,12 +30,6 @@ public class Controller implements Initializable {
     private Button btnMenus;
 
     @FXML
-    private Button btnPackages;
-
-    @FXML
-    private Button btnSettings;
-
-    @FXML
     private Button btnSignout;
 
     @FXML
@@ -49,6 +43,16 @@ public class Controller implements Initializable {
 
     @FXML
     private Pane pnlMenus;
+
+    @FXML
+    private Pane pnlPanier;
+
+    @FXML
+    private Button btnPanier;
+    @FXML
+    private Pane pnlTransactions;
+    @FXML
+    private Button btnTransactions;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -74,9 +78,8 @@ public class Controller implements Initializable {
         }
 
     }
-
-
-    public void handleClicks(ActionEvent actionEvent) {
+    @FXML
+    public void handleClicks(ActionEvent actionEvent) throws IOException {
         if (actionEvent.getSource() == btnCustomers) {
             pnlCustomer.setStyle("-fx-background-color : #1620A1");
             pnlCustomer.toFront();
@@ -93,6 +96,20 @@ public class Controller implements Initializable {
         {
             pnlOrders.setStyle("-fx-background-color : #464F67");
             pnlOrders.toFront();
+        }
+        if(actionEvent.getSource()==btnPanier )
+        {
+            pnlPanier.setStyle("-fx-background-color : #02030A");
+            pnlPanier.toFront();
+            Node n = FXMLLoader.load(getClass().getResource("fxml/Cart.fxml"));
+            pnlPanier.getChildren().add(n);
+        }
+        if(actionEvent.getSource()==btnTransactions )
+        {
+            pnlTransactions.setStyle("-fx-background-color : #02030A");
+            pnlTransactions.toFront();
+            Node n1 = FXMLLoader.load(getClass().getResource("fxml/Affichetransaction.fxml"));
+            pnlTransactions.getChildren().add(n1);
         }
     }
 }
