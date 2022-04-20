@@ -1,3 +1,8 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package edu.esprit.cryfty.entity;
 
 public class User {
@@ -9,15 +14,15 @@ public class User {
     public User() {
     }
 
-    public User(int id,String username, String roles, String password){
+    public User(int id, String username, String roles, String password) {
         this.id = id;
         this.username = username;
-        this.roles= roles;
+        this.roles = roles;
         this.password = password;
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -25,7 +30,7 @@ public class User {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
@@ -33,7 +38,7 @@ public class User {
     }
 
     public String getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public void setRoles(String roles) {
@@ -41,20 +46,14 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", roles='" + roles + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "User{id=" + this.id + ", username='" + this.username + '\'' + ", roles='" + this.roles + '\'' + ", password='" + this.password + '\'' + '}';
     }
 }

@@ -1,3 +1,8 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package edu.esprit.cryfty.entity.Nft;
 
 import java.util.ArrayList;
@@ -11,8 +16,7 @@ public class SubCategory {
     Category category;
     ArrayList<Nft> nfts = new ArrayList();
 
-    public SubCategory(){
-
+    public SubCategory() {
     }
 
     public SubCategory(int id, String name, Date creationDate, int nbrNfts, Category category) {
@@ -24,7 +28,7 @@ public class SubCategory {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -32,7 +36,7 @@ public class SubCategory {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -40,7 +44,7 @@ public class SubCategory {
     }
 
     public Date getCreationDate() {
-        return creationDate;
+        return this.creationDate;
     }
 
     public void setCreationDate(Date creationDate) {
@@ -48,7 +52,7 @@ public class SubCategory {
     }
 
     public int getNbrNfts() {
-        return nbrNfts;
+        return this.nbrNfts;
     }
 
     public void setNbrNfts(int nbrNfts) {
@@ -56,15 +60,14 @@ public class SubCategory {
     }
 
     public Category getCategory() {
-        return category;
+        return this.category;
     }
 
     public void setCategory(Category category) {
         this.category = category;
     }
 
-    @Override
     public String toString() {
-        return "SubCategory{" + "id=" + id + ", name=" + name + ", creationDate=" + creationDate + ", nbrNfts=" + nbrNfts + ", category=" + category + '}';
+        return "SubCategory{id=" + this.id + ", name=" + this.name + ", creationDate=" + this.creationDate + ", nbrNfts=" + this.nbrNfts + ", category=" + this.category + '}';
     }
 }

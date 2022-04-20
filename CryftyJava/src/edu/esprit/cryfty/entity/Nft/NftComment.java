@@ -1,5 +1,11 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package edu.esprit.cryfty.entity.Nft;
 
+import edu.esprit.cryfty.entity.User;
 import java.util.Date;
 
 public class NftComment {
@@ -9,13 +15,12 @@ public class NftComment {
     int likes;
     int dislikes;
     Nft nft;
-    int user;
+    User user;
 
-    public NftComment(){
-
+    public NftComment() {
     }
 
-    public NftComment(int id, String content, Date postDate, int likes, int dislikes, Nft nft, int user) {
+    public NftComment(int id, String content, Date postDate, int likes, int dislikes, Nft nft, User user) {
         this.id = id;
         this.content = content;
         this.postDate = postDate;
@@ -26,7 +31,7 @@ public class NftComment {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -34,7 +39,7 @@ public class NftComment {
     }
 
     public String getContent() {
-        return content;
+        return this.content;
     }
 
     public void setContent(String content) {
@@ -42,7 +47,7 @@ public class NftComment {
     }
 
     public Date getPostDate() {
-        return postDate;
+        return this.postDate;
     }
 
     public void setPostDate(Date postDate) {
@@ -50,7 +55,7 @@ public class NftComment {
     }
 
     public int getLikes() {
-        return likes;
+        return this.likes;
     }
 
     public void setLikes(int likes) {
@@ -58,7 +63,7 @@ public class NftComment {
     }
 
     public int getDislikes() {
-        return dislikes;
+        return this.dislikes;
     }
 
     public void setDislikes(int dislikes) {
@@ -66,30 +71,22 @@ public class NftComment {
     }
 
     public Nft getNft() {
-        return nft;
+        return this.nft;
     }
 
     public void setNft(Nft nft) {
         this.nft = nft;
     }
 
-    public int getUser() {
-        return user;
+    public User getUser() {
+        return this.user;
     }
 
-    public void setUser(int user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    @Override
     public String toString() {
-        return "NftComment{" +
-                "content='" + content + '\'' +
-                ", postDate=" + postDate +
-                ", likes=" + likes +
-                ", dislikes=" + dislikes +
-                ", nft=" + nft.title +
-                ", user=" + user +
-                '}';
+        return "NftComment{content='" + this.content + '\'' + ", postDate=" + this.postDate + ", likes=" + this.likes + ", dislikes=" + this.dislikes + ", nft=" + this.nft.title + ", user=" + this.user + '}';
     }
 }

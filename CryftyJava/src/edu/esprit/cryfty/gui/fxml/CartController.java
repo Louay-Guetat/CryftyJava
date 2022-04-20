@@ -40,8 +40,6 @@ public class CartController implements Initializable {
     @javafx.fxml.FXML
     private TableColumn<Nft, String> PriceNft;
     @javafx.fxml.FXML
-    private TableColumn<Nft, String> nftId;
-    @javafx.fxml.FXML
     private TableColumn<Nft, String> titleNft;
     @FXML
     private TableView<Nft> TableCart;
@@ -73,7 +71,6 @@ public class CartController implements Initializable {
         //PriceNft.setStyle("-fx-text-fill : white;");
         PriceNft.setCellValueFactory(new PropertyValueFactory<>("price"));
         descNft.setCellValueFactory(new PropertyValueFactory<>("description"));
-        nftId.setCellValueFactory(new PropertyValueFactory<>("image"));
         titleNft.setCellValueFactory(new PropertyValueFactory<>("title"));
 
 
@@ -212,4 +209,5 @@ public class CartController implements Initializable {
         window.setScene(tableViewScene);
         window.show();
     }
+
 }

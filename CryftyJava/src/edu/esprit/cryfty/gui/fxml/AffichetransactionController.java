@@ -53,6 +53,7 @@ public class AffichetransactionController implements Initializable {
                 return new SimpleStringProperty(param.getValue().getCartId().getTotal().toString());
             }
         });
+
         dateTransactionId.setCellValueFactory(new PropertyValueFactory<>("datetransaction"));
         RefId.setCellValueFactory(new PropertyValueFactory<>("id"));
         wAddressId.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Transaction,String>, ObservableValue<String>>(){
@@ -85,7 +86,7 @@ public class AffichetransactionController implements Initializable {
                 String lowerCaseFilter = newValue.toLowerCase();
 
 
-                if (String.valueOf(transaction.getWallets().getWalletAddress()).indexOf(lowerCaseFilter)!=-1)
+                if (String.valueOf(transaction.getCartId().getTotal()).indexOf(lowerCaseFilter)!=-1)
                     return true;
                 else
                     return false; // Does not match.

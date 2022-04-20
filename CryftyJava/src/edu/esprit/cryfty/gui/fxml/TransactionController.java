@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TransactionController  implements Initializable {
@@ -51,15 +52,15 @@ public class TransactionController  implements Initializable {
             {
                 Alert alert=new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Dialog");
-                alert.setContentText("Choose a wallet please.");
+                alert.setContentText("please , Choose a wallet .");
                 alert.show();
             }
             else {
-                Date d = new Date();
+                Date d =new Date();
                 Cart cartAjout = cartService.getCartfromNft().get(0);
                 String a = addressWalletId.getSelectionModel().getSelectedItem().toString();
                 Wallet adw = transactionService.getwalletsAddress(a);
-                Transaction transaction = new Transaction(cartAjout, adw, d);
+                Transaction transaction = new Transaction(cartAjout, adw,d);
                 transactionService.addTransaction(transaction);
 
                 float tot = 0;

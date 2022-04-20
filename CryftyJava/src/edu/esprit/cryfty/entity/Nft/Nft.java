@@ -1,8 +1,12 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package edu.esprit.cryfty.entity.Nft;
 
 import edu.esprit.cryfty.entity.Client;
 import edu.esprit.cryfty.entity.Node;
-
 import java.util.Date;
 
 public class Nft {
@@ -18,12 +22,10 @@ public class Nft {
     Date creationDate;
     int likes;
 
-    public Nft(){
-
+    public Nft() {
     }
 
-    public Nft(int id, String image, String title, String description, float price, Node currency,
-               Category category, SubCategory subCategory, Client owner, Date creationDate, int likes) {
+    public Nft(int id, String image, String title, String description, float price, Node currency, Category category, SubCategory subCategory, Client owner, Date creationDate, int likes) {
         this.id = id;
         this.image = image;
         this.title = title;
@@ -50,8 +52,10 @@ public class Nft {
         this.price = price;
     }
 
+
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -59,7 +63,7 @@ public class Nft {
     }
 
     public String getImage() {
-        return image;
+        return this.image;
     }
 
     public void setImage(String image) {
@@ -67,7 +71,7 @@ public class Nft {
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {
@@ -75,7 +79,7 @@ public class Nft {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -83,7 +87,7 @@ public class Nft {
     }
 
     public float getPrice() {
-        return price;
+        return this.price;
     }
 
     public void setPrice(float price) {
@@ -91,7 +95,7 @@ public class Nft {
     }
 
     public Node getCurrency() {
-        return currency;
+        return this.currency;
     }
 
     public void setCurrency(Node currency) {
@@ -99,7 +103,7 @@ public class Nft {
     }
 
     public Category getCategory() {
-        return category;
+        return this.category;
     }
 
     public void setCategory(Category category) {
@@ -107,7 +111,7 @@ public class Nft {
     }
 
     public SubCategory getSubCategory() {
-        return subCategory;
+        return this.subCategory;
     }
 
     public void setSubCategory(SubCategory subCategory) {
@@ -115,7 +119,7 @@ public class Nft {
     }
 
     public Client getOwner() {
-        return owner;
+        return this.owner;
     }
 
     public void setOwner(Client owner) {
@@ -123,7 +127,7 @@ public class Nft {
     }
 
     public Date getCreationDate() {
-        return creationDate;
+        return this.creationDate;
     }
 
     public void setCreationDate(Date creationDate) {
@@ -131,26 +135,15 @@ public class Nft {
     }
 
     public int getLikes() {
-        return likes;
+        return this.likes;
     }
 
     public void setLikes(int likes) {
         this.likes = likes;
     }
 
-    @Override
     public String toString() {
-        return "Nft{" +
-                "image='" + image + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                //", currency=" + currency.getCoinCode() +
-                //", category=" + category.getName() +
-                //", subCategory=" + subCategory.getName() +
-                //", owner=" + owner.getId() +
-                ", creationDate=" + creationDate +
-                ", likes=" + likes +
-                '}';
+        return "Nft{image='" + this.image + '\'' + ", title='" + this.title + '\'' + ", description='" + this.description + '\'' + ", price=" + this.price + ", category=" + this.category.getName() + ", subCategory=" + this.subCategory.getName() + ", owner=" + this.owner.getId() + ", creationDate=" + this.creationDate + ", likes=" + this.likes + '}';
     }
 }
+
