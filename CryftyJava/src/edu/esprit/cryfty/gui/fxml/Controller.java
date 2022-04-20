@@ -1,7 +1,6 @@
 package edu.esprit.cryfty.gui.fxml;
 
 import edu.esprit.cryfty.entity.Nft.Nft;
-import edu.esprit.cryfty.gui.fxml.ItemController;
 import edu.esprit.cryfty.service.Nft.NftService;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,11 +12,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -56,9 +60,61 @@ public class Controller implements Initializable {
 
     public static Nft nft= null;
     public static Nft nftClicked= null;
+    @FXML
+    private AnchorPane view;
+    @FXML
+    private Pane pnlItem;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        createView();
+
+        ImageView add = new ImageView();
+        try {
+            FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\add.png");
+            Image image = new Image(inputstream);
+            add.setImage(image);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        btnAddNft.setGraphic(add);
+    }
+
+    @FXML
+    public void handleClicks(ActionEvent actionEvent) throws IOException {
+        if (actionEvent.getSource() == btnCustomers) {
+            pnlCustomer.setStyle("-fx-background-color : #1620A1");
+            pnlCustomer.toFront();
+            pnlOrders.setVisible(false);
+        }
+        if (actionEvent.getSource() == btnMenus) {
+            pnlMenus.setStyle("-fx-background-color : #53639F");
+            pnlMenus.toFront();
+            pnlCustomer.setVisible(false);
+        }
+        if (actionEvent.getSource() == btnOverview) {
+            pnlOverview.setStyle("-fx-background-color : #02030A");
+            pnlOverview.toFront();
+            Node node = FXMLLoader.load(getClass().getResource("Home.fxml"));
+            view.getChildren().clear();
+            view.getChildren().add(node);
+        }
+        if(actionEvent.getSource()==btnOrders)
+        {
+            pnlOrders.setStyle("-fx-background-color : #464F67");
+            pnlOrders.toFront();
+        }
+        if(actionEvent.getSource()==btnAddNft){
+            Scene scene = btnAddNft.getScene();
+            scene.getWindow().hide();
+            Stage primaryStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("AddNft.fxml"));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        }
+    }
+
+    public void createView(){
         NftService nftService = new NftService();
         List<Nft> nfts = nftService.showNfts();
         Node[] nodes = new Node[nfts.size()];
@@ -81,7 +137,7 @@ public class Controller implements Initializable {
                 nodes[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        Stage primaryStage = new Stage();
+                        /*Stage primaryStage = new Stage();
                         Parent root = null;
                         nftClicked = nfts.get(finalI);
                         try {
@@ -90,43 +146,21 @@ public class Controller implements Initializable {
                             System.out.println(e.getMessage());
                         }
                         primaryStage.setScene(new Scene(root));
-                        primaryStage.show();
+                        primaryStage.show();*/
+                        nftClicked = nfts.get(finalI);
+                        Node node = nodes[finalI];
+                        try {
+                            node = FXMLLoader.load(getClass().getResource("OneItem.fxml"));
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        pnlItem.getChildren().clear();
+                        pnlItem.getChildren().add(node);
                     }
                 });
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
-        }
-
-    }
-
-    @FXML
-    public void handleClicks(ActionEvent actionEvent) throws IOException {
-        if (actionEvent.getSource() == btnCustomers) {
-            pnlCustomer.setStyle("-fx-background-color : #1620A1");
-            pnlCustomer.toFront();
-            pnlOrders.setVisible(false);
-        }
-        if (actionEvent.getSource() == btnMenus) {
-            pnlMenus.setStyle("-fx-background-color : #53639F");
-            pnlMenus.toFront();
-            pnlCustomer.setVisible(false);
-        }
-        if (actionEvent.getSource() == btnOverview) {
-            pnlOverview.setStyle("-fx-background-color : #02030A");
-            pnlOverview.toFront();
-        }
-        if(actionEvent.getSource()==btnOrders)
-        {
-            pnlOrders.setStyle("-fx-background-color : #464F67");
-            pnlOrders.toFront();
-            pnlOrders.setVisible(true);
-        }
-        if(actionEvent.getSource()==btnAddNft){
-            Stage primaryStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("AddNft.fxml"));
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
         }
     }
 

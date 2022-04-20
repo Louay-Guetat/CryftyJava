@@ -18,10 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
-import java.security.spec.RSAOtherPrimeInfo;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import static edu.esprit.cryfty.gui.fxml.Controller.nft;
@@ -48,8 +45,6 @@ public class ItemController implements Initializable{
     @FXML
     private Label lblLikes;
     public static Nft thisNft = nft;
-    @FXML
-    private Button btnViewNft;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -65,7 +60,7 @@ public class ItemController implements Initializable{
             FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\"+nft.getImage());
             Image image = new Image(inputstream);
             imNft.setImage(image);
-        } catch (FileNotFoundException e) {
+        }catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }

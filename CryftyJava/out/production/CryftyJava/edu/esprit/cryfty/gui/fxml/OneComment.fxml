@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="37.0" prefWidth="588.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.OneCommentController">
+<AnchorPane prefHeight="37.0" prefWidth="499.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.OneCommentController">
    <children>
-      <VBox prefHeight="39.0" prefWidth="588.0" spacing="5.0" style="-fx-background-color: #02030A;">
+      <VBox prefHeight="39.0" prefWidth="500.0" spacing="2.0" style="-fx-background-color: #02030A; -fx-border-color: white; -fx-border-width: 0.3;">
          <children>
-            <Label fx:id="lblComment" text="Content" textFill="WHITE" />
-            <Label fx:id="lblOwner" text="Infos" textFill="#6b4545" />
+            <Label fx:id="lblComment" text="Content" textFill="WHITE">
+               <padding>
+                  <Insets left="5.0" />
+               </padding></Label>
+            <Label fx:id="lblOwner" text="Infos" textFill="#6b4545">
+               <padding>
+                  <Insets left="5.0" />
+               </padding></Label>
          </children>
       </VBox>
    </children>

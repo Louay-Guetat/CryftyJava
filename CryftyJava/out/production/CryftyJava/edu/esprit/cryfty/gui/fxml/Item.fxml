@@ -3,27 +3,33 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #02030A; -fx-background-radius: 5; -fx-background-insets: 0;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.ItemController">
+
+<AnchorPane prefHeight="349.0" prefWidth="366.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.ItemController">
    <children>
-      <Pane fx:id="pnItem" prefHeight="360.0" prefWidth="600.0">
+      <Pane fx:id="pnItem" layoutX="5.0" layoutY="8.0" prefHeight="333.0" prefWidth="352.0" style="-fx-border-color: gray; -fx-border-width: 0.5;">
          <children>
-            <ImageView fx:id="imNft" fitHeight="140.0" fitWidth="168.0" layoutX="84.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imNft" fitHeight="193.0" fitWidth="220.0" layoutX="14.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/Nfts/default.png" />
                </image>
             </ImageView>
-            <Label fx:id="lblTitle" layoutX="64.0" layoutY="182.0" text="Title" />
-            <Label fx:id="lblCreationDate" layoutX="114.0" layoutY="199.0" text="Creation Date" />
-            <Label fx:id="lblOwner" layoutX="214.0" layoutY="182.0" text="Owner" />
-            <Label fx:id="lblCategory" layoutX="62.0" layoutY="216.0" text="Category" />
-            <Label fx:id="lblSubCategory" layoutX="62.0" layoutY="242.0" text="SubCategory" />
-            <Label fx:id="lblPrice" layoutX="218.0" layoutY="216.0" text="Price" />
-            <Label fx:id="lblCurrency" layoutX="205.0" layoutY="246.0" text="Currency" />
-            <Label fx:id="lblLikes" layoutX="137.0" layoutY="260.0" text="Likes" />
+            <Label fx:id="lblTitle" layoutX="89.0" layoutY="53.0" text="Title" textAlignment="CENTER" textFill="#4e88c4">
+               <font>
+                  <Font name="Arial Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblCreationDate" layoutX="224.0" layoutY="90.0" text="Creation Date" textFill="WHITE" />
+            <Label fx:id="lblOwner" layoutX="223.0" layoutY="120.0" text="Owner" textFill="WHITE" />
+            <Label fx:id="lblCategory" layoutX="224.0" layoutY="150.0" text="Category" textFill="WHITE" />
+            <Label fx:id="lblSubCategory" layoutX="237.0" layoutY="180.0" text="SubCategory" textFill="WHITE" />
+            <Label fx:id="lblPrice" layoutX="224.0" layoutY="210.0" text="Price" textFill="WHITE" />
+            <Label fx:id="lblCurrency" layoutX="259.0" layoutY="210.0" text="Currency" textFill="WHITE" />
+            <Label fx:id="lblLikes" layoutX="225.0" layoutY="250.0" text="Likes" textFill="WHITE" />
          </children>
       </Pane>
    </children>
-</VBox>
+</AnchorPane>

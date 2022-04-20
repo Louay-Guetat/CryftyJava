@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.Controller">
+<AnchorPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1301.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.Controller">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="256.0" style="-fx-background-color: #05071F;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -31,7 +31,7 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </Label>
-            <Button fx:id="btnOverview" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" stylesheets="@../style.css" text="Overview" textFill="#e7e5e5">
+            <Button fx:id="btnOverview" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" stylesheets="@../style.css" text="Home Page" textFill="#e7e5e5">
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -123,30 +123,39 @@
             </Button>
          </children>
       </VBox>
-      <StackPane layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #02030A;">
+      <StackPane layoutX="258.0" prefHeight="576.0" prefWidth="1043.0" style="-fx-background-color: #02030A;">
          <children>
             <Pane fx:id="pnlCustomer" prefHeight="200.0" prefWidth="200.0" />
             <Pane fx:id="pnlOrders" prefHeight="200.0" prefWidth="200.0" />
             <Pane fx:id="pnlMenus" prefHeight="576.0" prefWidth="707.0" />
-            <Pane fx:id="pnlOverview" prefHeight="554.0" prefWidth="793.0">
+            <Pane fx:id="pnlOverview" prefHeight="576.0" prefWidth="1035.0">
                <children>
-                  <TextField layoutX="590.0" layoutY="47.0" prefHeight="27.0" prefWidth="183.0" promptText="search" style="-fx-background-color: #02030A; -fx-border-color: #B7C3D7; -fx-border-radius: 2em;" />
-                  <Label layoutX="57.0" layoutY="25.0" text="Restaurant Orders" textFill="#e7e5e5">
+                  <TextField layoutX="846.0" layoutY="47.0" prefHeight="27.0" prefWidth="183.0" promptText="search" style="-fx-background-color: #02030A; -fx-border-color: #B7C3D7; -fx-border-radius: 2em;" />
+                  <Label layoutX="108.0" layoutY="43.0" text="Cryfty" textFill="#e7e5e5">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <ScrollPane fx:id="scrollPaneItems" layoutX="14.0" layoutY="120.0" prefHeight="420.0" prefWidth="746.0" stylesheets="@../style.css">
-                     <content>
-                        <HBox fx:id="boxItems" prefHeight="404.0" prefWidth="747.0" />
-                     </content>
-                  </ScrollPane>
-                  <ImageView fitHeight="17.0" fitWidth="16.0" layoutX="749.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="17.0" fitWidth="16.0" layoutX="821.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/icons8_Search_52px.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="btnAddNft" layoutX="508.0" layoutY="49.0" mnemonicParsing="false" onAction="#handleClicks" text="Add NFT" />
+                  <Pane fx:id="pnlItem" layoutX="10.0" layoutY="99.0" prefHeight="455.0" prefWidth="1029.0">
+                     <children>
+                        <ScrollPane fx:id="scrollPaneItems" layoutX="4.0" layoutY="68.0" prefHeight="365.0" prefWidth="1020.0" style="-fx-background-color: #02030A;" stylesheets="@../style.css">
+                           <content>
+                              <HBox fx:id="boxItems" prefHeight="344.0" prefWidth="1020.0" />
+                           </content>
+                        </ScrollPane>
+                        <Button fx:id="btnAddNft" layoutX="24.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleClicks" style="-fx-background-color: TRANSPARENT;" />
+                     </children>
+                  </Pane>
+                  <ImageView fitHeight="67.0" fitWidth="69.0" layoutX="26.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/LogoNoText.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
          </children>
