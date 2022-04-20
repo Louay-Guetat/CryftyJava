@@ -29,14 +29,14 @@ public class MessageService {
         return user.get(0);
     }
 
-    public void SendMsg(Message msg)
+    public void SendMsg(Message msg,Conversation c)
 
     {
         String req= "INSERT INTO message (sender_id,conversation_id,contenu,created_at) VALUES "+"(?,?,?,?)";
         try {
             PreparedStatement pst= DataSource.getInstance().getCnx().prepareStatement(req);
             pst.setInt(1, msg.getSender().getId());
-            pst.setInt(2, msg.getConversation().getId());
+            pst.setInt(2, c.getId());
             pst.setString(3, msg.getContenu());
             pst.setObject(4,msg.getCreatedAt());
             pst.executeUpdate();

@@ -79,7 +79,8 @@ public class AddGroupController implements Initializable {
             }
             User currentUser=  groupeChatService.getUserById(4);
             String name = TfieldNameGroup.getText();
-
+            msgError.setStyle("-fx-text-fill: red;");
+            msgErrorCheck.setStyle("-fx-text-fill: red;");
             if(name.equals("") && Participants.size()<2)
             {
                 msgError.setVisible(true);
