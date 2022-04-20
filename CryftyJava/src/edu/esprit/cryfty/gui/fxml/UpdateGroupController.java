@@ -2,18 +2,24 @@ package edu.esprit.cryfty.gui.fxml;
 
 import edu.esprit.cryfty.entity.User;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
+import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.chat.GroupeChatService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+
 
 public class UpdateGroupController  implements Initializable {
     @FXML
@@ -57,7 +63,7 @@ public class UpdateGroupController  implements Initializable {
 
 
     }
-    public void SelectItems()
+    public void SelectItems2()
     {
         ArrayList<User> Participants = new ArrayList<>();
         GroupeChatService groupeChatService = new GroupeChatService();
@@ -71,7 +77,6 @@ public class UpdateGroupController  implements Initializable {
             }
         }
         User currentUser=  groupeChatService.getUserById(4);
-
         String name = NomG.getText();
 
         if(name.equals("") ) {
@@ -86,6 +91,8 @@ public class UpdateGroupController  implements Initializable {
             AffichParticipantsByGroupController.UpdateClicked.setNom(name);
             groupeChatService.updateConversation(AffichParticipantsByGroupController.UpdateClicked);
             groupeChatService.Ajoutergroup_chat_user(group,AffichParticipantsByGroupController.UpdateClicked.getId());
+
+
         }
     }
 
@@ -160,4 +167,5 @@ public class UpdateGroupController  implements Initializable {
     public void setList(ObservableList<User> list) {
         this.list = list;
     }
+
 }

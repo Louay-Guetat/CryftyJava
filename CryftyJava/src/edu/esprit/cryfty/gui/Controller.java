@@ -195,6 +195,7 @@ public class Controller implements Initializable {
         {
             nom.add( Affichage_GR_chat().get(j));
             Label nomG = new Label(Affichage_GR_chat().get(j).getNom());
+            nomG.setStyle("-fx-font-weight:bold;");
             layout.getChildren().add(nomG);
           GroupeChat  gr=Affichage_GR_chat().get(j);
             int id =Affichage_GR_chat().get(j).getId();
@@ -235,6 +236,7 @@ public class Controller implements Initializable {
             if(Affichage_GR_chat().get(j).getOwner().getId()==4)
             {
                 FontAwesomeIconView deleteIconGroup = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
+                deleteIconGroup.setStyle("-fx-fill:red;");
                 HBox hbox=new HBox(deleteIconGroup);
                 hbox.setStyle("-fx-alignement:right;");
                 hbox.setMargin(deleteIconGroup,new Insets(0, 0, 0, 130));
@@ -250,6 +252,7 @@ public class Controller implements Initializable {
             if(Affichage_private_chat().get(j).getReceived().getId()==4)
             {
                 Label nomP = new Label(Affichage_private_chat().get(j).getSender().getUsername());
+                nomP.setStyle("-fx-font-weight:bold;");
                 layout.getChildren().add(nomP );
                 Line l =new Line();
 
@@ -268,6 +271,7 @@ public class Controller implements Initializable {
             else
             {
                 Label nomP = new Label(Affichage_private_chat().get(j).getReceived().getUsername());
+                nomP.setStyle("-fx-font-weight:bold;");
                 System.out.println(Affichage_private_chat().get(j).getSender().getUsername());
                 layout.getChildren().add(nomP);
                 Line l =new Line();
@@ -394,7 +398,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    public void addGroup(Event event) throws IOException {
+    public void addGroup() throws IOException {
         addGroup.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

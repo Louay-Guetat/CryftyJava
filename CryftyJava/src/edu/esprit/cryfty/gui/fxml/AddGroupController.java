@@ -2,13 +2,18 @@ package edu.esprit.cryfty.gui.fxml;
 
 import edu.esprit.cryfty.entity.User;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
+import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.chat.GroupeChatService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -64,7 +69,7 @@ public class AddGroupController implements Initializable {
 
 
     }
-    public void SelectItems()
+    public void SelectItems( ActionEvent e)
         {
             ArrayList<User> Participants = new ArrayList<>();
             GroupeChatService groupeChatService = new GroupeChatService();
@@ -105,6 +110,11 @@ public class AddGroupController implements Initializable {
                 msgErrorCheck.setVisible(false);
                 GroupeChat group = new GroupeChat(name, currentUser, Participants);
                 groupeChatService.AjouterGroupe(group);
+
+               Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
+               window.hide();
+
+
             }
         }
     public TableView getTabUsers() {

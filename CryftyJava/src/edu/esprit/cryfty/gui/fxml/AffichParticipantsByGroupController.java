@@ -7,10 +7,12 @@ import edu.esprit.cryfty.entity.User;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
 import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.chat.GroupeChatService;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -104,6 +106,7 @@ public class AffichParticipantsByGroupController implements Initializable {
 
         });
     }
+
     public void rediectToUpdate(GroupeChat c)
     {
         if(c.getOwner().getId()==4){
@@ -114,6 +117,7 @@ public class AffichParticipantsByGroupController implements Initializable {
                     Stage primaryStage = new Stage();
                     Parent root = null;
                     UpdateClicked = c;
+
                     System.out.println("dkhal" +c);
                     try {
                         root = FXMLLoader.load(getClass().getResource("UpdateGroup.fxml"));
@@ -122,6 +126,8 @@ public class AffichParticipantsByGroupController implements Initializable {
                     }
                     primaryStage.setScene(new Scene( root));
                     primaryStage.show();
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    window.hide();
                 }
             });
 
