@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="37.0" prefWidth="499.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.OneCommentController">
+<AnchorPane prefHeight="57.0" prefWidth="499.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.OneCommentController">
    <children>
-      <VBox prefHeight="39.0" prefWidth="500.0" spacing="2.0" style="-fx-background-color: #02030A; -fx-border-color: white; -fx-border-width: 0.3;">
+      <Pane fx:id="pnlComment" prefHeight="57.0" prefWidth="499.0">
          <children>
-            <Label fx:id="lblComment" text="Content" textFill="WHITE">
-               <padding>
-                  <Insets left="5.0" />
-               </padding></Label>
-            <Label fx:id="lblOwner" text="Infos" textFill="#6b4545">
-               <padding>
-                  <Insets left="5.0" />
-               </padding></Label>
+            <Label fx:id="lblComment" layoutX="61.0" layoutY="5.0" text="Comment" textFill="WHITE" />
+            <Label fx:id="lblPostDate" layoutX="401.0" layoutY="5.0" text="PostDate" textFill="WHITE" />
+            <Button fx:id="btnUpdate" layoutX="5.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateComment" prefHeight="15.0" prefWidth="30.0" text="Button" />
+            <Button fx:id="btnDelete" layoutX="42.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteComment" prefHeight="15.0" prefWidth="30.0" text="Button" />
+            <Label fx:id="lblOwner" layoutX="4.0" layoutY="5.0" text="Owner" textFill="WHITE" />
          </children>
-      </VBox>
+      </Pane>
    </children>
 </AnchorPane>

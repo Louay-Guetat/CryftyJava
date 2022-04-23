@@ -11,7 +11,7 @@ public class DataSource {
         private Connection cnx;
         public static DataSource instance; //2eme etape singleton
 
-        private DataSource() { // pour appliquer le singleton, on rend le constructeur private 1ere etape
+        private DataSource() { // pour appliquer le singleton, on rend le constructeur private //1ere etape
             try{
                 cnx = DriverManager.getConnection(url, login, pwd);
                 System.out.println("Connection etablie.");

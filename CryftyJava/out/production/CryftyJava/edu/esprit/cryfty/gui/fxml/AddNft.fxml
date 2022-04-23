@@ -12,7 +12,7 @@
 
 <!--fx:controller="edu.esprit.cryfty.gui.fxml.AddNft"-->
 
-<AnchorPane fx:id="anchorPane" prefHeight="612.0" prefWidth="518.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.AddNftController">
+<AnchorPane fx:id="anchorPane" prefHeight="612.0" prefWidth="518.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.AddNftController">
    <children>
       <Pane layoutX="-5.0" prefHeight="614.0" prefWidth="526.0" style="-fx-background-color: #02030A;">
          <children>

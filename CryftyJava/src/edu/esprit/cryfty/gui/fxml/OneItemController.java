@@ -4,6 +4,10 @@ import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.NftComment;
 import edu.esprit.cryfty.service.Nft.NftCommentService;
 import edu.esprit.cryfty.service.Nft.NftService;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -12,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -58,18 +63,18 @@ public class OneItemController implements Initializable {
     @javafx.fxml.FXML
     private Pane paneComment;
     @javafx.fxml.FXML
-    private TextField tfComment;
+    public static TextField tfComment;
     @javafx.fxml.FXML
     private ScrollPane scrollPaneComments;
     @javafx.fxml.FXML
-    private Button btnComment;
+    public Button btnComment;
     @javafx.fxml.FXML
     private ImageView imNft;
 
     private Nft nft = nftClicked;
-    public static NftComment comment;
     @javafx.fxml.FXML
     private VBox boxComment;
+    public static NftComment comment;
 
 
     @Override
@@ -112,12 +117,12 @@ public class OneItemController implements Initializable {
             for(int i=0; i<comments.size();i++){
                 try{
                     comment = comments.get(i);
-                    System.out.println(comment.toString());
                     nodes[i]= FXMLLoader.load(getClass().getResource("OneComment.fxml"));
                     boxComment.getChildren().add(nodes[i]);
                 }catch(IOException e){
                     System.out.println(e.getMessage());
                 }
+
             }
         }
     }
@@ -163,5 +168,9 @@ public class OneItemController implements Initializable {
             alert.setHeaderText("Please you need to write a comment");
             alert.showAndWait();
         }
+    }
+
+    public void setTfComment(String comment){
+        tfComment.setText(comment);
     }
 }
