@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="57.0" prefWidth="499.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.OneCommentController">
+<AnchorPane prefHeight="54.5" prefWidth="499.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.OneCommentController">
    <children>
-      <Pane fx:id="pnlComment" prefHeight="57.0" prefWidth="499.0">
+      <Pane fx:id="pnlComment" prefHeight="54.0" prefWidth="499.0" style="-fx-border-color: #4e7171; -fx-border-width: 0 0 1 0;">
          <children>
             <Label fx:id="lblComment" layoutX="61.0" layoutY="5.0" text="Comment" textFill="WHITE" />
             <Label fx:id="lblPostDate" layoutX="401.0" layoutY="5.0" text="PostDate" textFill="WHITE" />
-            <Button fx:id="btnUpdate" layoutX="5.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateComment" prefHeight="15.0" prefWidth="30.0" text="Button" />
-            <Button fx:id="btnDelete" layoutX="42.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteComment" prefHeight="15.0" prefWidth="30.0" text="Button" />
+            <Button fx:id="btnUpdate" layoutX="-8.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateComment" prefHeight="31.0" prefWidth="49.0" style="-fx-background-color: TRANSPARENT;" text="edit" textFill="#667879" />
+            <Button fx:id="btnDelete" layoutX="43.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteComment" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: TRANSPARENT;" text="delete" textFill="#667879" />
             <Label fx:id="lblOwner" layoutX="4.0" layoutY="5.0" text="Owner" textFill="WHITE" />
          </children>
       </Pane>

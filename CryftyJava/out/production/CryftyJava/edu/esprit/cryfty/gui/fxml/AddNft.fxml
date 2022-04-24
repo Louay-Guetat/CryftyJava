@@ -12,30 +12,29 @@
 
 <!--fx:controller="edu.esprit.cryfty.gui.fxml.AddNft"-->
 
-<AnchorPane fx:id="anchorPane" prefHeight="612.0" prefWidth="518.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.AddNftController">
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.AddNftController">
    <children>
-      <Pane layoutX="-5.0" prefHeight="614.0" prefWidth="526.0" style="-fx-background-color: #02030A;">
+      <Pane layoutX="-5.0" prefHeight="438.0" prefWidth="731.0" style="-fx-background-color: #02030A;">
          <children>
-            <TextField fx:id="tfTitle" layoutX="181.0" layoutY="196.0" prefHeight="25.0" prefWidth="299.0" />
-            <Label fx:id="lblTitle" layoutX="77.0" layoutY="198.0" prefHeight="17.0" prefWidth="54.0" text="Title" textFill="#c1aaaa" />
-            <Label fx:id="lblDescription" layoutX="74.0" layoutY="242.0" text="Description" textFill="#c1aaaa" />
-            <TextArea fx:id="taDescription" layoutX="181.0" layoutY="242.0" prefHeight="94.0" prefWidth="299.0" />
-            <Label fx:id="lblPrice" layoutX="74.0" layoutY="367.0" text="Price" textFill="#c1aaaa" />
-            <TextField fx:id="tfPrice" layoutX="182.0" layoutY="363.0" prefHeight="25.0" prefWidth="299.0" />
-            <Label fx:id="lblCurrency" layoutX="73.0" layoutY="413.0" text="Currency" textFill="#c1aaaa" />
-            <Label fx:id="lblCategory" layoutX="73.0" layoutY="470.0" text="Category" textFill="#c1aaaa" />
-            <Label fx:id="lblSubCategory" layoutX="73.0" layoutY="525.0" text="SubCategory" textFill="#c1aaaa" />
-            <ComboBox fx:id="cbCurrency" layoutX="182.0" layoutY="410.0" prefHeight="25.0" prefWidth="299.0" />
-            <ComboBox fx:id="cbCategory" layoutX="181.0" layoutY="467.0" onAction="#onCategoryClick" prefHeight="25.0" prefWidth="299.0" />
-            <ComboBox fx:id="cbSubCategory" layoutX="182.0" layoutY="521.0" prefHeight="25.0" prefWidth="299.0" />
-            <Button fx:id="btnSubmit" layoutX="230.0" layoutY="577.0" mnemonicParsing="false" text="Submit" />
-            <ImageView fx:id="imNft" fitHeight="150.0" fitWidth="214.0" layoutX="167.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+            <TextField fx:id="tfTitle" layoutX="413.0" layoutY="32.0" prefHeight="25.0" prefWidth="299.0" />
+            <Label fx:id="lblTitle" layoutX="290.0" layoutY="36.0" prefHeight="17.0" prefWidth="54.0" text="Title" textFill="#c1aaaa" />
+            <Label fx:id="lblDescription" layoutX="290.0" layoutY="84.0" text="Description" textFill="#c1aaaa" />
+            <TextArea fx:id="taDescription" layoutX="413.0" layoutY="82.0" prefHeight="66.0" prefWidth="299.0" />
+            <Label fx:id="lblPrice" layoutX="290.0" layoutY="174.0" text="Price" textFill="#c1aaaa" />
+            <TextField fx:id="tfPrice" layoutX="414.0" layoutY="170.0" prefHeight="25.0" prefWidth="299.0" />
+            <Label fx:id="lblCurrency" layoutX="290.0" layoutY="224.0" text="Currency" textFill="#c1aaaa" />
+            <Label fx:id="lblCategory" layoutX="290.0" layoutY="274.0" text="Category" textFill="#c1aaaa" />
+            <Label fx:id="lblSubCategory" layoutX="290.0" layoutY="324.0" text="SubCategory" textFill="#c1aaaa" />
+            <ComboBox fx:id="cbCurrency" layoutX="414.0" layoutY="220.0" prefHeight="25.0" prefWidth="299.0" />
+            <ComboBox fx:id="cbCategory" layoutX="413.0" layoutY="270.0" onAction="#onCategoryClick" prefHeight="25.0" prefWidth="299.0" />
+            <ComboBox fx:id="cbSubCategory" layoutX="414.0" layoutY="320.0" prefHeight="25.0" prefWidth="299.0" />
+            <Button fx:id="btnSubmit" layoutX="291.0" layoutY="391.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Submit" />
+            <ImageView fx:id="imNft" fitHeight="172.0" fitWidth="187.0" layoutX="55.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/Nfts/default.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnImg" layoutX="374.0" layoutY="78.0" mnemonicParsing="false" onAction="#addImage" text="Upload NFT" />
-            <Button fx:id="btnReturn" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: TRANSPARENT;" />
+            <Button fx:id="btnImg" layoutX="95.0" layoutY="308.0" mnemonicParsing="false" onAction="#addImage" text="Upload NFT" />
          </children>
       </Pane>
    </children>

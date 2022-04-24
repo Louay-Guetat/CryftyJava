@@ -63,7 +63,7 @@ public class OneItemController implements Initializable {
     @javafx.fxml.FXML
     private Pane paneComment;
     @javafx.fxml.FXML
-    public static TextField tfComment;
+    private TextField tfComment;
     @javafx.fxml.FXML
     private ScrollPane scrollPaneComments;
     @javafx.fxml.FXML
@@ -160,7 +160,10 @@ public class OneItemController implements Initializable {
             nftComment.setPostDate(now);
             nftComment.setUser(currentUser);
             nftCommentService.addComment(nftComment);
-
+            comment = nftComment;
+            Node node = FXMLLoader.load(getClass().getResource("OneComment.fxml"));
+            boxComment.getChildren().add(node);
+            tfComment.clear();
         }
         else{
             Alert alert = new Alert(Alert.AlertType.WARNING);

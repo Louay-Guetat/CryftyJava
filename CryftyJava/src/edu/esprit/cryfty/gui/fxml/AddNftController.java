@@ -71,22 +71,9 @@ public class AddNftController implements Initializable {
     private AnchorPane anchorPane;
     @FXML
     private Button btnImg;
-    @FXML
-    private Button btnReturn;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        ImageView back = new ImageView();
-        try {
-            FileInputStream inputStream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\back.png");
-            Image image = new Image(inputStream);
-            back.setImage(image);
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        btnReturn.setGraphic(back);
-
         CategoryService categoryService = new CategoryService();
         List<Category> categories = categoryService.showCategories();
         String [] categoryNames = new String[categories.size()];
@@ -133,88 +120,114 @@ public class AddNftController implements Initializable {
                     alert.setTitle("Error");
                     alert.setHeaderText("Please upload an Image");
                     alert.showAndWait();
+                    btnImg.requestFocus();
                 }
-                else if (tfTitle.getText().length() < 3 || tfTitle.getText().length()>10){
+                else if(tfTitle.getText().isEmpty()){
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Error");
-                    alert.setHeaderText("Please write a good title");
+                    alert.setHeaderText("You need to specify a title.");
                     alert.showAndWait();
+                    tfTitle.requestFocus();
+                }
+                else if (tfTitle.getText().length() < 3 || tfTitle.getText().length()>20){
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("The length of the title must be between 3 and 20 character.");
+                    alert.showAndWait();
+                    tfTitle.requestFocus();
+                    tfTitle.selectAll();
+                }
+                else if (tfPrice.getText().isEmpty()){
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("You need to specify a price.");
+                    alert.showAndWait();
+                    tfPrice.requestFocus();
                 }
                 else if(cbCurrency.getSelectionModel().isEmpty()){
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Error");
-                    alert.setHeaderText("Please choose a currency");
+                    alert.setHeaderText("Please choose a currency.");
                     alert.showAndWait();
+                    cbCurrency.requestFocus();
                 }
                 else if(cbCategory.getSelectionModel().isEmpty()){
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Error");
-                    alert.setHeaderText("Please choose a category");
+                    alert.setHeaderText("Please choose a category.");
                     alert.showAndWait();
+                    cbCategory.requestFocus();
                 }
                 else if (cbSubCategory.getSelectionModel().isEmpty()){
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Error");
-                    alert.setHeaderText("Please choose a subCategory");
+                    alert.setHeaderText("Please choose a subCategory.");
                     alert.showAndWait();
+                    cbSubCategory.requestFocus();
                 }
                  else {
-                    CategoryService categoryService = new CategoryService();
-                    SubCategoryService subCategoryService = new SubCategoryService();
-                    NodeService nodeService = new NodeService();
-
-                    Category category = new Category();
-                    SubCategory subCategory = new SubCategory();
-                    Node node = new Node();
-
-                    category = categoryService.findCategoryByName(cbCategory.getValue().toString());
-                    subCategory = subCategoryService.findSubCategoryByName(cbSubCategory.getValue().toString());
-                    node = nodeService.getNodeByName(cbCurrency.getValue().toString());
-
-                    Nft nft = new Nft();
-                    nft.setImage("");
-
-                    nft.setTitle(tfTitle.getText());
-                    nft.setDescription(taDescription.getText());
-                    nft.setPrice(Float.parseFloat(tfPrice.getText()));
-                    nft.setCategory(category);
-                    nft.setSubCategory(subCategory);
-                    nft.setCurrency(node);
-                    nft.setOwner((Client) currentUser);
-
-                    Date now = new Date();
-                    nft.setCreationDate(now);
-                    nft.setLikes(0);
-
-                    String ch = imNft.getImage().impl_getUrl();
-                    String fileName = ch.substring(6, ch.length());
-                    String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-                    String newFileName = getUniqid(extension);
-                    File sourceFile = new File(fileName);
-                    File destinationFile = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + newFileName);
-                    try {
-                        System.out.println(sourceFile + "\n" + destinationFile);
-                        Files.copy(sourceFile.toPath(), destinationFile.toPath());
-                    } catch (IOException ex) {
-                        System.out.println(ex.getMessage());
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    Optional confirmation = alert.showAndWait();
+                    if(confirmation.get() == ButtonType.CANCEL){
+                        System.out.println("cancel");
                     }
+                    else if(confirmation.get() == ButtonType.OK){
+                        CategoryService categoryService = new CategoryService();
+                        SubCategoryService subCategoryService = new SubCategoryService();
+                        NodeService nodeService = new NodeService();
 
-                    nft.setImage(newFileName);
+                        Category category = new Category();
+                        SubCategory subCategory = new SubCategory();
+                        Node node = new Node();
 
-                    NftService nftService = new NftService();
-                    nftService.addNft(nft);
+                        category = categoryService.findCategoryByName(cbCategory.getValue().toString());
+                        subCategory = subCategoryService.findSubCategoryByName(cbSubCategory.getValue().toString());
+                        node = nodeService.getNodeByName(cbCurrency.getValue().toString());
 
-                    Scene scene = btnSubmit.getScene();
-                    scene.getWindow().hide();
-                    Stage primaryStage = new Stage();
-                    Parent root = null;
-                    try {
-                        root = FXMLLoader.load(getClass().getResource("Home.fxml"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        Nft nft = new Nft();
+                        nft.setImage("");
+
+                        nft.setTitle(tfTitle.getText());
+                        nft.setDescription(taDescription.getText());
+                        nft.setPrice(Float.parseFloat(tfPrice.getText()));
+                        nft.setCategory(category);
+                        nft.setSubCategory(subCategory);
+                        nft.setCurrency(node);
+                        nft.setOwner((Client) currentUser);
+
+                        Date now = new Date();
+                        nft.setCreationDate(now);
+                        nft.setLikes(0);
+
+                        String ch = imNft.getImage().impl_getUrl();
+                        String fileName = ch.substring(6, ch.length());
+                        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+                        String newFileName = getUniqid(extension);
+                        File sourceFile = new File(fileName);
+                        File destinationFile = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + newFileName);
+                        try {
+                            System.out.println(sourceFile + "\n" + destinationFile);
+                            Files.copy(sourceFile.toPath(), destinationFile.toPath());
+                        } catch (IOException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+
+                        nft.setImage(newFileName);
+                        NftService nftService = new NftService();
+                        nftService.addNft(nft);
+
+                        Scene scene = btnSubmit.getScene();
+                        scene.getWindow().hide();
+                        Stage primaryStage = new Stage();
+                        Parent root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("Home.fxml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        primaryStage.setScene(new Scene(root));
+                        primaryStage.show();
                     }
-                    primaryStage.setScene(new Scene(root));
-                    primaryStage.show();
                 }
             }
         });

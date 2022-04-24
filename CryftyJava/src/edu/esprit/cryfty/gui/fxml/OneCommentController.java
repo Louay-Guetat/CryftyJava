@@ -11,10 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
@@ -25,7 +22,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static edu.esprit.cryfty.gui.fxml.OneItemController.comment;
-import static edu.esprit.cryfty.gui.fxml.OneItemController.tfComment;
 
 public class OneCommentController implements Initializable {
     @javafx.fxml.FXML
@@ -55,23 +51,6 @@ public class OneCommentController implements Initializable {
 
     @FXML
     public void updateComment(ActionEvent actionEvent) throws IOException {
-        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("OneItem.fxml"));
-        Parent root = loader.load();
-        OneItemController oneItemController = loader.getController();
-        oneItemController.setComment(lblComment.getText());
-        oneItemController.btnComment.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                NftCommentService nftCommentService = new NftCommentService();
-                comment.setContent(oneItemController.tfComment.getText());
-                nftCommentService.updateComment(comment);
-            }
-        });
-
-        Stage stage =(Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
         TextInputDialog dialog = new TextInputDialog(thisComment.getContent());
         dialog.setTitle("Updating Comment");
         dialog.setHeaderText("Change your comment:");
@@ -89,7 +68,14 @@ public class OneCommentController implements Initializable {
 
     @FXML
     public void deleteComment(ActionEvent actionEvent) {
-        NftCommentService nftCommentService = new NftCommentService();
-        nftCommentService.deleteComment(thisComment);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Optional confirmation = alert.showAndWait();
+        if(confirmation.get() == ButtonType.CANCEL){
+            System.out.println("Cancel");
+        }
+        else if(confirmation.get() == ButtonType.OK){
+            NftCommentService nftCommentService = new NftCommentService();
+            nftCommentService.deleteComment(thisComment);
+        }
     }
 }

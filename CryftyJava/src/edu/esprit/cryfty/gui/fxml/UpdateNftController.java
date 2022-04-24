@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static edu.esprit.cryfty.gui.fxml.Controller.nft;
@@ -145,27 +146,34 @@ public class UpdateNftController implements Initializable {
                     alert.showAndWait();
                 }
                 else {
-                    nftClicked.setTitle(tfTitle.getText());
-                    nftClicked.setDescription(taDescription.getText());
-                    nftClicked.setPrice(Float.parseFloat(tfPrice.getText()));
-                    nftClicked.setCategory(categoryService.findCategoryByName(cbCategory.getValue().toString()));
-                    nftClicked.setSubCategory(subCategoryService.findSubCategoryByName(cbSubCategory.getValue().toString()));
-                    nftClicked.setCurrency(nodeService.getNodeByName(cbCurrency.getValue().toString()));
-
-                    NftService nftService = new NftService();
-                    nftService.updateNft(nftClicked);
-
-                    Scene scene = btnSubmit.getScene();
-                    scene.getWindow().hide();
-                    Stage primaryStage = new Stage();
-                    Parent root = null;
-                    try {
-                        root = FXMLLoader.load(getClass().getResource("Home.fxml"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    Optional confirmation = alert.showAndWait();
+                    if(confirmation.get() == ButtonType.CANCEL){
+                        System.out.println("Cancel");
                     }
-                    primaryStage.setScene(new Scene(root));
-                    primaryStage.show();
+                    else if(confirmation.get() == ButtonType.OK){
+                        nftClicked.setTitle(tfTitle.getText());
+                        nftClicked.setDescription(taDescription.getText());
+                        nftClicked.setPrice(Float.parseFloat(tfPrice.getText()));
+                        nftClicked.setCategory(categoryService.findCategoryByName(cbCategory.getValue().toString()));
+                        nftClicked.setSubCategory(subCategoryService.findSubCategoryByName(cbSubCategory.getValue().toString()));
+                        nftClicked.setCurrency(nodeService.getNodeByName(cbCurrency.getValue().toString()));
+
+                        NftService nftService = new NftService();
+                        nftService.updateNft(nftClicked);
+
+                        Scene scene = btnSubmit.getScene();
+                        scene.getWindow().hide();
+                        Stage primaryStage = new Stage();
+                        Parent root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("Home.fxml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        primaryStage.setScene(new Scene(root));
+                        primaryStage.show();
+                    }
                 }
             }
         });

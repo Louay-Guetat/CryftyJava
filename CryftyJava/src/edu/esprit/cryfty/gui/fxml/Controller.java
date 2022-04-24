@@ -126,18 +126,42 @@ public class Controller implements Initializable {
             pnlOrders.toFront();
         }
         if(actionEvent.getSource()==btnAddNft){
-            Scene scene = btnAddNft.getScene();
+            /*Scene scene = btnAddNft.getScene();
             scene.getWindow().hide();
             Stage primaryStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("AddNft.fxml"));
             primaryStage.setScene(new Scene(root));
-            primaryStage.show();
+            primaryStage.show();*/
+
+            pnlItem.getChildren().clear();
+            Node node = new FXMLLoader().load(getClass().getResource("AddNft.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlItem.getChildren().add(node);
         }
 
         if(actionEvent.getSource()==btnSettings){
             pnlItem.getChildren().clear();
             initiateCategories();
             initiateSubCategories();
+            Button btnCategory = new Button("Add");
+            pnlItem.getChildren().add(btnCategory);
+            btnCategory.setLayoutY(25);
+            btnCategory.setLayoutX(15);
+            btnCategory.setPrefWidth(100);
+
+            btnCategory.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    try {
+                        Node node = new FXMLLoader().load(getClass().getResource("AddCategory.fxml"));
+                        pnlItem.getChildren().clear();
+                        pnlItem.getChildren().add(node);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
     }
 
@@ -184,65 +208,42 @@ public class Controller implements Initializable {
     public void initiateCategories() throws IOException {
         TableView<Category> tableView = new TableView<>();
         tableView.setEditable(true);
+        tableView.setStyle("-fx-background-color: transparent;");
         TableColumn<Category,String> name = new TableColumn("Name");
         name.setPrefWidth(300);
+        name.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<Category, Date> creationDate = new TableColumn("Creation Date");
         creationDate.setPrefWidth(200);
+        creationDate.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<Category,String> nbrNfts = new TableColumn("Number of Nfts");
         nbrNfts.setPrefWidth(150);
+        nbrNfts.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<Category,String> nbrSubCat = new TableColumn("Number of subCategories");
         nbrSubCat.setPrefWidth(150);
-        TableColumn<Category,Void> update = new TableColumn<>("Update");
-        update.setPrefWidth(106);
+        nbrSubCat.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<Category,Void> delete = new TableColumn<>("Delete");
-        delete.setPrefWidth(106);
+        delete.setPrefWidth(200);
+        delete.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-alignment: CENTER;");
+        delete.setResizable(false);
 
-        tableView.getColumns().addAll(name,creationDate,nbrNfts,nbrSubCat,update,delete);
+        tableView.getColumns().addAll(name,creationDate,nbrNfts,nbrSubCat,delete);
 
         name.setCellValueFactory(new PropertyValueFactory<>("Name"));
         name.setCellFactory(TextFieldTableCell.<Category> forTableColumn());
         name.setOnEditCommit((TableColumn.CellEditEvent<Category, String> event) -> {
             TablePosition<Category, String> pos = event.getTablePosition();
-
             String newName = event.getNewValue();
-
             int row = pos.getRow();
             Category category = event.getTableView().getItems().get(row);
-
-            category.setName(newName);
+            if(!newName.isEmpty()){
+                CategoryService categoryService = new CategoryService();
+                category.setName(newName);
+                categoryService.updateCategory(category);
+            }
         });
         creationDate.setCellValueFactory(new PropertyValueFactory<>("CreationDate"));
         nbrNfts.setCellValueFactory(new PropertyValueFactory<>("nbrNfts"));
         nbrSubCat.setCellValueFactory(new PropertyValueFactory<>("nbrSubCategories"));
-
-        Callback<TableColumn<Category, Void>, TableCell<Category, Void>> cellUpdate = new Callback<TableColumn<Category, Void>, TableCell<Category, Void>>() {
-            @Override
-            public TableCell<Category, Void> call(final TableColumn<Category, Void> param) {
-                final TableCell<Category, Void> cell = new TableCell<Category, Void>() {
-
-                    private final Button btn = new Button("Update");
-
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Category data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + data);
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-        update.setCellFactory(cellUpdate);
 
         Callback<TableColumn<Category, Void>, TableCell<Category, Void>> cellDelete = new Callback<TableColumn<Category, Void>, TableCell<Category, Void>>() {
             @Override
@@ -253,8 +254,11 @@ public class Controller implements Initializable {
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            Category data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + data);
+                            Category category = getTableView().getItems().get(getIndex());
+                            if(category.getNbrSubCategories()!=0 || category.getNbrNfts()!=0 ){
+                                CategoryService categoryService = new CategoryService();
+                                categoryService.deleteCategory(category);
+                            }
                         });
                     }
 
@@ -265,6 +269,10 @@ public class Controller implements Initializable {
                             setGraphic(null);
                         } else {
                             setGraphic(btn);
+                            Category category = getTableView().getItems().get(getIndex());
+                            if(category.getNbrNfts() !=0 || category.getNbrSubCategories()!=0 ){
+                                btn.setDisable(true);
+                            }
                         }
                     }
                 };
@@ -272,7 +280,6 @@ public class Controller implements Initializable {
             }
         };
         delete.setCellFactory(cellDelete);
-
         ObservableList<Category> list = FXCollections.observableArrayList();
         CategoryService categoryService = new CategoryService();
         List<Category> categories = categoryService.showCategories();
@@ -282,44 +289,52 @@ public class Controller implements Initializable {
         tableView.setItems(list);
         tableView.setPrefHeight(344);
         tableView.setPrefWidth(1020);
-        tableView.setFixedCellSize(30);
+        tableView.setMaxSize(1020,180);
+        tableView.setFixedCellSize(40);
         tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 
         pnlItem.getChildren().add(tableView);
-        tableView.setLayoutY(50);
+        tableView.setLayoutY(75);
     }
 
     public void initiateSubCategories(){
         TableView<SubCategory> tableView = new TableView<SubCategory>();
         tableView.setEditable(true);
+        tableView.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
         TableColumn<SubCategory,String> name = new TableColumn("Name");
         name.setPrefWidth(300);
+        name.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-selection-bar: red;");
         TableColumn<SubCategory, Date> creationDate = new TableColumn("Creation Date");
         creationDate.setPrefWidth(200);
+        creationDate.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<SubCategory,String> nbrNfts = new TableColumn("Number of Nfts");
         nbrNfts.setPrefWidth(150);
+        nbrNfts.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<SubCategory, String> category = new TableColumn<SubCategory, String>("Category");
         category.setPrefWidth(150);
+        category.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
 
-        TableColumn<SubCategory,Void> update = new TableColumn<>("Update");
-        update.setPrefWidth(106);
         TableColumn<SubCategory,Void> delete = new TableColumn<>("Delete");
-        delete.setPrefWidth(106);
+        delete.setPrefWidth(200);
+        delete.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-alignment: CENTER;");
+        delete.setResizable(false);
 
-        tableView.getColumns().addAll(name,creationDate,nbrNfts,category,update,delete);
+        tableView.getColumns().addAll(name,creationDate,nbrNfts,category,delete);
 
         name.setCellValueFactory(new PropertyValueFactory<>("Name"));
         name.setCellFactory(TextFieldTableCell.<SubCategory> forTableColumn());
 
         name.setOnEditCommit((TableColumn.CellEditEvent<SubCategory, String> event) -> {
             TablePosition<SubCategory, String> pos = event.getTablePosition();
-
             String newName = event.getNewValue();
 
             int row = pos.getRow();
-            SubCategory person = event.getTableView().getItems().get(row);
-
-            person.setName(newName);
+            SubCategory subCategory = event.getTableView().getItems().get(row);
+            if(!newName.isEmpty()){
+                SubCategoryService subCategoryService = new SubCategoryService();
+                subCategory.setName(newName);
+                subCategoryService.updateSubCategory(subCategory);
+            }
         });
 
         creationDate.setCellValueFactory(new PropertyValueFactory<>("CreationDate"));
@@ -332,63 +347,50 @@ public class Controller implements Initializable {
             categoryNames[i] = categoryList.get(i).getName();
         }
 
-        ObservableList<String> genderList = FXCollections.observableArrayList(categoryNames);
+        ObservableList<String> categories = FXCollections.observableArrayList(categoryNames);
         category.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SubCategory, String>, ObservableValue<String>>() {
 
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<SubCategory, String> param) {
                 SubCategory subCategory = param.getValue();
-                // F,M
                 String categoryName = subCategory.getCategory().getName();
                 Category cat = categoryService.findCategoryByName(categoryName);
                 return new SimpleObjectProperty<String>(cat.getName());
             }
         });
-        category.setCellFactory(ComboBoxTableCell.forTableColumn(genderList));
+        category.setCellFactory(ComboBoxTableCell.forTableColumn(categories));
 
-        Callback<TableColumn<SubCategory, Void>, TableCell<SubCategory, Void>> cellUpdate = new Callback<TableColumn<SubCategory, Void>, TableCell<SubCategory, Void>>() {
-            @Override
-            public TableCell<SubCategory, Void> call(final TableColumn<SubCategory, Void> param) {
-                final TableCell<SubCategory, Void> cell = new TableCell<SubCategory, Void>() {
+        category.setOnEditCommit((TableColumn.CellEditEvent<SubCategory, String> event) -> {
+            TablePosition<SubCategory, String> pos = event.getTablePosition();
+            String newName = event.getNewValue();
 
-                    private final Button btn = new Button("Update");
-
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            SubCategory data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + data);
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
+            int row = pos.getRow();
+            SubCategory subCategory = event.getTableView().getItems().get(row);
+            if(!newName.isEmpty()){
+                SubCategoryService subCategoryService = new SubCategoryService();
+                Category cat = categoryService.findCategoryByName(newName);
+                subCategory.setCategory(cat);
+                subCategoryService.updateSubCategory(subCategory);
             }
-        };
-        update.setCellFactory(cellUpdate);
+        });
 
         Callback<TableColumn<SubCategory, Void>, TableCell<SubCategory, Void>> cellDelete = new Callback<TableColumn<SubCategory, Void>, TableCell<SubCategory, Void>>() {
             @Override
             public TableCell<SubCategory, Void> call(final TableColumn<SubCategory, Void> param) {
                 final TableCell<SubCategory, Void> cell = new TableCell<SubCategory, Void>() {
-
                     private final Button btn = new Button("Delete");
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            SubCategory data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + data);
+                            SubCategory subCategory = getTableView().getItems().get(getIndex());
+                            if(subCategory.getNbrNfts()==0){
+                                SubCategoryService subCategoryService = new SubCategoryService();
+                                subCategoryService.deleteSubCategory(subCategory);
+                            }
+                            //deleteHere
+
                         });
                     }
-
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -396,6 +398,10 @@ public class Controller implements Initializable {
                             setGraphic(null);
                         } else {
                             setGraphic(btn);
+                            SubCategory subCategory = getTableView().getItems().get(getIndex());
+                            if(subCategory.getNbrNfts() !=0){
+                                btn.setDisable(true);
+                            }
                         }
                     }
                 };
@@ -413,11 +419,11 @@ public class Controller implements Initializable {
         tableView.setItems(list);
         tableView.setPrefHeight(344);
         tableView.setPrefWidth(1020);
-        tableView.setFixedCellSize(30);
+        tableView.setMaxSize(1020,180);
+        tableView.setFixedCellSize(40);
         tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 
         pnlItem.getChildren().add(tableView);
-        tableView.setLayoutY(240);
+        tableView.setLayoutY(280);
     }
-
 }
