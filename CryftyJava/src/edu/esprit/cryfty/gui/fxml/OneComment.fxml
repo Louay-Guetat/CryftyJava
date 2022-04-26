@@ -2,18 +2,19 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="54.5" prefWidth="499.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.OneCommentController">
+<AnchorPane prefHeight="68.0" prefWidth="499.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.OneCommentController">
    <children>
-      <Pane fx:id="pnlComment" prefHeight="54.0" prefWidth="499.0" style="-fx-border-color: #4e7171; -fx-border-width: 0 0 1 0;">
+      <Pane fx:id="pnlComment" prefHeight="68.0" prefWidth="499.0" style="-fx-border-color: #4e7171; -fx-border-width: 0 0 1 0;">
          <children>
-            <Label fx:id="lblComment" layoutX="61.0" layoutY="5.0" text="Comment" textFill="WHITE" />
-            <Label fx:id="lblPostDate" layoutX="401.0" layoutY="5.0" text="PostDate" textFill="WHITE" />
-            <Button fx:id="btnUpdate" layoutX="-8.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateComment" prefHeight="31.0" prefWidth="49.0" style="-fx-background-color: TRANSPARENT;" text="edit" textFill="#667879" />
-            <Button fx:id="btnDelete" layoutX="43.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteComment" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: TRANSPARENT;" text="delete" textFill="#667879" />
+            <Label fx:id="lblPostDate" layoutX="377.0" layoutY="6.0" prefHeight="17.0" prefWidth="109.0" text="PostDate" textFill="WHITE" />
+            <Button fx:id="btnUpdate" layoutX="376.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateComment" prefHeight="31.0" prefWidth="49.0" style="-fx-background-color: TRANSPARENT;" text="edit" textFill="#667879" />
+            <Button fx:id="btnDelete" layoutX="437.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteComment" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: TRANSPARENT;" text="delete" textFill="#667879" />
             <Label fx:id="lblOwner" layoutX="4.0" layoutY="5.0" text="Owner" textFill="WHITE" />
+            <TextField fx:id="tfComment" alignment="TOP_LEFT" editable="false" layoutX="55.0" layoutY="1.0" onKeyPressed="#onKeyPressed" prefHeight="44.0" prefWidth="287.0" style="-fx-background-color: TRANSPARENT;" />
          </children>
       </Pane>
    </children>

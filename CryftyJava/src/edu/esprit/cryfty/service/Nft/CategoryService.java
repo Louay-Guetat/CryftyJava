@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class CategoryService {
                 Category category = new Category();
                 category.setId(rs.getInt("id"));
                 category.setName(rs.getString("name"));
-                category.setCreationDate(rs.getDate("creation_date"));
+                category.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 category.setNbrNfts(rs.getInt("nbr_nft"));
                 category.setNbrSubCategories(rs.getInt("nbr_sub_category"));
 
@@ -129,7 +130,7 @@ public class CategoryService {
             while(rs.next()){
                 category.setId(rs.getInt("id"));
                 category.setName(rs.getString("name"));
-                category.setCreationDate(rs.getDate("creation_date"));
+                category.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 category.setNbrNfts(rs.getInt("nbr_nft"));
                 category.setNbrSubCategories(rs.getInt("nbr_sub_category"));
             }
@@ -148,7 +149,7 @@ public class CategoryService {
             while(rs.next()){
                 category.setId(rs.getInt("id"));
                 category.setName(rs.getString("name"));
-                category.setCreationDate(rs.getDate("creation_date"));
+                category.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 category.setNbrNfts(rs.getInt("nbr_nft"));
                 category.setNbrSubCategories(rs.getInt("nbr_sub_category"));
             }

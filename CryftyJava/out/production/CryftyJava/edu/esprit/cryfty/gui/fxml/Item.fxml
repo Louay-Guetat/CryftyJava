@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="349.0" prefWidth="366.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.ItemController">
+<AnchorPane prefHeight="349.0" prefWidth="366.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.ItemController">
    <children>
       <Pane fx:id="pnItem" layoutX="5.0" layoutY="8.0" prefHeight="333.0" prefWidth="352.0" style="-fx-border-color: gray; -fx-border-width: 0.5;">
          <children>
@@ -22,13 +21,13 @@
                   <Font name="Arial Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="lblCreationDate" layoutX="224.0" layoutY="90.0" text="Creation Date" textFill="WHITE" />
-            <Label fx:id="lblOwner" layoutX="223.0" layoutY="120.0" text="Owner" textFill="WHITE" />
-            <Label fx:id="lblCategory" layoutX="224.0" layoutY="150.0" text="Category" textFill="WHITE" />
-            <Label fx:id="lblSubCategory" layoutX="237.0" layoutY="180.0" text="SubCategory" textFill="WHITE" />
-            <Label fx:id="lblPrice" layoutX="224.0" layoutY="210.0" text="Price" textFill="WHITE" />
-            <Label fx:id="lblCurrency" layoutX="259.0" layoutY="210.0" text="Currency" textFill="WHITE" />
-            <Label fx:id="lblLikes" layoutX="225.0" layoutY="250.0" text="Likes" textFill="WHITE" />
+            <Label fx:id="lblCreationDate" layoutX="224.0" layoutY="87.0" prefHeight="44.0" prefWidth="115.0" text="Creation Date" textFill="WHITE" />
+            <Label fx:id="lblOwner" layoutX="223.0" layoutY="137.0" text="Owner" textFill="WHITE" />
+            <Label fx:id="lblCategory" layoutX="224.0" layoutY="167.0" text="Category" textFill="WHITE" />
+            <Label fx:id="lblSubCategory" layoutX="237.0" layoutY="197.0" text="SubCategory" textFill="WHITE" />
+            <Label fx:id="lblPrice" layoutX="224.0" layoutY="227.0" text="Price" textFill="WHITE" />
+            <Label fx:id="lblCurrency" layoutX="259.0" layoutY="227.0" text="Currency" textFill="WHITE" />
+            <Label fx:id="lblLikes" layoutX="225.0" layoutY="267.0" text="Likes" textFill="WHITE" />
          </children>
       </Pane>
    </children>

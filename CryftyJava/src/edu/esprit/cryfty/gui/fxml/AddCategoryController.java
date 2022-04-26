@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class AddCategoryController implements Initializable {
@@ -60,7 +61,7 @@ public class AddCategoryController implements Initializable {
                 Category category = new Category();
 
                 category.setName(tfCategoryName.getText());
-                category.setCreationDate(new Date());
+                category.setCreationDate(LocalDateTime.now());
                 category.setNbrSubCategories(0);
                 category.setNbrNfts(0);
 
@@ -98,7 +99,7 @@ public class AddCategoryController implements Initializable {
                 CategoryService categoryService = new CategoryService();
                 subCategory.setCategory(categoryService.findCategoryByName(cbCategory.getValue().toString()));
                 subCategory.setNbrNfts(0);
-                subCategory.setCreationDate(new Date());
+                subCategory.setCreationDate(LocalDateTime.now());
 
                 SubCategoryService subCategoryService = new SubCategoryService();
                 subCategoryService.addSubCategory(subCategory);

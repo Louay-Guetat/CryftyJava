@@ -12,20 +12,21 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static edu.esprit.cryfty.gui.fxml.OneItemController.comment;
 
 public class OneCommentController implements Initializable {
-    @javafx.fxml.FXML
-    public Label lblComment;
     @javafx.fxml.FXML
     private Button btnDelete;
     @javafx.fxml.FXML
@@ -38,20 +39,22 @@ public class OneCommentController implements Initializable {
     private Label lblPostDate;
 
     private final NftComment thisComment = comment;
-
+    @FXML
+    private TextField tfComment;
 
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println(location+"\n"+resources);
         lblOwner.setText(thisComment.getUser().getUsername()+": ");
         Double ownerX = lblOwner.getLayoutX();
-        lblComment.setText(thisComment.getContent());
-        lblComment.setLayoutX(ownerX+95);
-        lblPostDate.setText(thisComment.getPostDate()+"");
+        tfComment.setText(thisComment.getContent());
+        tfComment.setLayoutX(ownerX+84);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at'\nHH:mm");
+        lblPostDate.setText(thisComment.getPostDate().format(formatter));
     }
 
     @FXML
     public void updateComment(ActionEvent actionEvent) throws IOException {
-        TextInputDialog dialog = new TextInputDialog(thisComment.getContent());
+        /*TextInputDialog dialog = new TextInputDialog(thisComment.getContent());
         dialog.setTitle("Updating Comment");
         dialog.setHeaderText("Change your comment:");
         dialog.setContentText("Comment:");
@@ -62,8 +65,11 @@ public class OneCommentController implements Initializable {
             thisComment.setContent(comment);
             NftCommentService nftCommentService = new NftCommentService();
             nftCommentService.updateComment(thisComment);
-            lblComment.setText(comment);
-        });
+            tfComment.setText(comment);
+        });*/
+        tfComment.setEditable(true);
+        tfComment.requestFocus();
+
     }
 
     @FXML
@@ -76,6 +82,17 @@ public class OneCommentController implements Initializable {
         else if(confirmation.get() == ButtonType.OK){
             NftCommentService nftCommentService = new NftCommentService();
             nftCommentService.deleteComment(thisComment);
+            pnlComment.getChildren().clear();
         }
     }
+
+        @FXML
+        private void onKeyPressed(final KeyEvent event) {
+            if(event.getCode().getName().equals("Enter")){
+                tfComment.setEditable(false);
+                thisComment.setContent(tfComment.getText()+" (edited)");
+                NftCommentService nftCommentService = new NftCommentService();
+                nftCommentService.updateComment(thisComment);
+            }
+        }
 }

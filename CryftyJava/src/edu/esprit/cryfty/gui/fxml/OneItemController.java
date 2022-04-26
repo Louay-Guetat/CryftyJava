@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -27,6 +28,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -79,52 +82,7 @@ public class OneItemController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(!currentUser.equals(nft.getOwner())){
-            btnDelete.setVisible(false);
-            btnUpdate.setVisible(false);
-        }
-        else{
-            btnDelete.setVisible(true);
-            btnUpdate.setVisible(true);
-        }
-        lblTitle.setText(nft.getTitle());
-        lblDescription.setText(nft.getDescription());
-        lblCategory.setText(nft.getCategory().getName());
-        lblSubCategory.setText(nft.getSubCategory().getName());
-        lblCurrency.setText(nft.getCurrency().getCoinCode());
-        lblPrice.setText(nft.getPrice() + "");
-        lblLikes.setText(nft.getLikes() + "");
-        lblCreationDate.setText(nft.getCreationDate() + "");
-        lblOwner.setText(nft.getOwner().getUsername());
-
-        try {
-            FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\"+nft.getImage());
-            Image image = new Image(inputstream);
-            imNft.setImage(image);
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-
-        NftCommentService nftCommentService = new NftCommentService();
-        List<NftComment> comments = nftCommentService.showCommentsByNft(nft);
-        if(comments.size()==0){
-            Label label = new Label("No comments here, please feel free to share your thought :).");
-            label.setTextFill(Color.web("white"));
-            boxComment.getChildren().add(label);
-        }
-        else{
-            Node nodes[] = new Node[comments.size()];
-            for(int i=0; i<comments.size();i++){
-                try{
-                    comment = comments.get(i);
-                    nodes[i]= FXMLLoader.load(getClass().getResource("OneComment.fxml"));
-                    boxComment.getChildren().add(nodes[i]);
-                }catch(IOException e){
-                    System.out.println(e.getMessage());
-                }
-
-            }
-        }
+        createView();
     }
 
     @javafx.fxml.FXML
@@ -157,7 +115,7 @@ public class OneItemController implements Initializable {
             nftComment.setContent(tfComment.getText());
             nftComment.setNft(nft);
             Date now = new Date();
-            nftComment.setPostDate(now);
+            nftComment.setPostDate(LocalDateTime.now());
             nftComment.setUser(currentUser);
             nftCommentService.addComment(nftComment);
             comment = nftComment;
@@ -173,7 +131,69 @@ public class OneItemController implements Initializable {
         }
     }
 
-    public void setTfComment(String comment){
-        tfComment.setText(comment);
+    public void createView(){
+        if(!currentUser.equals(nft.getOwner())){
+            btnDelete.setVisible(false);
+            btnUpdate.setVisible(false);
+        }
+        else{
+            btnDelete.setVisible(true);
+            btnUpdate.setVisible(true);
+        }
+        lblTitle.setText(nft.getTitle());
+        if(nft.getDescription().isEmpty()){
+            lblDescription.setText("Nothing to mention.");
+        }else{
+            lblDescription.setText(nft.getDescription());
+        }
+        lblCategory.setText(nft.getCategory().getName());
+        lblSubCategory.setText(nft.getSubCategory().getName());
+        lblCurrency.setText(nft.getCurrency().getCoinCode());
+        lblPrice.setText(nft.getPrice() + "");
+        lblLikes.setText(nft.getLikes() + "");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' \n  HH:mm");
+        lblCreationDate.setText(nft.getCreationDate().format(formatter));
+        lblOwner.setText(nft.getOwner().getUsername());
+
+        try {
+            FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\"+nft.getImage());
+            Image image = new Image(inputstream);
+            imNft.setImage(image);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        NftCommentService nftCommentService = new NftCommentService();
+        List<NftComment> comments = nftCommentService.showCommentsByNft(nft);
+        if(comments.size()==0){
+            Label label = new Label("No comments here, please feel free to share your thought :).");
+            label.setTextFill(Color.web("white"));
+            boxComment.getChildren().add(label);
+        }
+        else{
+            Node nodes[] = new Node[comments.size()];
+            for(int i=0; i<comments.size();i++){
+                try{
+                    comment = comments.get(i);
+                    nodes[i]= FXMLLoader.load(getClass().getResource("OneComment.fxml"));
+                    boxComment.getChildren().add(nodes[i]);
+                }catch(IOException e){
+                    System.out.println(e.getMessage());
+                }
+
+            }
+        }
+    }
+
+    @FXML
+    private void onKeyPressed(final KeyEvent event) {
+        System.out.println(event.getCode().getName());
+        if(event.getCode().getName().equals("Enter")){
+            try{
+                addComment();
+            }catch(IOException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 }

@@ -36,6 +36,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -109,9 +111,18 @@ public class Controller implements Initializable {
             pnlOrders.setVisible(false);
         }
         if (actionEvent.getSource() == btnMenus) {
-            pnlMenus.setStyle("-fx-background-color : #53639F");
+            /*pnlMenus.setStyle("-fx-background-color : #53639F");
             pnlMenus.toFront();
-            pnlCustomer.setVisible(false);
+            pnlCustomer.setVisible(false);*/
+            /*pnlItem.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("Explore.fxml"));
+            pnlItem.getChildren().add(node);*/
+            Scene scene = btnMenus.getScene();
+            scene.getWindow().hide();
+            Stage primaryStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("Explore.fxml"));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
         }
         if (actionEvent.getSource() == btnOverview) {
             pnlOverview.setStyle("-fx-background-color : #02030A");
@@ -126,13 +137,6 @@ public class Controller implements Initializable {
             pnlOrders.toFront();
         }
         if(actionEvent.getSource()==btnAddNft){
-            /*Scene scene = btnAddNft.getScene();
-            scene.getWindow().hide();
-            Stage primaryStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("AddNft.fxml"));
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();*/
-
             pnlItem.getChildren().clear();
             Node node = new FXMLLoader().load(getClass().getResource("AddNft.fxml"));
             node.setLayoutX(80);
@@ -212,7 +216,7 @@ public class Controller implements Initializable {
         TableColumn<Category,String> name = new TableColumn("Name");
         name.setPrefWidth(300);
         name.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
-        TableColumn<Category, Date> creationDate = new TableColumn("Creation Date");
+        TableColumn<Category, LocalDateTime> creationDate = new TableColumn("Creation Date");
         creationDate.setPrefWidth(200);
         creationDate.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<Category,String> nbrNfts = new TableColumn("Number of Nfts");
@@ -241,7 +245,26 @@ public class Controller implements Initializable {
                 categoryService.updateCategory(category);
             }
         });
-        creationDate.setCellValueFactory(new PropertyValueFactory<>("CreationDate"));
+
+        creationDate.setCellFactory(column -> {
+            TableCell<Category, LocalDateTime> cell = new TableCell<Category, LocalDateTime>() {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm");
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        item = getTableView().getItems().get(getIndex()).getCreationDate();
+                        setText(item.format(formatter));
+                    }
+                }
+            };
+
+            return cell;
+        });
+
         nbrNfts.setCellValueFactory(new PropertyValueFactory<>("nbrNfts"));
         nbrSubCat.setCellValueFactory(new PropertyValueFactory<>("nbrSubCategories"));
 
@@ -280,6 +303,7 @@ public class Controller implements Initializable {
             }
         };
         delete.setCellFactory(cellDelete);
+
         ObservableList<Category> list = FXCollections.observableArrayList();
         CategoryService categoryService = new CategoryService();
         List<Category> categories = categoryService.showCategories();
@@ -304,7 +328,7 @@ public class Controller implements Initializable {
         TableColumn<SubCategory,String> name = new TableColumn("Name");
         name.setPrefWidth(300);
         name.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-selection-bar: red;");
-        TableColumn<SubCategory, Date> creationDate = new TableColumn("Creation Date");
+        TableColumn<SubCategory, LocalDateTime> creationDate = new TableColumn("Creation Date");
         creationDate.setPrefWidth(200);
         creationDate.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<SubCategory,String> nbrNfts = new TableColumn("Number of Nfts");
@@ -337,7 +361,23 @@ public class Controller implements Initializable {
             }
         });
 
-        creationDate.setCellValueFactory(new PropertyValueFactory<>("CreationDate"));
+        creationDate.setCellFactory(column -> {
+            TableCell<SubCategory, LocalDateTime> cell = new TableCell<SubCategory, LocalDateTime>() {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm");
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        item = getTableView().getItems().get(getIndex()).getCreationDate();
+                        setText(item.format(formatter));
+                    }
+                }
+            };
+            return cell;
+        });
         nbrNfts.setCellValueFactory(new PropertyValueFactory<>("nbrNfts"));
 
         CategoryService categoryService = new CategoryService();

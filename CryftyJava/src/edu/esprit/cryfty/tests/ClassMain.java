@@ -7,6 +7,7 @@ import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.entity.Node;
 import edu.esprit.cryfty.service.Nft.NftService;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ClassMain {
@@ -21,7 +22,7 @@ public class ClassMain {
         subCt.setId(6);
         subCt.setName("testUpdate");
         subCt.setCategory(ct);
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         /*Nft nft = new Nft(25,"","TestIntellij","testDescrption",(float)13.0,nd,ct,subCt,client,now,0);
         NftService nftSrv = new NftService();
 

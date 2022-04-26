@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class SubCategoryService {
                 SubCategory subCategory = new SubCategory();
                 subCategory.setId(rs.getInt("id"));
                 subCategory.setName(rs.getString("name"));
-                subCategory.setCreationDate(rs.getDate("creation_date"));
+                subCategory.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 subCategory.setNbrNfts(rs.getInt("nbr_nft"));
                 for(int i=0;i<categories.size();i++){
                     if(rs.getInt("category_id") == categories.get(i).getId()){
@@ -122,7 +123,7 @@ public class SubCategoryService {
             while(rs.next()){
                 subcategory.setId(rs.getInt("id"));
                 subcategory.setName(rs.getString("name"));
-                subcategory.setCreationDate(rs.getDate("creation_date"));
+                subcategory.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 subcategory.setNbrNfts(rs.getInt("nbr_nft"));
                 CategoryService categoryService = new CategoryService();
                 categoryService.findCategoryById(rs.getInt("category_id"));
@@ -142,7 +143,7 @@ public class SubCategoryService {
             while(rs.next()){
                 subcategory.setId(rs.getInt("id"));
                 subcategory.setName(rs.getString("name"));
-                subcategory.setCreationDate(rs.getDate("creation_date"));
+                subcategory.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 subcategory.setNbrNfts(rs.getInt("nbr_nft"));
                 CategoryService categoryService = new CategoryService();
                 categoryService.findCategoryById(rs.getInt("category_id"));

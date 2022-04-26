@@ -29,10 +29,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import sun.net.www.http.HttpClient;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 
@@ -195,7 +197,7 @@ public class AddNftController implements Initializable {
                         nft.setCurrency(node);
                         nft.setOwner((Client) currentUser);
 
-                        Date now = new Date();
+                        LocalDateTime now = LocalDateTime.now();
                         nft.setCreationDate(now);
                         nft.setLikes(0);
 
@@ -303,4 +305,5 @@ public class AddNftController implements Initializable {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
+
 }

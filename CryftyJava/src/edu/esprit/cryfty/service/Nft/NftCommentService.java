@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class NftCommentService {
                 comment.setUser(user);
 
                 comment.setContent(rs.getString("comment"));
-                comment.setPostDate(rs.getDate("post_date"));
+                comment.setPostDate((LocalDateTime) rs.getObject("post_date"));
                 comment.setLikes(rs.getInt("likes"));
                 comment.setDislikes(rs.getInt("dislikes"));
                 comment.setNft(nft);
