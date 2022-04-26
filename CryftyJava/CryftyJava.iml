@@ -34,5 +34,15 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="vdurmont.emoji.java" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/OneDrive/Bureau/Esprit/3A31/Api/controlsfx-8.40.11.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

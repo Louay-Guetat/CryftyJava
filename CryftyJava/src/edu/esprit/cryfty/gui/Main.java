@@ -1,10 +1,21 @@
 package edu.esprit.cryfty.gui;
 
+
 import javafx.application.Application;
+
 import javafx.fxml.FXMLLoader;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
 import javafx.stage.Stage;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class Main extends Application {
     private double x, y;
@@ -31,7 +42,12 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, GeneralSecurityException {
         launch(args);
+
     }
+
+
+
+
 }

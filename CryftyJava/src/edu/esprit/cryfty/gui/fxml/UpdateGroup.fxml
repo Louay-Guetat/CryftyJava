@@ -17,6 +17,7 @@
             <Button fx:id="update" layoutX="386.0" layoutY="275.0" mnemonicParsing="false" onAction="#SelectItems2" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #807eff;" text="Update" textFill="WHITE" />
             <Label fx:id="MsgError" layoutX="51.0" layoutY="24.0" text="Label" visible="false" />
             <TextField fx:id="NomG" layoutX="40.0" layoutY="30.0" />
+            <Label layoutX="289.0" layoutY="33.0" prefHeight="25.0" prefWidth="121.0" style="-fx-font-weight: bold;" text="Add new users " textFill="#2b11d0" />
          </children></Pane>
    </children>
 </AnchorPane>
