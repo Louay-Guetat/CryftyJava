@@ -20,6 +20,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -140,6 +142,8 @@ public class Controller implements Initializable {
      String fromLang = "en";
     @FXML
     private ImageView imageBouleDiscussion;
+    @FXML
+    private Label searchMsg;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -164,7 +168,6 @@ public class Controller implements Initializable {
                 e.printStackTrace();
             }
         }
-        //getEmoji();
     }
 
     public Controller() {
@@ -489,13 +492,14 @@ public class Controller implements Initializable {
                 FontAwesomeIconView deleteIconMsg = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                 deleteIconMsg.setStyle("-fx-fill:#8B0000	;");
                 HBox hbox=new HBox(ContenuLabel,deleteIconMsg);
+                layout.getChildren().add(hbox);
                 Label DateLaber = new Label(m.getCreatedAt());
                 DateLaber.setStyle("-fx-font-family:'Robotom Medium'; ");
                 layout.getChildren().add(DateLaber);
                SenderLaber.setPadding(new Insets(1, 0, 0, 100));
                ContenuLabel.setPadding(new Insets(0, 0, 0, 50));
                 DateLaber.setPadding(new Insets(0, 0, 1, 30));
-                layout.getChildren().add(hbox);
+
                deletMsg(m,deleteIconMsg);
 
             }
@@ -706,20 +710,53 @@ public void langues (VBox vbox,String ContenuMsg)
 }
     @FXML
     public void afficheNotification(Event event) {
-        //Image image =new Image("../images/newMessage.png")  ;
+        ImageView img = new ImageView("file:C:\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\newMessage.png");
+       img.setFitHeight(65);
+       img.setFitWidth(80);
         Notifications notificationBuilder = Notifications.create()
-                .title("Notification")
+                .title("Cryfty")
                 .text("You have a new message ")
-               // .graphic(new ImageView(image))
-                .graphic(null)
-                .hideAfter(Duration.seconds(5))
+                .graphic((img))
+                .hideAfter(Duration.seconds(7))
                 .position(Pos.BOTTOM_RIGHT)
                 ;
         notificationBuilder.darkStyle();
               notificationBuilder.show();
     }
+    public void SearchMsg(int id)
+    {
+       /* MessageService msgService = new MessageService();
+        Message message = new Message();
+        // Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Message> filteredData = new FilteredList<>(msgService.getMessageByCon(msgService.getConversationById(id)), b -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        searchMsg.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(transaction -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
 
 
+                if (String.valueOf(message.getContenu()).contains(lowerCaseFilter))
+                    return true;
+                else
+                    return false; // Does not match.
+            });
+        });
 
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<Message> sortedData = new SortedList<>(filteredData);
 
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(TableTransaction.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        TableTransaction.setItems(sortedData);*/
+    }
 }
