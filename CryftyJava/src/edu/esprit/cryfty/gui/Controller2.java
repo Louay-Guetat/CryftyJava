@@ -1,7 +1,5 @@
 package edu.esprit.cryfty.gui;
 
-import com.sun.java.accessibility.util.Translator;
-import com.sun.javafx.css.Style;
 import com.vdurmont.emoji.Emoji;
 import com.vdurmont.emoji.EmojiManager;
 import com.vdurmont.emoji.EmojiParser;
@@ -16,12 +14,8 @@ import edu.esprit.cryfty.service.chat.GroupeChatService;
 import edu.esprit.cryfty.service.chat.MessageService;
 import edu.esprit.cryfty.service.chat.PrivateChatService;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -29,41 +23,33 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-
-import javafx.scene.paint.Color;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
-import javax.management.Notification;
-import javax.swing.*;
-import javax.xml.soap.Text;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-public class Controller extends Thread implements Initializable {
+public class Controller2 extends Thread implements Initializable {
 
     @FXML
     private VBox pnItems = null;
@@ -135,7 +121,7 @@ public class Controller extends Thread implements Initializable {
     @FXML
     private Label MsgErrorInputMsg;
 
-    private VBox layout ;
+    private VBox layout;
     @FXML
     private ImageView emoji;
     @FXML
@@ -150,9 +136,11 @@ public class Controller extends Thread implements Initializable {
     BufferedReader reader;
     PrintWriter writer;
     Socket socket;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         connectSocket();
+
         Node[] nodes = new Node[10];
         for (int i = 0; i < nodes.length; i++) {
             try {
@@ -175,7 +163,7 @@ public class Controller extends Thread implements Initializable {
         }
     }
 
-    public Controller() {
+    public Controller2() {
     }
 
 
@@ -197,18 +185,18 @@ public class Controller extends Thread implements Initializable {
     @Override
     public void run() {
         GroupeChatService GrService= new GroupeChatService();
-       User u= GrService.getUserById(4);
+       User u= GrService.getUserById(3);
         try {
             while (true) {
                 String msg = reader.readLine();
                 String[] tokens = msg.split(" ");
                 String cmd = tokens[0];
-                System.out.println(cmd);
+                System.out.println("token de 0 "+cmd);
                 StringBuilder fulmsg = new StringBuilder();
                 for(int i = 1; i < tokens.length; i++) {
                     fulmsg.append(tokens[i]);
                 }
-                System.out.println(fulmsg);
+                System.out.println("ful msg "+fulmsg);
                 if (cmd.equalsIgnoreCase(u.getUsername() + "\n")) {
                     continue;
                 } else if(fulmsg.toString().equalsIgnoreCase("bye")) {
@@ -235,12 +223,17 @@ public class Controller extends Thread implements Initializable {
                             Label labelDate = new Label(formats);
                             layout.getChildren().add(labelDate);
                             s.setContent(layout);
+                            //afficheNotification();
 
                         }
 
                     }
                 });
+
+
+
             }
+
             reader.close();
             writer.close();
             socket.close();
@@ -423,7 +416,7 @@ public class Controller extends Thread implements Initializable {
                     }
                 });
             });
-            if(Affichage_GR_chat().get(j).getOwner().getId()==4)
+            if(Affichage_GR_chat().get(j).getOwner().getId()==3)
             {
                 FontAwesomeIconView deleteIconGroup = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                 deleteIconGroup.setStyle("-fx-fill:red;");
@@ -439,7 +432,7 @@ public class Controller extends Thread implements Initializable {
         for (int j=0;j<Affichage_private_chat().size();j++)
         { int idp =Affichage_private_chat().get(j).getId();
             nom.add(Affichage_private_chat().get(j));
-            if(Affichage_private_chat().get(j).getReceived().getId()==4)
+            if(Affichage_private_chat().get(j).getReceived().getId()==3)
             {
                 Label nomP = new Label(Affichage_private_chat().get(j).getSender().getUsername());
                 nomP.setStyle("-fx-font-weight:bold;");
@@ -488,7 +481,7 @@ public class Controller extends Thread implements Initializable {
     ArrayList<PrivateChat > PrivateChat = new ArrayList<>();
     PrivateChatService prvService = new PrivateChatService();
     // user connecté
-    User u=   prvService.getUserById(4);
+    User u=   prvService.getUserById(3);
     ArrayList<PrivateChat> privateChat = prvService.privateChat(u);
     for (int p=0;p<privateChat.size();p++)
     {
@@ -505,12 +498,12 @@ public class Controller extends Thread implements Initializable {
             ArrayList <User> Participants = Groups.get(i).getParticipants();
             for (int j=0;j<Participants.size();j++)
             {
-                if(Participants.get(j).getId()==4)
+                if(Participants.get(j).getId()==3)
                 {
                     nomGroup.add(Groups.get(i));
                 }
             }
-            if(Groups.get(i).getOwner().getId()==4)
+            if(Groups.get(i).getOwner().getId()==3)
             {
                 nomGroup.add(Groups.get(i));
             }
@@ -526,19 +519,19 @@ public class Controller extends Thread implements Initializable {
     {
         MessageService msgService = new MessageService();
        ArrayList<Message> msgs=msgService.getMessageByCon(msgService.getConversationById(id));
-        layout = new  VBox(msgs.size());
+        layout = new  VBox();
         layout.setStyle("-fx-pref-width:145;");
 
         for(int i=0;i<msgs.size();i++) {
             Message m = msgs.get(i);
-            if (m.getSender().getId() != 4) {
+            if (m.getSender().getId() != 3) {
                                HBox hbox=new HBox();
                 Label SenderLaber = new Label(m.getSender().getUsername());
                 layout.getChildren().add(SenderLaber);
                 SenderLaber.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
                 Label ContenuLabel = new Label(m.getContenu());
 
-                ContenuLabel.setStyle("-fx-border-radius : 15");
+                ContenuLabel.setStyle("-fx-border-radius : 2em;-fx-background-color:white;");
                 layout.getChildren().add(ContenuLabel);
 
                 langues(layout,m.getContenu());
@@ -557,7 +550,7 @@ public class Controller extends Thread implements Initializable {
                 SenderLaber.setAlignment(Pos.BASELINE_RIGHT);
 
 
-            }else if(m.getSender().getId() == 4)
+            }else if(m.getSender().getId() == 3)
             {
 
                 Label SenderLaber = new Label("you");
@@ -565,10 +558,12 @@ public class Controller extends Thread implements Initializable {
                 layout.getChildren().add(SenderLaber);
 
                 Label ContenuLabel = new Label(m.getContenu());
-                ContenuLabel.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
+                //ContenuLabel.setStyle("-fx-border-radius : 2em;-fx-background-color:blue;");
                 FontAwesomeIconView deleteIconMsg = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                 deleteIconMsg.setStyle("-fx-fill:#8B0000	;");
                 HBox hbox=new HBox(ContenuLabel,deleteIconMsg);
+              /*  hbox.setPrefWidth(5);
+                hbox.setStyle("-fx-border-radius : 2em;-fx-background-color:blue;");*/
                 layout.getChildren().add(hbox);
                 Label DateLaber = new Label(m.getCreatedAt());
                 DateLaber.setStyle("-fx-font-family:'Robotom Medium'; ");
@@ -611,16 +606,16 @@ public class Controller extends Thread implements Initializable {
 
          TfieldMessage.setStyle("-fx-text-fill:light;");
          //Current User
-         User u = MsgService.getUserById(4);
+         User u = MsgService.getUserById(3);
             if(TfieldMessage.getText().isEmpty())
             {
                 MsgErrorInputMsg.setVisible(true);
             }else
                 {
                     String msg2 = TfieldMessage.getText();
-                    writer.println(u.getUsername() + "  " + msg2);
+                    writer.println(u.getUsername() + " " + msg2);
+                    Label newMsg = new Label("me"+msg2 + "\n");
                     afficheNotification(u.getUsername());
-
 
                     MsgErrorInputMsg.setVisible(false);
                     Message msg = new Message(TfieldMessage.getText(),c,u);
@@ -793,7 +788,7 @@ public void langues (VBox vbox,String ContenuMsg)
 
 }
     @Deprecated
-    public void afficheNotification( String user ) {
+    public void afficheNotification(String user) {
         ImageView img = new ImageView("file:C:\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\newMessage.png");
        img.setFitHeight(65);
        img.setFitWidth(80);
@@ -807,6 +802,7 @@ public void langues (VBox vbox,String ContenuMsg)
         notificationBuilder.darkStyle();
               notificationBuilder.show();
     }
+
 
 
 
