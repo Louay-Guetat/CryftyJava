@@ -220,11 +220,11 @@ public class Controller extends Thread implements Initializable {
                     public void run() {
                         if(!(u.getUsername().equals(cmd))) {
                             Label userEnvoyé = new Label(cmd + "");
-                            userEnvoyé.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
+                            userEnvoyé.setStyle("-fx-text-fill: black;-fx-font-weight:bold;-fx-text-fill:Black");
                             layout.getChildren().add(userEnvoyé);
 
-                            Label newMsg = new Label(fulmsg + "");
-                            //newMsg.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
+                            Label newMsg = new Label("  "+fulmsg + "  ");
+                           newMsg.setStyle("-fx-background-radius : 2em;-fx-background-color:#DCDCDC;");
                             layout.getChildren().add(newMsg);
                             String m = String.valueOf(fulmsg);
                             langues(layout, m);
@@ -525,20 +525,20 @@ public class Controller extends Thread implements Initializable {
     public void GetMesgsbyConv(int id )
     {
         MessageService msgService = new MessageService();
-       ArrayList<Message> msgs=msgService.getMessageByCon(msgService.getConversationById(id));
-        layout = new  VBox(msgs.size());
+        ArrayList<Message> msgs=msgService.getMessageByCon(msgService.getConversationById(id));
+        layout = new  VBox();
         layout.setStyle("-fx-pref-width:145;");
 
         for(int i=0;i<msgs.size();i++) {
             Message m = msgs.get(i);
             if (m.getSender().getId() != 4) {
-                               HBox hbox=new HBox();
+                HBox hbox=new HBox();
                 Label SenderLaber = new Label(m.getSender().getUsername());
                 layout.getChildren().add(SenderLaber);
                 SenderLaber.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
-                Label ContenuLabel = new Label(m.getContenu());
+                Label ContenuLabel = new Label("  "+m.getContenu()+"  ");
 
-                ContenuLabel.setStyle("-fx-border-radius : 15");
+                ContenuLabel.setStyle("-fx-text-fill: black;-fx-background-radius : 2em;-fx-background-color:#DCDCDC;");
                 layout.getChildren().add(ContenuLabel);
 
                 langues(layout,m.getContenu());
@@ -549,9 +549,9 @@ public class Controller extends Thread implements Initializable {
                 layout.getChildren().add(DateLaber);
 
                 Label SeparatorLabel = new Label("\n");
-               layout.getChildren().add(SeparatorLabel);
-               SenderLaber.setPadding(new Insets(1, 80, 0, 0));
-               //ContenuLabel.setPadding(new Insets(1, 80, 0, 0));
+                layout.getChildren().add(SeparatorLabel);
+                SenderLaber.setPadding(new Insets(1, 80, 0, 0));
+                //ContenuLabel.setPadding(new Insets(1, 80, 0, 0));
                 //ContenuLabel.setAlignment(Pos.BASELINE_RIGHT);
                 DateLaber.setAlignment(Pos.BASELINE_RIGHT);
                 SenderLaber.setAlignment(Pos.BASELINE_RIGHT);
@@ -564,24 +564,27 @@ public class Controller extends Thread implements Initializable {
                 SenderLaber.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
                 layout.getChildren().add(SenderLaber);
 
-                Label ContenuLabel = new Label(m.getContenu());
-                ContenuLabel.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
+                Label ContenuLabel = new Label("  "+m.getContenu()+"  ");
+                ContenuLabel.setStyle("-fx-text-fill: black;-fx-background-radius : 2em;-fx-background-color:blue;");
                 FontAwesomeIconView deleteIconMsg = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                 deleteIconMsg.setStyle("-fx-fill:#8B0000	;");
                 HBox hbox=new HBox(ContenuLabel,deleteIconMsg);
+              /*  hbox.setPrefWidth(5);
+                hbox.setStyle("-fx-border-radius : 2em;-fx-background-color:blue;");*/
+                hbox.setAlignment(Pos.BASELINE_RIGHT);
                 layout.getChildren().add(hbox);
                 Label DateLaber = new Label(m.getCreatedAt());
                 DateLaber.setStyle("-fx-font-family:'Robotom Medium'; ");
                 layout.getChildren().add(DateLaber);
-               SenderLaber.setPadding(new Insets(1, 0, 0, 100));
-               ContenuLabel.setPadding(new Insets(0, 0, 0, 50));
+                SenderLaber.setPadding(new Insets(1, 0, 0, 100));
+                //ContenuLabel.setPadding(new Insets(0, 0, 0, 50));
                 DateLaber.setPadding(new Insets(0, 0, 1, 30));
 
-               deletMsg(m,deleteIconMsg);
+                deletMsg(m,deleteIconMsg);
 
             }
         }
-       s.setContent(layout);
+        s.setContent(layout);
 
     }
 

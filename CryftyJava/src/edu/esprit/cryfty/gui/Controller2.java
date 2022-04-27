@@ -211,8 +211,8 @@ public class Controller2 extends Thread implements Initializable {
                             userEnvoyé.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
                             layout.getChildren().add(userEnvoyé);
 
-                            Label newMsg = new Label(fulmsg + "");
-                            //newMsg.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
+                            Label newMsg = new Label("  "+fulmsg + "  ");
+                            newMsg.setStyle("-fx-text-fill: black;-fx-background-radius : 2em;-fx-background-color:#DCDCDC;");
                             layout.getChildren().add(newMsg);
                             String m = String.valueOf(fulmsg);
                             langues(layout, m);
@@ -529,9 +529,9 @@ public class Controller2 extends Thread implements Initializable {
                 Label SenderLaber = new Label(m.getSender().getUsername());
                 layout.getChildren().add(SenderLaber);
                 SenderLaber.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
-                Label ContenuLabel = new Label(m.getContenu());
+                Label ContenuLabel = new Label("  "+m.getContenu()+"  ");
 
-                ContenuLabel.setStyle("-fx-border-radius : 2em;-fx-background-color:white;");
+                ContenuLabel.setStyle("-fx-text-fill: black;-fx-background-radius : 2em;-fx-background-color:#DCDCDC;");
                 layout.getChildren().add(ContenuLabel);
 
                 langues(layout,m.getContenu());
@@ -557,19 +557,20 @@ public class Controller2 extends Thread implements Initializable {
                 SenderLaber.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
                 layout.getChildren().add(SenderLaber);
 
-                Label ContenuLabel = new Label(m.getContenu());
-                //ContenuLabel.setStyle("-fx-border-radius : 2em;-fx-background-color:blue;");
+                Label ContenuLabel = new Label("  "+m.getContenu()+"  ");
+               ContenuLabel.setStyle("-fx-text-fill: black;-fx-background-radius : 2em;-fx-background-color:blue;");
                 FontAwesomeIconView deleteIconMsg = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                 deleteIconMsg.setStyle("-fx-fill:#8B0000	;");
                 HBox hbox=new HBox(ContenuLabel,deleteIconMsg);
               /*  hbox.setPrefWidth(5);
                 hbox.setStyle("-fx-border-radius : 2em;-fx-background-color:blue;");*/
+                hbox.setAlignment(Pos.BASELINE_RIGHT);
                 layout.getChildren().add(hbox);
                 Label DateLaber = new Label(m.getCreatedAt());
                 DateLaber.setStyle("-fx-font-family:'Robotom Medium'; ");
                 layout.getChildren().add(DateLaber);
-               SenderLaber.setPadding(new Insets(1, 0, 0, 100));
-               ContenuLabel.setPadding(new Insets(0, 0, 0, 50));
+                SenderLaber.setPadding(new Insets(1, 0, 0, 100));
+                //ContenuLabel.setPadding(new Insets(0, 0, 0, 50));
                 DateLaber.setPadding(new Insets(0, 0, 1, 30));
 
                deletMsg(m,deleteIconMsg);
