@@ -17,8 +17,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -65,11 +71,28 @@ public class ItemController implements Initializable{
             lblSubCategory.setText(nft1.getSubCategory().getName());
             lblCurrency.setText(nft1.getCurrency().getCoinCode());
             try {
-                FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + nft.getImage());
-                Image image = new Image(inputstream);
+                File watermarkImageFile  = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + nft1.getImage());
+                File sourceImage = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\LogoNoText.png");
+                Image image;
+                if(nft1.getOwner().getId() != currentUser.getId()){
+                    File destinationImage = waterMark(sourceImage,watermarkImageFile);
+                    image = new Image(new FileInputStream(destinationImage));
+                    BoxBlur blur = new BoxBlur();
+                    blur.setHeight(2);
+                    blur.setWidth(2);
+                    blur.setIterations(1);
+                    imNft.setEffect(blur);
+                }
+                else{
+                    image = new Image(new FileInputStream(watermarkImageFile));
+                }
+
                 imNft.setImage(image);
+
             } catch (FileNotFoundException e) {
                 System.out.println(e.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } else {
             lblTitle.setText(nft.getTitle());
@@ -82,20 +105,57 @@ public class ItemController implements Initializable{
             lblSubCategory.setText(nft.getSubCategory().getName());
             lblCurrency.setText(nft.getCurrency().getCoinCode());
             try {
-                FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + nft.getImage());
-                Image image = new Image(inputstream);
-                imNft.setImage(image);
-                if(currentUser.getId() != nft.getOwner().getId()){
+                File watermarkImageFile  = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + nft.getImage());
+                File sourceImage = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\LogoNoText.png");
+                Image image;
+                if(nft.getOwner().getId() != currentUser.getId()){
+                    File destinationImage = waterMark(sourceImage,watermarkImageFile);
+                    image = new Image(new FileInputStream(destinationImage));
                     BoxBlur blur = new BoxBlur();
                     blur.setHeight(2);
                     blur.setWidth(2);
-                    blur.setIterations(2);
+                    blur.setIterations(1);
                     imNft.setEffect(blur);
                 }
+                else{
+                    image = new Image(new FileInputStream(watermarkImageFile));
+                }
+
+                imNft.setImage(image);
 
             } catch (FileNotFoundException e) {
                 System.out.println(e.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
+
+    public static File waterMark(File watermarkImageFile, File sourceImageFile) throws IOException {
+        File destination = File.createTempFile("hhhh",".png");
+        try {
+            BufferedImage sourceImage = ImageIO.read(sourceImageFile);
+            BufferedImage watermarkImage = ImageIO.read(watermarkImageFile);
+
+            // initializes necessary graphic properties
+            Graphics2D g2d = (Graphics2D) sourceImage.getGraphics();
+            AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
+            g2d.setComposite(alphaChannel);
+
+            // calculates the coordinate where the image is painted
+            int topLeftX = (sourceImage.getWidth() - watermarkImage.getWidth()) / 2;
+            int topLeftY = (sourceImage.getHeight() - watermarkImage.getHeight()) / 2;
+
+            // paints the image watermark
+            g2d.drawImage(watermarkImage, topLeftX, topLeftY, null);
+
+            ImageIO.write(sourceImage, "png", destination);
+            g2d.dispose();
+
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+        return destination;
+    }
+
 }

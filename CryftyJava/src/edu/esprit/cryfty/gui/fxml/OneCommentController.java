@@ -54,22 +54,8 @@ public class OneCommentController implements Initializable {
 
     @FXML
     public void updateComment(ActionEvent actionEvent) throws IOException {
-        /*TextInputDialog dialog = new TextInputDialog(thisComment.getContent());
-        dialog.setTitle("Updating Comment");
-        dialog.setHeaderText("Change your comment:");
-        dialog.setContentText("Comment:");
-
-        Optional<String> result = dialog.showAndWait();
-
-        result.ifPresent(comment -> {
-            thisComment.setContent(comment);
-            NftCommentService nftCommentService = new NftCommentService();
-            nftCommentService.updateComment(thisComment);
-            tfComment.setText(comment);
-        });*/
         tfComment.setEditable(true);
         tfComment.requestFocus();
-
     }
 
     @FXML

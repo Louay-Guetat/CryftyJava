@@ -232,6 +232,7 @@ public class ExploreController implements Initializable {
         }
         if(actionEvent.getSource() == btnBack){
             Scene scene = btnBack.getScene();
+            nft1 = null;
             scene.getWindow().hide();
             Stage primaryStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));

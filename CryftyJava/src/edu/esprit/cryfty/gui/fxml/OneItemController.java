@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,6 +39,7 @@ import java.util.ResourceBundle;
 import static edu.esprit.cryfty.gui.Main.currentUser;
 import static edu.esprit.cryfty.gui.fxml.Controller.nft;
 import static edu.esprit.cryfty.gui.fxml.Controller.nftClicked;
+import static edu.esprit.cryfty.gui.fxml.ItemController.waterMark;
 
 public class OneItemController implements Initializable {
     @javafx.fxml.FXML
@@ -157,18 +159,28 @@ public class OneItemController implements Initializable {
         lblOwner.setText(nft.getOwner().getUsername());
 
         try {
-            FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\"+nft.getImage());
-            Image image = new Image(inputstream);
-            imNft.setImage(image);
-            if(currentUser.getId() != nft.getOwner().getId()){
+            File watermarkImageFile  = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + nft.getImage());
+            File sourceImage = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\LogoNoText.png");
+            Image image;
+            if(nft.getOwner().getId() != currentUser.getId()){
+                File destinationImage = waterMark(sourceImage,watermarkImageFile);
+                image = new Image(new FileInputStream(destinationImage));
                 BoxBlur blur = new BoxBlur();
                 blur.setHeight(2);
                 blur.setWidth(2);
-                blur.setIterations(2);
+                blur.setIterations(1);
                 imNft.setEffect(blur);
             }
+            else{
+                image = new Image(new FileInputStream(watermarkImageFile));
+            }
+
+            imNft.setImage(image);
+
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         NftCommentService nftCommentService = new NftCommentService();
