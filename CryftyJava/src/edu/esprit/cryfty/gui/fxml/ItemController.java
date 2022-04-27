@@ -1,32 +1,23 @@
 package edu.esprit.cryfty.gui.fxml;
 
 import edu.esprit.cryfty.entity.Nft.Nft;
-import edu.esprit.cryfty.service.Nft.NftService;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -60,6 +51,13 @@ public class ItemController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        javafx.scene.shape.Rectangle clip = new Rectangle(
+                imNft.getFitWidth(), imNft.getFitHeight()
+        );
+        clip.setArcWidth(20);
+        clip.setArcHeight(20);
+        imNft.setClip(clip);
+
         if (nft1 != null) {
             lblTitle.setText(nft1.getTitle());
             lblCategory.setText(nft1.getCategory().getName());

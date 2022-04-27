@@ -1,9 +1,5 @@
 package edu.esprit.cryfty.gui.fxml;
 
-import edu.esprit.cryfty.entity.Nft.Category;
-import edu.esprit.cryfty.entity.Nft.SubCategory;
-import edu.esprit.cryfty.service.Nft.CategoryService;
-import edu.esprit.cryfty.service.Nft.SubCategoryService;
 import edu.esprit.cryfty.utils.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,16 +7,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.stage.PopupWindow;
-
-import javax.tools.Tool;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;

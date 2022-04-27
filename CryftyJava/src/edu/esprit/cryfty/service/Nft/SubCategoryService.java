@@ -32,10 +32,19 @@ public class SubCategoryService {
     }
 
     public void updateSubCategory(SubCategory subCategory){
+        SubCategory old = findSubCategoryById(subCategory.getId());
         String request = "update sub_category set name='"+subCategory.getName()+
                 "', category_id="+subCategory.getCategory().getId()+" where id="+subCategory.getId();
+        CategoryService categoryService = new CategoryService();
+        System.out.println(old.toString());
+        System.out.println(subCategory.toString());
         try{
             Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            if(old.getCategory().getId() != subCategory.getCategory().getId()){
+                categoryService.decrementNbrSubCategories(old.getCategory());
+                categoryService.incrementNbrSubCategories(subCategory.getCategory());
+                System.out.println("done");
+            }
             st.executeUpdate(request);
             System.out.println("SubCategory updated");
         }catch(SQLException ex){
@@ -146,7 +155,7 @@ public class SubCategoryService {
                 subcategory.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 subcategory.setNbrNfts(rs.getInt("nbr_nft"));
                 CategoryService categoryService = new CategoryService();
-                categoryService.findCategoryById(rs.getInt("category_id"));
+                subcategory.setCategory(categoryService.findCategoryById(rs.getInt("category_id")));
             }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());

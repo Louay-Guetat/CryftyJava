@@ -29,8 +29,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import javafx.util.Callback;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,6 +40,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static edu.esprit.cryfty.gui.Main.stage;
 
 public class Controller implements Initializable {
 
@@ -108,9 +110,6 @@ public class Controller implements Initializable {
             /*pnlMenus.setStyle("-fx-background-color : #53639F");
             pnlMenus.toFront();
             pnlCustomer.setVisible(false);*/
-            /*pnlItem.getChildren().clear();
-            Node node = FXMLLoader.load(getClass().getResource("Explore.fxml"));
-            pnlItem.getChildren().add(node);*/
             Scene scene = btnMenus.getScene();
             scene.getWindow().hide();
             Stage primaryStage = new Stage();
@@ -140,9 +139,10 @@ public class Controller implements Initializable {
 
         if(actionEvent.getSource()==btnSettings){
             pnlItem.getChildren().clear();
-            Button btnStats = new Button("Stats");
+            Button btnStats = new Button("Check Stats");
             pnlItem.getChildren().add(btnStats);
-            btnStats.setLayoutX(300);
+            btnStats.setLayoutX(900);
+            btnStats.setLayoutY(25);
             btnStats.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -289,9 +289,15 @@ public class Controller implements Initializable {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Category category = getTableView().getItems().get(getIndex());
-                            if(category.getNbrSubCategories()!=0 || category.getNbrNfts()!=0 ){
+                            if(category.getNbrSubCategories() ==0 && category.getNbrNfts() ==0 ){
                                 CategoryService categoryService = new CategoryService();
                                 categoryService.deleteCategory(category);
+                            }
+                            else{
+                                Alert alert = new Alert(Alert.AlertType.WARNING);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("You can't delete this Category because it contains Products/SubCategories");
+                                alert.showAndWait();
                             }
                         });
                     }
@@ -303,10 +309,6 @@ public class Controller implements Initializable {
                             setGraphic(null);
                         } else {
                             setGraphic(btn);
-                            Category category = getTableView().getItems().get(getIndex());
-                            if(category.getNbrNfts() !=0 || category.getNbrSubCategories()!=0 ){
-                                btn.setDisable(true);
-                            }
                         }
                     }
                 };
@@ -438,6 +440,12 @@ public class Controller implements Initializable {
                                 SubCategoryService subCategoryService = new SubCategoryService();
                                 subCategoryService.deleteSubCategory(subCategory);
                             }
+                            else{
+                                Alert alert = new Alert(Alert.AlertType.WARNING);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("You can't delete this SubCategory because it contains Products");
+                                alert.showAndWait();
+                            }
                             //deleteHere
 
                         });
@@ -449,10 +457,6 @@ public class Controller implements Initializable {
                             setGraphic(null);
                         } else {
                             setGraphic(btn);
-                            SubCategory subCategory = getTableView().getItems().get(getIndex());
-                            if(subCategory.getNbrNfts() !=0){
-                                btn.setDisable(true);
-                            }
                         }
                     }
                 };

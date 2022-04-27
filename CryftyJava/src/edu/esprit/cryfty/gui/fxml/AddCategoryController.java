@@ -1,18 +1,14 @@
 package edu.esprit.cryfty.gui.fxml;
 
-import com.sun.org.apache.xml.internal.security.Init;
 import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.service.Nft.CategoryService;
 import edu.esprit.cryfty.service.Nft.SubCategoryService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.*;

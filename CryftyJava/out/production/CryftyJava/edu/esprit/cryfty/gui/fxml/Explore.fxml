@@ -23,7 +23,7 @@
       </Pane>
       <Pane fx:id="pnlFiltres" layoutX="810.0" layoutY="60.0" prefHeight="678.0" prefWidth="370.0">
          <children>
-            <TextField fx:id="tfSearch" layoutX="14.0" layoutY="31.0" onKeyPressed="#search" prefHeight="25.0" prefWidth="320.0" promptText="Search" />
+            <TextField fx:id="tfSearch" layoutX="14.0" layoutY="31.0" onKeyReleased="#search" prefHeight="25.0" prefWidth="320.0" promptText="Search" />
             <RadioButton fx:id="rbCroissant" layoutX="23.0" layoutY="453.0" mnemonicParsing="false" text="Prix croissant" />
             <RadioButton fx:id="rbDecroissant" layoutX="23.0" layoutY="485.0" mnemonicParsing="false" text="Prix decroissant" />
             <RadioButton fx:id="rbPertinanceCoirssant" layoutX="23.0" layoutY="561.0" mnemonicParsing="false" text="Pertinance croissante" />

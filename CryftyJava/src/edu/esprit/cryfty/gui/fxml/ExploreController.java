@@ -7,7 +7,6 @@ import edu.esprit.cryfty.service.Nft.CategoryService;
 import edu.esprit.cryfty.service.Nft.NftService;
 import edu.esprit.cryfty.service.Nft.SubCategoryService;
 import edu.esprit.cryfty.service.NodeService;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,7 +15,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,7 +30,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
-import org.controlsfx.control.IndexedCheckModel;
 
 import java.io.IOException;
 import java.net.URL;
@@ -148,8 +145,6 @@ public class ExploreController implements Initializable {
         }
         cbCurrency.getItems().addAll(currencyList);
 
-        sldPriceMax.setMin(0);
-
         sldPriceMax.setShowTickMarks(true);
         sldPriceMax.setShowTickLabels(true);
         sldPriceMax.setBlockIncrement(50);
@@ -176,6 +171,7 @@ public class ExploreController implements Initializable {
                                 Number oldValue, Number newValue) {
                 DecimalFormat df = new DecimalFormat("0.00");
                 tfPrixMin.setText(df.format(newValue));
+                sldPriceMax.setMin(sldPriceMin.getValue());
             }
         });
         try {

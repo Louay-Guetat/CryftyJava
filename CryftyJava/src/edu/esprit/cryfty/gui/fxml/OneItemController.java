@@ -4,12 +4,11 @@ import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.NftComment;
 import edu.esprit.cryfty.service.Nft.NftCommentService;
 import edu.esprit.cryfty.service.Nft.NftService;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,13 +17,16 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,12 +34,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import static edu.esprit.cryfty.gui.Main.currentUser;
-import static edu.esprit.cryfty.gui.fxml.Controller.nft;
 import static edu.esprit.cryfty.gui.fxml.Controller.nftClicked;
 import static edu.esprit.cryfty.gui.fxml.ItemController.waterMark;
 
@@ -58,8 +58,6 @@ public class OneItemController implements Initializable {
     private Label lblPrice;
     @javafx.fxml.FXML
     private Label lblCurrency;
-    @javafx.fxml.FXML
-    private Label lblLikes;
     @javafx.fxml.FXML
     private Label lblTitle;
     @javafx.fxml.FXML
@@ -82,9 +80,25 @@ public class OneItemController implements Initializable {
     private VBox boxComment;
     public static NftComment comment;
 
+    private char markTxt = 'A';
+    @FXML
+    private AnchorPane anchorPane;
+    private static final int MIN_PIXELS = 10;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        paneContent.toFront();
+        imNft.setOnMouseClicked(this::onClick);
+        imNft.setOnScroll(this::imageScrolled);
+
+        Rectangle clip = new Rectangle(
+                imNft.getFitWidth(), imNft.getFitHeight()
+        );
+        clip.setArcWidth(20);
+        clip.setArcHeight(20);
+        imNft.setClip(clip);
+
         createView();
     }
 
@@ -117,7 +131,6 @@ public class OneItemController implements Initializable {
             NftComment nftComment = new NftComment();
             nftComment.setContent(tfComment.getText());
             nftComment.setNft(nft);
-            Date now = new Date();
             nftComment.setPostDate(LocalDateTime.now());
             nftComment.setUser(currentUser);
             nftCommentService.addComment(nftComment);
@@ -153,8 +166,7 @@ public class OneItemController implements Initializable {
         lblSubCategory.setText(nft.getSubCategory().getName());
         lblCurrency.setText(nft.getCurrency().getCoinCode());
         lblPrice.setText(nft.getPrice() + "");
-        lblLikes.setText(nft.getLikes() + "");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' \n  HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'Created in 'dd/MM/yyyy 'at' HH:mm");
         lblCreationDate.setText(nft.getCreationDate().format(formatter));
         lblOwner.setText(nft.getOwner().getUsername());
 
@@ -216,4 +228,41 @@ public class OneItemController implements Initializable {
             }
         }
     }
+
+    private void imageScrolled(ScrollEvent event) {
+        // When holding CTRL mouse wheel will be used for zooming
+        imNft.toFront();
+        if (event.isControlDown()) {
+            double delta = event.getDeltaY();
+            double adjust = delta / 1000.0;
+            double zoom = Math.min(10, Math.max(0.1, imNft.getScaleX() + adjust));
+            setImageZoom(zoom);
+            event.consume();
+        }
+    }
+
+    private void placeMarker(double sceneX, double sceneY) {
+        Circle circle = new Circle(2);
+        circle.setStroke(Color.WHITE);
+        circle.setTranslateY(-12);
+        Label marker = new Label(String.valueOf(markTxt), circle);
+        marker.setTextFill(Color.WHITE);
+        markTxt++;
+        Point2D p = anchorPane.sceneToLocal(sceneX, sceneY);
+        AnchorPane.setTopAnchor(marker, p.getY());
+        AnchorPane.setLeftAnchor(marker, p.getX());
+        anchorPane.getChildren().add(marker);
+    }
+
+    private void setImageZoom(double factor) {
+        imNft.setScaleX(factor);
+        imNft.setScaleY(factor);
+    }
+
+    public void onClick(MouseEvent event) {
+        if (event.getButton() == MouseButton.SECONDARY) {
+            placeMarker(event.getSceneX(), event.getSceneY());
+        }
+    }
+
 }

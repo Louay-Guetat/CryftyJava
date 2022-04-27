@@ -21,7 +21,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,7 +29,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static edu.esprit.cryfty.gui.fxml.Controller.nft;
 import static edu.esprit.cryfty.gui.fxml.Controller.nftClicked;
 
 public class UpdateNftController implements Initializable {
