@@ -11,6 +11,7 @@ import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.service.ClientService;
 import edu.esprit.cryfty.service.NodeService;
+import edu.esprit.cryfty.service.payment.CartService;
 import edu.esprit.cryfty.utils.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -147,6 +148,20 @@ public class NftService {
             Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
             st.executeUpdate(request);
             System.out.println("Like added");
+        } catch (SQLException var4) {
+            System.out.println(var4.getMessage());
+        }
+
+    }
+
+    public void updateOwnerNft(Nft nft,int idOwner) {
+        String request = "update nft set owner_id="+idOwner+" where nft.id = " + nft.getId();
+
+        try {
+            PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
+            //pst.setInt(1, nft.getOwner().getId());
+            pst.executeUpdate();
+            System.out.println("OwnerNft updated");
         } catch (SQLException var4) {
             System.out.println(var4.getMessage());
         }

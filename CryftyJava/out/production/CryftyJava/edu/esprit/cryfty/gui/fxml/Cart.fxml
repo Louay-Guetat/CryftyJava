@@ -13,12 +13,12 @@
 
 <AnchorPane accessibleRole="TABLE_VIEW" prefHeight="564.0" prefWidth="764.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.CartController">
    <children>
-      <TableView fx:id="TableCart" accessibleRole="TABLE_CELL" layoutX="101.0" layoutY="91.0" prefHeight="214.0" prefWidth="472.0" style="-fx-background-color: #02030A;">
+      <TableView fx:id="TableCart" accessibleRole="TABLE_CELL" editable="true" layoutX="101.0" layoutY="91.0" prefHeight="214.0" prefWidth="472.0" style="-fx-background-color: #02030A; -fx-border-color: white; -fx-border-radius: 5;">
         <columns>
           <TableColumn fx:id="titleNft" maxWidth="750.0" minWidth="28.0" prefWidth="75.0" style="-fx-background-color: #02030A;" text="Nft" />
             <TableColumn fx:id="descNft" maxWidth="750.0" minWidth="11.0" prefWidth="157.0" style="-fx-background-color: #02030A;" text="Description" />
             <TableColumn fx:id="PriceNft" maxWidth="750.0" minWidth="20.0" prefWidth="87.0" style="-fx-background-color: #02030A;" text="Price" />
-            <TableColumn fx:id="ActionNft" prefWidth="152.0" style="-fx-background-color: #02030A;" text="Action" />
+            <TableColumn fx:id="ActionNft" editable="false" prefWidth="152.0" style="-fx-background-color: #02030A;" text="Action" />
         </columns>
       </TableView>
       <Label layoutX="57.0" layoutY="25.0" prefWidth="235.0" text="Your Cart" textFill="#e7e5e5">
@@ -45,7 +45,7 @@
                </font>
             </Label>
             <Label layoutX="101.0" layoutY="126.0" text="Or" textFill="#e7e5e5" />
-            <Button fx:id="StripebtnWallet" layoutX="16.0" layoutY="152.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="190.0" style="-fx-background-color: #807eff;" text="Pay your cart with CardVisa" textFill="#e7e5e5">
+            <Button fx:id="StripebtnWallet" layoutX="16.0" layoutY="152.0" mnemonicParsing="false" onAction="#PayCartStripe" prefHeight="35.0" prefWidth="190.0" style="-fx-background-color: #807eff;" text="Pay your cart with CardVisa" textFill="#e7e5e5">
                <font>
                   <Font size="14.0" />
                </font>

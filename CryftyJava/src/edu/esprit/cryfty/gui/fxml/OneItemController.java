@@ -145,7 +145,6 @@ public class OneItemController implements Initializable {
                 window4.setScene(new Scene(tableViewParent));
                 window4.show();
             } else{
-
                 cartService.addNftToCart(carts);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Confirmation");
@@ -154,11 +153,9 @@ public class OneItemController implements Initializable {
                 Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
                 window.hide();
                 Parent tableViewParent = FXMLLoader.load(getClass().getResource("Home.fxml"));
-                Scene tableViewScene = new Scene(tableViewParent);
-                //This line gets the Stage information
-                Stage window2 = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-                window2.setScene(tableViewScene);
-                window2.show();
+                Stage window5 = new Stage();
+                window5.setScene(new Scene(tableViewParent));
+                window5.show();
             }
 
 

@@ -108,7 +108,9 @@ public class CartService {
         try {
             String request = "insert into nft_cart(nft_id,cart_id) VALUES " + "(?,?)";
             PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
-            pst.setInt(1,cart1.getNftProd().get(0).getId());
+            for(int i=0; i<cart1.getNftProd().size();i++){
+                pst.setInt(1,cart1.getNftProd().get(i).getId());
+            }
             pst.setInt(2,cart1.getId());
             pst.executeUpdate();
             System.out.println(" NFT added to Cart.");

@@ -1,8 +1,10 @@
 package edu.esprit.cryfty.service;
 
+import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Wallet;
 import edu.esprit.cryfty.utils.DataSource;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -58,6 +60,17 @@ public class WalletService {
 
     }
 
+    public void updateBalanceWallet(Wallet wallet, double balance) {
+        String request = "update wallet set balance="+balance+" where wallet.id = " + wallet.getId();
+        try {
+            PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
+            pst.executeUpdate();
+            System.out.println("balance updated");
+        } catch (SQLException var4) {
+            System.out.println(var4.getMessage());
+        }
+
+    }
     /*public Wallet getWalletById(){
 
     }

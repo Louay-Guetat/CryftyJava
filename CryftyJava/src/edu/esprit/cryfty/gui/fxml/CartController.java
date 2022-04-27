@@ -61,6 +61,7 @@ public class CartController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         updateTable();
         search();
 
@@ -72,7 +73,6 @@ public class CartController implements Initializable {
         PriceNft.setCellValueFactory(new PropertyValueFactory<>("price"));
         descNft.setCellValueFactory(new PropertyValueFactory<>("description"));
         titleNft.setCellValueFactory(new PropertyValueFactory<>("title"));
-
 
 
         Callback<TableColumn<Nft, String>, TableCell<Nft, String>> cellFoctory = (TableColumn<Nft, String> param) -> {
@@ -209,5 +209,16 @@ public class CartController implements Initializable {
         window.setScene(tableViewScene);
         window.show();
     }
+
+    @FXML
+    public void PayCartStripe(ActionEvent actionEvent) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("PaiementStripe.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+        //This line gets the Stage information
+        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();
+    }
+
 
 }

@@ -7,7 +7,10 @@ import edu.esprit.cryfty.service.payment.CartService;
 import edu.esprit.cryfty.utils.DataSource;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ClientService {
@@ -15,7 +18,27 @@ public class ClientService {
     }
 
     public Client getClientById(int id) {
-        return new Client();
+        ArrayList<Client> clients = new ArrayList();
+        String request = "select * from client where id ="+id ;
+        try {
+            Statement st = DataSource.getInstance().getCnx().createStatement();
+            ResultSet rs = st.executeQuery(request);
+            while (rs.next()) {
+                Client client = new Client();
+                client.setId(rs.getInt(1));
+                client.setFirstName(rs.getString("first_name"));
+                client.setLastName(rs.getString("last_name"));
+                client.setAddress(rs.getString("address"));
+                client.setAge(rs.getInt("age"));
+                client.setAvatar(rs.getString("avatar"));
+                client.setCouverture(rs.getString("couverture"));
+                client.setPhoneNumber(rs.getInt("phone_number"));
+                clients.add(client);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return clients.get(0);
     }
 
     public void addClient(Client client){

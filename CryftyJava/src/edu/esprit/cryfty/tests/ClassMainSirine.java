@@ -47,7 +47,11 @@ public class ClassMainSirine {
         //System.out.println(cartService.getNftfromCart());
 
         TransactionService transactionService=new TransactionService();
-        System.out.println(transactionService.getTransactionsByClient(1));
+        //System.out.println(transactionService.getTransactionsByClient(1));
+
+        //System.out.println(transactionService.walletFindOneByClient());
+
+        System.out.println(transactionService.blockFindByWallet(1));
 
         DataSource d1=DataSource.getInstance();
         System.out.println(d1.hashCode());
