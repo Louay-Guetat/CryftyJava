@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -159,6 +160,13 @@ public class OneItemController implements Initializable {
             FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\"+nft.getImage());
             Image image = new Image(inputstream);
             imNft.setImage(image);
+            if(currentUser.getId() != nft.getOwner().getId()){
+                BoxBlur blur = new BoxBlur();
+                blur.setHeight(2);
+                blur.setWidth(2);
+                blur.setIterations(2);
+                imNft.setEffect(blur);
+            }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }

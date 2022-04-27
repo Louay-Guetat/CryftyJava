@@ -38,8 +38,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -80,10 +78,6 @@ public class Controller implements Initializable {
     private AnchorPane view;
     @FXML
     private Pane pnlItem;
-    @FXML
-    private TableView tbvCategory;
-    @FXML
-    private TableView tbvSubCategory;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -146,6 +140,23 @@ public class Controller implements Initializable {
 
         if(actionEvent.getSource()==btnSettings){
             pnlItem.getChildren().clear();
+            Button btnStats = new Button("Stats");
+            pnlItem.getChildren().add(btnStats);
+            btnStats.setLayoutX(300);
+            btnStats.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    pnlItem.getChildren().clear();
+                    try {
+                        Node node = new FXMLLoader().load(getClass().getResource("Gchart.fxml"));
+                        System.out.println("done");
+                        pnlItem.getChildren().add(node);
+
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            });
             initiateCategories();
             initiateSubCategories();
             Button btnCategory = new Button("Add");

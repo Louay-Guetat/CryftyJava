@@ -7,6 +7,8 @@ import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.service.ClientService;
 import edu.esprit.cryfty.service.NodeService;
 import edu.esprit.cryfty.utils.DataSource;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +17,7 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 public class NftService {
 
@@ -255,6 +258,42 @@ public class NftService {
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
+    }
+
+    public ObservableList<Nft> getNftsByTitle(String title){
+        CategoryService categorySrv = new CategoryService();
+        SubCategoryService subCategorySrv = new SubCategoryService();
+        NodeService nodeService = new NodeService();
+        ClientService clientSrv = new ClientService();
+
+        ObservableList<Nft> nfts = FXCollections.observableArrayList();
+
+        String request = "select * from nft where title like '%"+title+"%'";
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                Nft nft = new Nft();
+                nft.setId(rs.getInt("id"));
+                nft.setTitle(rs.getString("title"));
+                nft.setDescription(rs.getString("description"));
+                nft.setPrice(rs.getFloat("price"));
+                nft.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
+                nft.setImage(rs.getString("image"));
+                nft.setLikes(rs.getInt("likes"));
+
+                nft.setCategory(categorySrv.findCategoryById(rs.getInt("category_id")));
+                nft.setSubCategory(subCategorySrv.findSubCategoryById(rs.getInt("sub_category_id")));
+                nft.setCurrency(nodeService.getNodeById(rs.getInt("currency_id")));
+
+                Client client = clientSrv.getClientById(rs.getInt("owner_id"));
+                nft.setOwner(client);
+                nfts.add(nft);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return nfts;
     }
 
 

@@ -26,5 +26,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="controlsfx-8.40.18" level="project" />
+    <orderEntry type="library" name="org.apache.commons.io" level="project" />
   </component>
 </module>

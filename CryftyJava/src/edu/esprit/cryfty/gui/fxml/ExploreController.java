@@ -12,8 +12,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,11 +24,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
+import org.controlsfx.control.IndexedCheckModel;
 
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -126,12 +134,12 @@ public class ExploreController implements Initializable {
         }
         cbCategory.getItems().addAll(categoryList);
 
-        List<SubCategory> subCategories = new SubCategoryService().showSubCategories();
-        final ObservableList<String> subCategoryList = FXCollections.observableArrayList();
-        for(int i=0; i<subCategories.size();i++){
-            subCategoryList.add(subCategories.get(i).getName());
-        }
-        cbSubCategory.getItems().addAll(subCategoryList);
+            List<SubCategory> subCategories = new SubCategoryService().showSubCategories();
+            final ObservableList<String> subCategoryList = FXCollections.observableArrayList();
+            for(int i=0; i<subCategories.size();i++){
+                subCategoryList.add(subCategories.get(i).getName());
+            }
+            cbSubCategory.getItems().addAll(subCategoryList);
 
         List<edu.esprit.cryfty.entity.Node> currencies = new NodeService().getNodes();
         final ObservableList<String> currencyList = FXCollections.observableArrayList();
@@ -171,145 +179,57 @@ public class ExploreController implements Initializable {
             }
         });
         try {
-            createView();
+            createView(nfts);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void createView() throws IOException {
-        sldPriceMax.setMax(getMax(nfts));
-        sldPriceMin.setMax(getMax(nfts));
-        sldPriceMax.setValue(sldPriceMax.getMax());
-        tfPrixMax.setText(sldPriceMax.getValue()+"");
-        tfPrixMin.setText(sldPriceMin.getValue()+"");
+    public void createView(List<Nft> nfts) throws IOException {
+        if(!nfts.isEmpty()){
+            sldPriceMax.setMax(getMax(nfts));
+            sldPriceMin.setMax(getMax(nfts));
+            sldPriceMax.setValue(sldPriceMax.getMax());
+            tfPrixMax.setText(sldPriceMax.getValue()+"");
+            tfPrixMin.setText(sldPriceMin.getValue()+"");
 
-        Node [] nodes = new Node[nfts.size()];
-        HBox hBox = new HBox();
-        int i=0;
-        do{
-            if(i%2 == 0){
-                hBox = new HBox();
-                nft1 = nfts.get(i);
-                nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
-                hBox.getChildren().add(nodes[i]);
-                i++;
-                boxItems.getChildren().add(hBox);
-            }
-            else{
-                nft1 = nfts.get(i);
-                nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
-                hBox.getChildren().add(nodes[i]);
-                i++;
-            }
-        }while(i<nfts.size());
+            Node [] nodes = new Node[nfts.size()];
+            HBox hBox = new HBox();
+            int i=0;
+            do{
+                if(i%2 == 0){
+                    hBox = new HBox();
+                    nft1 = nfts.get(i);
+                    nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
+                    hBox.getChildren().add(nodes[i]);
+                    i++;
+                    boxItems.getChildren().add(hBox);
+                }
+                else{
+                    nft1 = nfts.get(i);
+                    nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
+                    hBox.getChildren().add(nodes[i]);
+                    i++;
+                }
+            }while(i<nfts.size());
+        }
+        else{
+            Label message = new Label("No nfts to show");
+            boxItems.getChildren().clear();
+            boxItems.getChildren().add(message);
+        }
     }
 
     @FXML
     public void handleClicks(ActionEvent actionEvent) throws IOException {
         if(actionEvent.getSource() == btnSubmit) {
-            boxItems.getChildren().clear();
-            ObservableList<String> listCategories = cbCategory.getCheckModel().getCheckedItems();
-            ObservableList<String> listSubCategories = cbSubCategory.getCheckModel().getCheckedItems();
-            ObservableList<String> listCurrencies = cbCurrency.getCheckModel().getCheckedItems();
-            List<Nft> nftFiltrer = new ArrayList<>();
-
-            //appliquer le filtre
-
-                if(listCategories.size()!=0){
-                    nftFiltrer = filtrerParCategory(nfts);
-                    if(listSubCategories.size()!=0){
-                        nftFiltrer = filtrerParSubCategory(nftFiltrer);
-                        if(listCurrencies.size() != 0){
-                            nftFiltrer = filtrerParCurrency(nftFiltrer);
-                        }
-                    }
-                }
-                else{
-                    if(listSubCategories.size() != 0){
-                        nftFiltrer = filtrerParSubCategory(nfts);
-                        if(listCurrencies.size() != 0){
-                            nftFiltrer = filtrerParCurrency(nftFiltrer);
-                        }
-                    }
-                    else if(listCurrencies.size() != 0){
-                        nftFiltrer = filtrerParCurrency(nfts);
-                    }
-                }
-
-            Double prixMin = sldPriceMin.getValue();
-            Double prixMax = sldPriceMax.getValue();
-
-            if(nftFiltrer.isEmpty()){
-                for(int i=0; i<nfts.size(); i++) {
-                    nft1 = nfts.get(i);
-                    if (nft1.getPrice() >= prixMin && nft1.getPrice() <= prixMax) {
-                        nftFiltrer.add(nft1);
-                        System.out.println("hello");
-                    }
-                }
+            if(tfSearch.getText().isEmpty()){
+                appliquerFiltre(nfts);
             }
             else{
-                int i=0;
-                while(!nftFiltrer.isEmpty() && i<nftFiltrer.size()){
-                    if(nftFiltrer.get(i).getPrice() < prixMin || nftFiltrer.get(i).getPrice() > prixMax){
-                        nftFiltrer.remove(nftFiltrer.get(i));
-                    }
-                    else{
-                        i++;
-                    }
-                }
+                appliquerFiltre(search());
             }
-
-            if(nftFiltrer.isEmpty()){
-                if(groupPrice.getSelectedToggle() == rbCroissant){
-                    nftFiltrer = nfts.stream().sorted(Comparator.comparingDouble(Nft::getPrice)).collect(Collectors.toList());
-                }
-                if(groupPrice.getSelectedToggle() == rbDecroissant){
-                    nftFiltrer = nfts.stream().sorted(Comparator.comparingDouble(Nft::getPrice).reversed()).collect(Collectors.toList());
-                }
-            }
-            else{
-                if(groupPrice.getSelectedToggle() == rbCroissant){
-                    nftFiltrer = nftFiltrer.stream().sorted(Comparator.comparingDouble(Nft::getPrice)).collect(Collectors.toList());
-                }
-                if(groupPrice.getSelectedToggle() == rbDecroissant){
-                    nftFiltrer = nftFiltrer.stream().sorted(Comparator.comparingDouble(Nft::getPrice).reversed()).collect(Collectors.toList());
-                }
-            }
-            //filtre fait
-
-            Node[] nodes = new Node[nftFiltrer.size()];
-            HBox hBox = new HBox();
-
-            int i = 0;
-            if (listCategories.isEmpty() && listSubCategories.isEmpty() && listCurrencies.isEmpty() && prixMin==0 && prixMax==getMax(nfts)
-                && groupPrice.getSelectedToggle() == rbPrixNone && groupLikes.getSelectedToggle() == rbPertinenceNone) {
-                createView();
-            }
-            else {
-                if(nftFiltrer.isEmpty()){
-                    Label lbl = new Label("Aucun produit.");
-                    boxItems.getChildren().add(lbl);
-                }
-                else{
-                    do {
-                        nft1 = nftFiltrer.get(i);
-                        if (i % 2 == 0) {
-                            hBox = new HBox();
-                            nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
-                            hBox.getChildren().add(nodes[i]);
-                            boxItems.getChildren().add(hBox);
-                            i++;
-                        } else {
-                            nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
-                            hBox.getChildren().add(nodes[i]);
-                            i++;
-                        }
-                    } while (i < nftFiltrer.size());
-                }
         }
-    }
         if(actionEvent.getSource() == btnBack){
             Scene scene = btnBack.getScene();
             scene.getWindow().hide();
@@ -331,7 +251,7 @@ public class ExploreController implements Initializable {
             tfPrixMax.setText("");
             tfSearch.setText("");
             boxItems.getChildren().clear();
-            createView();
+            createView(nfts);
         }
     }
 
@@ -345,14 +265,6 @@ public class ExploreController implements Initializable {
      return max;
     }
 
-    public void onKeyPressedMin(KeyEvent key){
-
-    }
-
-    public void onKeyPressedMax(KeyEvent key){
-
-    }
-
     public static EventHandler<javafx.scene.input.KeyEvent> priceFilter() {
 
         EventHandler<javafx.scene.input.KeyEvent> aux = new EventHandler<javafx.scene.input.KeyEvent>() {
@@ -363,6 +275,109 @@ public class ExploreController implements Initializable {
             }
         };
         return aux;
+    }
+
+    public void appliquerFiltre(List<Nft> nfts) throws IOException {
+        boxItems.getChildren().clear();
+        ObservableList<String> listCategories = cbCategory.getCheckModel().getCheckedItems();
+        ObservableList<String> listSubCategories = cbSubCategory.getCheckModel().getCheckedItems();
+        ObservableList<String> listCurrencies = cbCurrency.getCheckModel().getCheckedItems();
+        List<Nft> nftFiltrer = new ArrayList<>();
+
+        //appliquer le filtre
+        if(listCategories.size()!=0){
+            nftFiltrer = filtrerParCategory(nfts);
+            if(listSubCategories.size()!=0){
+                nftFiltrer = filtrerParSubCategory(nftFiltrer);
+                if(listCurrencies.size() != 0){
+                    nftFiltrer = filtrerParCurrency(nftFiltrer);
+                }
+            }
+        }
+        else{
+            if(listSubCategories.size() != 0){
+                nftFiltrer = filtrerParSubCategory(nfts);
+                if(listCurrencies.size() != 0){
+                    nftFiltrer = filtrerParCurrency(nftFiltrer);
+                }
+            }
+            else if(listCurrencies.size() != 0){
+                nftFiltrer = filtrerParCurrency(nfts);
+            }
+        }
+
+        Double prixMin = sldPriceMin.getValue();
+        Double prixMax = sldPriceMax.getValue();
+
+        if(nftFiltrer.isEmpty()){
+            for(int i=0; i<nfts.size(); i++) {
+                nft1 = nfts.get(i);
+                if (nft1.getPrice() >= prixMin && nft1.getPrice() <= prixMax) {
+                    nftFiltrer.add(nft1);
+                    System.out.println("hello");
+                }
+            }
+        }
+        else{
+            int i=0;
+            while(!nftFiltrer.isEmpty() && i<nftFiltrer.size()){
+                if(nftFiltrer.get(i).getPrice() < prixMin || nftFiltrer.get(i).getPrice() > prixMax){
+                    nftFiltrer.remove(nftFiltrer.get(i));
+                }
+                else{
+                    i++;
+                }
+            }
+        }
+
+        if(nftFiltrer.isEmpty()){
+            if(groupPrice.getSelectedToggle() == rbCroissant){
+                nftFiltrer = nfts.stream().sorted(Comparator.comparingDouble(Nft::getPrice)).collect(Collectors.toList());
+            }
+            if(groupPrice.getSelectedToggle() == rbDecroissant){
+                nftFiltrer = nfts.stream().sorted(Comparator.comparingDouble(Nft::getPrice).reversed()).collect(Collectors.toList());
+            }
+        }
+        else{
+            if(groupPrice.getSelectedToggle() == rbCroissant){
+                nftFiltrer = nftFiltrer.stream().sorted(Comparator.comparingDouble(Nft::getPrice)).collect(Collectors.toList());
+            }
+            if(groupPrice.getSelectedToggle() == rbDecroissant){
+                nftFiltrer = nftFiltrer.stream().sorted(Comparator.comparingDouble(Nft::getPrice).reversed()).collect(Collectors.toList());
+            }
+        }
+        //filtre fait
+
+        Node[] nodes = new Node[nftFiltrer.size()];
+        HBox hBox = new HBox();
+
+        int i = 0;
+        if (listCategories.isEmpty() && listSubCategories.isEmpty() && listCurrencies.isEmpty() && prixMin==0 && prixMax==getMax(nfts)
+                && groupPrice.getSelectedToggle() == rbPrixNone && groupLikes.getSelectedToggle() == rbPertinenceNone) {
+            createView(nfts);
+        }
+        else {
+            if(nftFiltrer.isEmpty()){
+                Label lbl = new Label("Aucun produit.");
+                boxItems.getChildren().add(lbl);
+            }
+            else{
+                do {
+                    nft1 = nftFiltrer.get(i);
+                    if (i % 2 == 0) {
+                        hBox = new HBox();
+                        nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
+                        hBox.getChildren().add(nodes[i]);
+                        boxItems.getChildren().add(hBox);
+                        i++;
+                    } else {
+                        nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
+                        hBox.getChildren().add(nodes[i]);
+                        i++;
+                    }
+                } while (i < nftFiltrer.size());
+            }
+        }
     }
 
     public List<Nft> filtrerParCategory(List<Nft> nfts){
@@ -396,6 +411,41 @@ public class ExploreController implements Initializable {
             }
         }
         return nftList;
+    }
+
+    public List<Nft> search() throws IOException {
+
+     // Wrap the ObservableList in a FilteredList (initially display all data).
+        NftService nftService = new NftService();
+        FilteredList<Nft> filteredData = new FilteredList(nftService.getNftsByTitle(tfSearch.getText()), b -> true);
+        System.out.println(nftService.getNftsByTitle(tfSearch.getText()));
+        // 2. Set the filter Predicate whenever the filter changes.
+        tfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(nft -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+
+                if (String.valueOf(nft.getTitle()).contains(lowerCaseFilter))
+                    return true;
+                else
+                    return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<Nft> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        boxItems.getChildren().clear();
+        createView(sortedData.stream().collect(Collectors.toList()));
+        return(sortedData.stream().collect(Collectors.toList()));
     }
 }
 
