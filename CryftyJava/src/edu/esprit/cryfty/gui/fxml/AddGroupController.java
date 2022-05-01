@@ -63,6 +63,9 @@ public class AddGroupController implements Initializable {
             System.out.println(OtherUsers.get(i).getUsername());
         }
          tabUsers.setItems(list);
+        tabUsers.setStyle("-fx-border-radius:2em");
+        getSelect().setStyle("-fx-background-color:#778899;");
+        getNameUser().setStyle("-fx-background-color:#778899;-fx-text-fill:black;-fx-font-weight:bold");
          nameUser.setCellValueFactory(new PropertyValueFactory<User,String>("username"));
          select.setCellValueFactory(new PropertyValueFactory<User,CheckBox>("select"));
          idUser.setCellValueFactory(new PropertyValueFactory<User,String>("id"));

@@ -775,7 +775,7 @@ public void langues (VBox vbox,String ContenuMsg)
           langue.setPrefWidth(80);
 
      FontAwesomeIconView traductionIcon = new FontAwesomeIconView(FontAwesomeIcon.EXCHANGE);
-  /* traductionIcon.setOnMouseClicked(new EventHandler<MouseEvent>() {
+   traductionIcon.setOnMouseClicked(new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
             String langSelected =langue.getSelectionModel().getSelectedItem().toString();
@@ -791,7 +791,7 @@ public void langues (VBox vbox,String ContenuMsg)
                 e.printStackTrace();
             }
         }
-    });                      */
+    });
     vbox.getChildren().add(traductionIcon);
 
 }
