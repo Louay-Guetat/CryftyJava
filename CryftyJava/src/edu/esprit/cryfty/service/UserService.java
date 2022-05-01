@@ -41,4 +41,19 @@ public class UserService {
         }
         return user;
     }
+    public User findUserById(int id){
+        User user = new User();
+        String request = "select * from user where id="+id;
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return user;
+    }
 }

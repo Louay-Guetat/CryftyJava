@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.AddArticleController">
+   <Label layoutX="271.0" layoutY="32.0" prefHeight="31.0" prefWidth="99.0" text="Title" textFill="#aba0f4" />
+   <Label layoutX="272.0" layoutY="110.0" prefHeight="17.0" prefWidth="46.0" text="contents" textFill="#aba0f4" />
+   <Label layoutX="268.0" layoutY="254.0" prefHeight="17.0" prefWidth="67.0" text="category" textFill="#aba0f4" />
+   <Label layoutX="268.0" layoutY="326.0" prefHeight="17.0" prefWidth="53.0" text="author" textFill="#aba0f4" />
+   <Label layoutX="268.0" layoutY="387.0" prefHeight="17.0" prefWidth="40.0" text="date" textFill="#aba0f4" />
+   <TextField fx:id="title" layoutX="389.0" layoutY="35.0" />
+   <TextArea fx:id="contents" layoutX="389.0" layoutY="89.0" prefHeight="75.0" prefWidth="218.0" />
+
+    <ComboBox fx:id="category" layoutX="389.0" layoutY="250.0" onAction="#comboChange" prefWidth="150.0" promptText="Select category" />
+    <DatePicker fx:id="date" layoutX="389.0" layoutY="383.0" />
+    <TextField fx:id="author" layoutX="390.0" layoutY="322.0" />
+   <Button fx:id="btnadd" layoutX="607.0" layoutY="408.0" mnemonicParsing="false" onAction="#savearticle" text="Add" />
+   <ImageView fx:id="imArt" fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true">
+       <image>
+           <Image url="@../../images/Nfts/default.png" />
+       </image>
+   </ImageView>
+   <Button fx:id="artii" layoutX="600.0" layoutY="489.0" mnemonicParsing="false" onAction="#blist" text="Articles" />
+   <Label layoutX="43.0" layoutY="87.0" prefHeight="31.0" prefWidth="113.0" text="Drag a photot here" textFill="#aba0f4" />
+
+</AnchorPane>

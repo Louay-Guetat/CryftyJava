@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="39.0" prefWidth="523.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.CommentarticleController">
+    <children>
+        <VBox prefHeight="39.0" prefWidth="523.0" spacing="2.0" style="-fx-background-color: #02030A; -fx-border-color: white; -fx-border-width: 0.3;">
+            <children>
+                <Label fx:id="lblComment" text="Content" textFill="WHITE">
+                    <padding>
+                        <Insets left="5.0" />
+                    </padding></Label>
+                <Label fx:id="lblOwner" text="Infos" textFill="#6b4545">
+                    <padding>
+                        <Insets left="5.0" />
+                    </padding></Label>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
