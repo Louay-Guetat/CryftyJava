@@ -208,19 +208,7 @@ public class TransactionService {
                 walletService.updateBalanceWallet(authWallet,balanceAuth);
                 walletService.updateBalanceWallet(buyerWallet,balanceBuyer);
 
-                ArrayList<Block> walletBlocks=blockFindByWallet(buyerWallet.getId());
 
-                double counter=(nft.getPrice()/authWallet.getNode().getNodeReward())+1;
-
-                for(Block block: walletBlocks)
-                {
-                    if(counter>=0)
-                    {
-                        //block.setWallet(authWallet);
-                        updateBlockAuth(block,authWallet.getId());
-                    }
-                    counter--;
-                }
             }
     }
 

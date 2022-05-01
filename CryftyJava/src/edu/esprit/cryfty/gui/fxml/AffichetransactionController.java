@@ -12,10 +12,12 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.payment.Transaction;
 import edu.esprit.cryfty.service.payment.TransactionService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.Initializable;
@@ -139,6 +141,11 @@ public class AffichetransactionController implements Initializable {
         pdfBtn.setCellFactory(cellFoctory);
         System.out.println(transactionService.getTransactionsByClient(1));
         TableTransaction.setItems(transactionService.getTransactionsByClient(1));
+        ObservableList<TableColumn<Transaction, ?>> listT=TableTransaction.getColumns();
+        for (int i=0;i<listT.size();i++)
+        {
+            listT.get(i).setStyle("-fx-text-fill : white;-fx-background-color:#02030A;");
+        }
     }
 
     public void search()

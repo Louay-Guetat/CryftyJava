@@ -29,10 +29,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CartController implements Initializable {
     @javafx.fxml.FXML
@@ -66,6 +63,9 @@ public class CartController implements Initializable {
         search();
 
     }
+
+
+
     public void updateTable()
     {
         CartService cartService=new CartService();
@@ -73,7 +73,6 @@ public class CartController implements Initializable {
         PriceNft.setCellValueFactory(new PropertyValueFactory<>("price"));
         descNft.setCellValueFactory(new PropertyValueFactory<>("description"));
         titleNft.setCellValueFactory(new PropertyValueFactory<>("title"));
-
 
         Callback<TableColumn<Nft, String>, TableCell<Nft, String>> cellFoctory = (TableColumn<Nft, String> param) -> {
 
@@ -122,6 +121,11 @@ public class CartController implements Initializable {
         };
         ActionNft.setCellFactory(cellFoctory);
         TableCart.setItems( cartService.getNftfromCart());
+       ObservableList<TableColumn<Nft, ?>> list=TableCart.getColumns();
+        for (int i=0;i<list.size();i++)
+        {
+            list.get(i).setStyle("-fx-text-fill : white;-fx-background-color:#02030A;");
+        }
         float tot=0;
         for (int i=0;i<cartService.getPricefromNftCart().size();i++)
         {
@@ -157,9 +161,6 @@ public class CartController implements Initializable {
                     StripebtnWallet.setDisable(true);
                 }
         }
-
-
-
     }
 
     public void search()
