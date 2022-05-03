@@ -103,6 +103,7 @@ public class NodeService {
             System.out.println(ex.getMessage());
         }
         return node;
+
     }
 
     public Node getNodeByName(String coinCode){
@@ -121,5 +122,6 @@ public class NodeService {
             System.out.println(ex.getMessage());
         }
         return node;
+
     }
 }
