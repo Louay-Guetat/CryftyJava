@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class CategoryService {
                 Category category = new Category();
                 category.setId(rs.getInt("id"));
                 category.setName(rs.getString("name"));
-                category.setCreationDate(rs.getDate("creation_date"));
+                category.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 category.setNbrNfts(rs.getInt("nbr_nft"));
                 category.setNbrSubCategories(rs.getInt("nbr_sub_category"));
 
@@ -118,5 +119,43 @@ public class CategoryService {
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
+    }
+
+    public Category findCategoryByName(String name){
+        Category category = new Category();
+        String request = "select * from category where name LIKE '"+name+"'";
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                category.setId(rs.getInt("id"));
+                category.setName(rs.getString("name"));
+                category.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
+                category.setNbrNfts(rs.getInt("nbr_nft"));
+                category.setNbrSubCategories(rs.getInt("nbr_sub_category"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return category;
+    }
+
+    public Category findCategoryById(int id){
+        Category category = new Category();
+        String request = "select * from category where id="+id;
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                category.setId(rs.getInt("id"));
+                category.setName(rs.getString("name"));
+                category.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
+                category.setNbrNfts(rs.getInt("nbr_nft"));
+                category.setNbrSubCategories(rs.getInt("nbr_sub_category"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return category;
     }
 }

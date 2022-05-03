@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<AnchorPane fx:id="anchorPane" prefHeight="483.0" prefWidth="1020.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.GChartController">
+   <children>
+      <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="8.0" prefHeight="463.0" prefWidth="1000.0">
+         <content>
+            <HBox fx:id="hBox" prefHeight="465.0" prefWidth="998.0" style="-fx-background-color: #02030A;" />
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

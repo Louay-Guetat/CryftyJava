@@ -1,5 +1,6 @@
 package edu.esprit.cryfty.service;
 
+import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Node;
 import edu.esprit.cryfty.entity.Wallet;
 import edu.esprit.cryfty.utils.DataSource;
@@ -102,5 +103,25 @@ public class NodeService {
             System.out.println(ex.getMessage());
         }
         return node;
+
+    }
+
+    public Node getNodeByName(String coinCode){
+        Node node = new Node();
+        String request = "select * from node where coin_code like '"+coinCode+"'";
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                node.setId(rs.getInt("id"));
+                node.setNodeLabel(rs.getString("node_label"));
+                node.setCoinCode(rs.getString("coin_code"));
+                node.setNodeReward(rs.getInt("node_reward"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return node;
+
     }
 }

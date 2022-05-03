@@ -5,14 +5,19 @@ import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.service.ClientService;
+import edu.esprit.cryfty.service.NodeService;
 import edu.esprit.cryfty.utils.DataSource;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 public class NftService {
 
@@ -91,12 +96,8 @@ public class NftService {
     public List<Nft> showNfts(){
         CategoryService categorySrv = new CategoryService();
         SubCategoryService subCategorySrv = new SubCategoryService();
-
-        List<Category>categories = new ArrayList();
-        categories = categorySrv.showCategories();
-
-        List<SubCategory> subCategories = new ArrayList();
-        subCategories = subCategorySrv.showSubCategories();
+        NodeService nodeService = new NodeService();
+        ClientService clientSrv = new ClientService();
 
         List<Nft> nfts = new ArrayList();
         String request = "select * from nft";
@@ -109,23 +110,124 @@ public class NftService {
                 nft.setTitle(rs.getString("title"));
                 nft.setDescription(rs.getString("description"));
                 nft.setPrice(rs.getFloat("price"));
-                nft.setCreationDate(rs.getDate("creation_date"));
+                nft.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 nft.setImage(rs.getString("image"));
                 nft.setLikes(rs.getInt("likes"));
 
-                for(int i=0;i<categories.size();i++){
-                    if(rs.getInt("category_id") == categories.get(i).getId()){
-                        nft.setCategory(categories.get(i));
-                    }
-                }
-                for(int i=0; i<subCategories.size();i++){
-                    if(rs.getInt("sub_category_id")==subCategories.get(i).getId()){
-                        nft.setSubCategory(subCategories.get(i));
-                    }
-                }
-                //nft.setCurrency(rs.getInt("currency_id"));
-                ClientService clientSrv = new ClientService();
-                Client client = clientSrv.getClientById(1);
+                nft.setCategory(categorySrv.findCategoryById(rs.getInt("category_id")));
+                nft.setSubCategory(subCategorySrv.findSubCategoryById(rs.getInt("sub_category_id")));
+                nft.setCurrency(nodeService.getNodeById(rs.getInt("currency_id")));
+
+                Client client = clientSrv.getClientById(rs.getInt("owner_id"));
+                nft.setOwner(client);
+
+                nfts.add(nft);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return nfts;
+    }
+
+    public List<Nft> nftsByCategory(){
+        CategoryService categorySrv = new CategoryService();
+        SubCategoryService subCategorySrv = new SubCategoryService();
+        NodeService nodeService = new NodeService();
+        ClientService clientSrv = new ClientService();
+
+        List<Nft> nfts = new ArrayList();
+        String request = "";
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()) {
+                Nft nft = new Nft();
+                nft.setId(rs.getInt("id"));
+                nft.setTitle(rs.getString("title"));
+                nft.setDescription(rs.getString("description"));
+                nft.setPrice(rs.getFloat("price"));
+                nft.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
+                nft.setImage(rs.getString("image"));
+                nft.setLikes(rs.getInt("likes"));
+
+                nft.setCategory(categorySrv.findCategoryById(rs.getInt("category_id")));
+                nft.setSubCategory(subCategorySrv.findSubCategoryById(rs.getInt("sub_category_id")));
+                nft.setCurrency(nodeService.getNodeById(rs.getInt("currency_id")));
+
+                Client client = clientSrv.getClientById(rs.getInt("owner_id"));
+                nft.setOwner(client);
+
+                nfts.add(nft);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return nfts;
+    }
+
+    public List<Nft> nftsBySubCategory(){
+        CategoryService categorySrv = new CategoryService();
+        SubCategoryService subCategorySrv = new SubCategoryService();
+        NodeService nodeService = new NodeService();
+        ClientService clientSrv = new ClientService();
+
+        List<Nft> nfts = new ArrayList();
+        String request = "";
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()) {
+                Nft nft = new Nft();
+                nft.setId(rs.getInt("id"));
+                nft.setTitle(rs.getString("title"));
+                nft.setDescription(rs.getString("description"));
+                nft.setPrice(rs.getFloat("price"));
+                nft.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
+                nft.setImage(rs.getString("image"));
+                nft.setLikes(rs.getInt("likes"));
+
+                nft.setCategory(categorySrv.findCategoryById(rs.getInt("category_id")));
+                nft.setSubCategory(subCategorySrv.findSubCategoryById(rs.getInt("sub_category_id")));
+                nft.setCurrency(nodeService.getNodeById(rs.getInt("currency_id")));
+
+                Client client = clientSrv.getClientById(rs.getInt("owner_id"));
+                nft.setOwner(client);
+
+                nfts.add(nft);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return nfts;
+    }
+
+    public List<Nft> nftsByCurrency(){
+        CategoryService categorySrv = new CategoryService();
+        SubCategoryService subCategorySrv = new SubCategoryService();
+        NodeService nodeService = new NodeService();
+        ClientService clientSrv = new ClientService();
+
+        List<Nft> nfts = new ArrayList();
+        String request = "";
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()) {
+                Nft nft = new Nft();
+                nft.setId(rs.getInt("id"));
+                nft.setTitle(rs.getString("title"));
+                nft.setDescription(rs.getString("description"));
+                nft.setPrice(rs.getFloat("price"));
+                nft.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
+                nft.setImage(rs.getString("image"));
+                nft.setLikes(rs.getInt("likes"));
+
+                nft.setCategory(categorySrv.findCategoryById(rs.getInt("category_id")));
+                nft.setSubCategory(subCategorySrv.findSubCategoryById(rs.getInt("sub_category_id")));
+                nft.setCurrency(nodeService.getNodeById(rs.getInt("currency_id")));
+
+                Client client = clientSrv.getClientById(rs.getInt("owner_id"));
                 nft.setOwner(client);
 
                 nfts.add(nft);
@@ -157,4 +259,42 @@ public class NftService {
             System.out.println(ex.getMessage());
         }
     }
+
+    public ObservableList<Nft> getNftsByTitle(String title){
+        CategoryService categorySrv = new CategoryService();
+        SubCategoryService subCategorySrv = new SubCategoryService();
+        NodeService nodeService = new NodeService();
+        ClientService clientSrv = new ClientService();
+
+        ObservableList<Nft> nfts = FXCollections.observableArrayList();
+
+        String request = "select * from nft where title like '%"+title+"%'";
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                Nft nft = new Nft();
+                nft.setId(rs.getInt("id"));
+                nft.setTitle(rs.getString("title"));
+                nft.setDescription(rs.getString("description"));
+                nft.setPrice(rs.getFloat("price"));
+                nft.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
+                nft.setImage(rs.getString("image"));
+                nft.setLikes(rs.getInt("likes"));
+
+                nft.setCategory(categorySrv.findCategoryById(rs.getInt("category_id")));
+                nft.setSubCategory(subCategorySrv.findSubCategoryById(rs.getInt("sub_category_id")));
+                nft.setCurrency(nodeService.getNodeById(rs.getInt("currency_id")));
+
+                Client client = clientSrv.getClientById(rs.getInt("owner_id"));
+                nft.setOwner(client);
+                nfts.add(nft);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return nfts;
+    }
+
+
 }

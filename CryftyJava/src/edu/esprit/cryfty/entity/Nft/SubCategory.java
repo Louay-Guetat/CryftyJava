@@ -1,12 +1,13 @@
 package edu.esprit.cryfty.entity.Nft;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class SubCategory {
     int id;
     String name;
-    Date creationDate;
+    LocalDateTime creationDate;
     int nbrNfts;
     Category category;
     ArrayList<Nft> nfts = new ArrayList();
@@ -15,7 +16,7 @@ public class SubCategory {
 
     }
 
-    public SubCategory(int id, String name, Date creationDate, int nbrNfts, Category category) {
+    public SubCategory(int id, String name, LocalDateTime creationDate, int nbrNfts, Category category) {
         this.id = id;
         this.name = name;
         this.creationDate = creationDate;
@@ -39,11 +40,11 @@ public class SubCategory {
         this.name = name;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 

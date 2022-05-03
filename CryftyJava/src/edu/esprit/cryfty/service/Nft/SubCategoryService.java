@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +32,19 @@ public class SubCategoryService {
     }
 
     public void updateSubCategory(SubCategory subCategory){
+        SubCategory old = findSubCategoryById(subCategory.getId());
         String request = "update sub_category set name='"+subCategory.getName()+
                 "', category_id="+subCategory.getCategory().getId()+" where id="+subCategory.getId();
+        CategoryService categoryService = new CategoryService();
+        System.out.println(old.toString());
+        System.out.println(subCategory.toString());
         try{
             Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            if(old.getCategory().getId() != subCategory.getCategory().getId()){
+                categoryService.decrementNbrSubCategories(old.getCategory());
+                categoryService.incrementNbrSubCategories(subCategory.getCategory());
+                System.out.println("done");
+            }
             st.executeUpdate(request);
             System.out.println("SubCategory updated");
         }catch(SQLException ex){
@@ -62,6 +72,9 @@ public class SubCategoryService {
     }
 
     public List<SubCategory> showSubCategories(){
+        CategoryService categorySrv = new CategoryService();
+        List<Category>categories = categorySrv.showCategories();
+
         List subCategories = new ArrayList();
         String request = "select * from sub_category";
         try{
@@ -71,10 +84,13 @@ public class SubCategoryService {
                 SubCategory subCategory = new SubCategory();
                 subCategory.setId(rs.getInt("id"));
                 subCategory.setName(rs.getString("name"));
-                subCategory.setCreationDate(rs.getDate("creation_date"));
+                subCategory.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
                 subCategory.setNbrNfts(rs.getInt("nbr_nft"));
-                // subCategory.setCategory((Category)rs.getObject("category_id"));
-
+                for(int i=0;i<categories.size();i++){
+                    if(rs.getInt("category_id") == categories.get(i).getId()){
+                        subCategory.setCategory(categories.get(i));
+                    }
+                }
                 subCategories.add(subCategory);
             }
         }catch(SQLException ex){
@@ -105,5 +121,45 @@ public class SubCategoryService {
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
+    }
+
+    public SubCategory findSubCategoryByName(String name){
+        SubCategory subcategory = new SubCategory();
+        String request = "select * from sub_category where name LIKE '"+name+"'";
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                subcategory.setId(rs.getInt("id"));
+                subcategory.setName(rs.getString("name"));
+                subcategory.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
+                subcategory.setNbrNfts(rs.getInt("nbr_nft"));
+                CategoryService categoryService = new CategoryService();
+                categoryService.findCategoryById(rs.getInt("category_id"));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return subcategory;
+    }
+
+    public SubCategory findSubCategoryById(int id){
+        SubCategory subcategory = new SubCategory();
+        String request = "select * from sub_category where id="+id;
+        try{
+            Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                subcategory.setId(rs.getInt("id"));
+                subcategory.setName(rs.getString("name"));
+                subcategory.setCreationDate((LocalDateTime) rs.getObject("creation_date"));
+                subcategory.setNbrNfts(rs.getInt("nbr_nft"));
+                CategoryService categoryService = new CategoryService();
+                subcategory.setCategory(categoryService.findCategoryById(rs.getInt("category_id")));
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return subcategory;
     }
 }

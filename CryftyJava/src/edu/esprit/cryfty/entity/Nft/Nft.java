@@ -3,6 +3,10 @@ package edu.esprit.cryfty.entity.Nft;
 import edu.esprit.cryfty.entity.Client;
 import edu.esprit.cryfty.entity.Node;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Nft {
@@ -15,7 +19,7 @@ public class Nft {
     Category category;
     SubCategory subCategory;
     Client owner;
-    Date creationDate;
+    LocalDateTime creationDate;
     int likes;
 
     public Nft(){
@@ -23,7 +27,7 @@ public class Nft {
     }
 
     public Nft(int id, String image, String title, String description, float price, Node currency,
-               Category category, SubCategory subCategory, Client owner, Date creationDate, int likes) {
+               Category category, SubCategory subCategory, Client owner, LocalDateTime creationDate, int likes) {
         this.id = id;
         this.image = image;
         this.title = title;
@@ -109,11 +113,11 @@ public class Nft {
         this.owner = owner;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
