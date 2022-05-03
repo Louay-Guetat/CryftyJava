@@ -1,22 +1,38 @@
 package edu.esprit.cryfty.entity.chat;
 
 import edu.esprit.cryfty.entity.User;
+import javafx.scene.control.Label;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Message {
     private int id ;
     private String contenu ;
-    private Date createdAt;
+    private String createdAt;
     private Conversation conversation;
     private User Sender;
+
     public Message(){}
     public Message(String contenu,  Conversation conversation, User sender) {
         this.contenu = contenu;
-        this.createdAt =new Date();
+        this.createdAt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());;
         this.conversation = conversation;
         Sender = sender;
     }
+
+    public Message(String contenu, User sender) {
+        this.createdAt =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());;
+        this.contenu = contenu;
+
+        Sender = sender;
+
+    }
+
+
 
     public int getId() {
         return id;
@@ -34,11 +50,11 @@ public class Message {
         this.contenu = contenu;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 

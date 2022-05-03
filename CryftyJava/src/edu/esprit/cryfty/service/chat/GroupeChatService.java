@@ -3,6 +3,7 @@ package edu.esprit.cryfty.service.chat;
 import edu.esprit.cryfty.entity.*;
 import edu.esprit.cryfty.entity.chat.Conversation;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
+import edu.esprit.cryfty.entity.chat.Message;
 import edu.esprit.cryfty.utils.DataSource;
 
 import java.sql.PreparedStatement;
@@ -201,6 +202,23 @@ public class GroupeChatService {
 
     }
     public void deleteGroup(Conversation gr){
+
+    MessageService ms =new MessageService();
+    ArrayList<Message> m=ms.getMessageByCon(gr);
+    ArrayList<Integer> idM=new ArrayList<>();
+    for(int i =0;i<m.size();i++)
+    {
+        idM.add(m.get(i).getConversation().getId());
+        System.out.println(m.get(i).getConversation().getId());
+        System.out.println(m);
+    }
+
+    if(idM.contains(gr.getId()))
+    {
+        for (int j=0;j<m.size();j++)
+        {deletelistMessage(gr);}
+    }
+    else{
         String request = "delete from conversation where id = ?";
         try{
             PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
@@ -212,6 +230,33 @@ public class GroupeChatService {
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
+    }
+}
+    public void deletelistMessage(Conversation gr)
+    {
+        String request = "delete from message where conversation_id = ?";
+        try{
+            PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
+            pst.setInt(1, gr.getId());
+            if(pst.executeUpdate()==0)
+                System.out.println("message does not exist");
+            else
+                System.out.println("m removed");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        String request2 = "delete from conversation where id = ?";
+        try{
+            PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request2);
+            pst.setInt(1, gr.getId());
+            if(pst.executeUpdate()==0)
+                System.out.println("group does not exist");
+            else
+                System.out.println("group removed");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public void updateConversation (Conversation c){
@@ -247,7 +292,61 @@ public class GroupeChatService {
         }
     }
     }
+    public void deleteParticiant(GroupeChat gr,User u)
+    {
+        String request = "delete from group_chat_user where user_id =? and group_chat_id=?";
+        try{
+            PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
+            pst.setInt(1, u.getId());
+            pst.setInt(2, gr.getId());
+            if(pst.executeUpdate()==0)
+                System.out.println("user does not exist");
+            else
+                System.out.println("user removed");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    public ArrayList<User> getUsers( int id)
+    {
+        ArrayList<User> user = new ArrayList();
+        String req = "select id ,username from user where id !=?" ;
+        try {
+            PreparedStatement st = DataSource.getInstance().getCnx().prepareStatement(req);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+                u.setId(rs.getInt(1));
+                u.setUsername(rs.getString("username"));
+                user.add(u);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
 
+        return user;
+    }
+        public ArrayList<User> afficheUsersMinusParticp(int id,int CuurentUser)
+        {
+            ArrayList<User> user = new ArrayList();
+            String req = "select id ,username from user where id !=? and id not in (select user_id from group_chat_user where group_chat_id=?)" ;
+            try {
+                PreparedStatement st = DataSource.getInstance().getCnx().prepareStatement(req);
+                st.setInt(1, CuurentUser);
+                st.setInt(2, id);
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    User u = new User();
+                    u.setId(rs.getInt(1));
+                    u.setUsername(rs.getString("username"));
+                    user.add(u);
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
 
+            return user;
+        }
 
 }
