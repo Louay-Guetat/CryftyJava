@@ -22,6 +22,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import edu.esprit.cryfty.entity.blogs.BlogArticles;
+import edu.esprit.cryfty.service.blogs.BlogsService;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -35,6 +37,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -61,6 +72,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
 
 
 public class Controller extends Thread implements Initializable {
@@ -123,6 +138,9 @@ public class Controller extends Thread implements Initializable {
     private TextField TfieldMessage;
     @FXML
     private ImageView ImgSendMsg;
+    private Button btnArticles;
+    @FXML
+    private Pane pnlArticles;
 
     @FXML
     private Pane PaneMsgs;
@@ -154,6 +172,9 @@ public class Controller extends Thread implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         connectSocket();
         Node[] nodes = new Node[10];
+        ArrayList<BlogArticles> list = (ArrayList<BlogArticles>) BlogsService.listerArticles();
+        int n;
+        n=list.size();
         for (int i = 0; i < nodes.length; i++) {
             try {
 
@@ -252,14 +273,30 @@ public class Controller extends Thread implements Initializable {
 
 
 
-    public void handleClicks(ActionEvent actionEvent) {
+    public void handleClicks(ActionEvent actionEvent) throws IOException {
         if (actionEvent.getSource() == btnCustomers) {
             pnlCustomer.setStyle("-fx-background-color : #1620A1");
             pnlCustomer.toFront();
         }
         if (actionEvent.getSource() == btnMenus) {
-            pnlMenus.setStyle("-fx-background-color : #53639F");
+             pnlMenus.setStyle("-fx-background-color : #53639F");
             pnlMenus.toFront();
+
+            Node n = FXMLLoader.load(getClass().getResource("fxml/ListeArticles.fxml"));
+
+            pnlMenus.getChildren().add(n);
+
+
+        }
+        if (actionEvent.getSource() == btnArticles) {
+            pnlArticles.setStyle("-fx-background-color : #53639F");
+            pnlArticles.toFront();
+         //   articlebo();
+            Node n = FXMLLoader.load(getClass().getResource("fxml/boarticle.fxml"));
+
+            pnlArticles.getChildren().add(n);
+
+
         }
         if (actionEvent.getSource() == btnOverview) {
             pnlOverview.setStyle("-fx-background-color : #02030A");
@@ -290,6 +327,36 @@ public class Controller extends Thread implements Initializable {
             conv.setVisible(false);
 
         }
+ public  void articlebo(){
+     BorderPane root = new BorderPane();
+    TableView<BlogArticles> table = new TableView<BlogArticles>();
+
+    TableColumn<BlogArticles, String> title = new TableColumn<BlogArticles, String>("Title");
+    title.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("title"));
+
+    TableColumn<BlogArticles, String> category = new TableColumn<BlogArticles, String>("Category");
+    category.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("category"));
+
+    TableColumn<BlogArticles, Date> date = new TableColumn<BlogArticles, Date>("Date");
+    date.setCellValueFactory(new PropertyValueFactory<BlogArticles, Date>("date"));
+
+    TableColumn<BlogArticles, String> contents = new TableColumn<BlogArticles, String>("Contents");
+    contents.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("contents"));
+    TableColumn<BlogArticles, String> author = new TableColumn<BlogArticles, String>("Author");
+    author.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("author"));
+
+    table.getColumns().add(title);
+    table.getColumns().add(contents);
+    table.getColumns().add(category);
+    table.getColumns().add(date);
+
+    table.getColumns().add(author);
+
+    table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    BlogsService Service = new BlogsService();
+    List<BlogArticles> articles = BlogsService.listerArticles();
+    for(int i=0;i<articles.size();i++ ){
+        table.getItems().add(articles.get(i));
     }
 
 
@@ -812,5 +879,14 @@ public void langues (VBox vbox,String ContenuMsg)
     }
 
 
+
+     Stage primaryStage = new Stage();
+    root.setCenter(table);
+     Scene scene = new Scene(root, 500, 300);
+     primaryStage.setTitle("TableView Demo");
+     primaryStage.setScene(scene);
+     primaryStage.show();
+
+    }
 
 }

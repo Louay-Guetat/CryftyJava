@@ -42,7 +42,6 @@ public class UserService {
         }
         return user;
     }
-
     public User findUserById(int id){
         User user = new User();
         String request = "select * from user where id="+id;

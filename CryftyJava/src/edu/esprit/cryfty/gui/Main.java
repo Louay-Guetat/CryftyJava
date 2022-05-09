@@ -2,7 +2,6 @@ package edu.esprit.cryfty.gui;
 
 import edu.esprit.cryfty.entity.Client;
 import edu.esprit.cryfty.entity.User;
-
 import javafx.application.Application;
 
 import javafx.fxml.FXMLLoader;
