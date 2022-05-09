@@ -71,7 +71,7 @@ public class Transaction {
                 "id=" + id +
                 ", cartId=" + cartId +
                 ", datetransaction=" + datetransaction +
-                //", wallets=" + wallets +
+                ", wallets=" + wallets +
                 '}';
     }
 

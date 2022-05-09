@@ -1,9 +1,13 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package edu.esprit.cryfty.entity;
 
 import java.util.Objects;
 
 public class Client extends User {
-
     private String firstName;
     private String lastName;
     private String email;
@@ -16,9 +20,14 @@ public class Client extends User {
     public Client() {
     }
 
-    public Client(int id,String username, String roles,String password,String firstName, String lastName,
-                  String email, int phoneNumber, int age, String address,String avatar,String couverture) {
-        super(id,username,roles,password);
+    public Client(int id,String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.id=id;
+    }
+
+    public Client(int id, String username, String roles, String password, String firstName, String lastName, String email, int phoneNumber, int age, String address, String avatar, String couverture) {
+        super(id, username, roles, password);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -38,8 +47,13 @@ public class Client extends User {
         this.setUsername(username);
     }
 
+    public Client(int id, String username) {
+        this.id = id;
+        this.setUsername(username);
+    }
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -47,7 +61,7 @@ public class Client extends User {
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -55,7 +69,7 @@ public class Client extends User {
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public void setLastName(String lastName) {
@@ -63,7 +77,7 @@ public class Client extends User {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -71,7 +85,7 @@ public class Client extends User {
     }
 
     public int getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 
     public void setPhoneNumber(int phoneNumber) {
@@ -79,7 +93,7 @@ public class Client extends User {
     }
 
     public int getAge() {
-        return age;
+        return this.age;
     }
 
     public void setAge(int age) {
@@ -87,7 +101,7 @@ public class Client extends User {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -95,7 +109,7 @@ public class Client extends User {
     }
 
     public String getAvatar() {
-        return avatar;
+        return this.avatar;
     }
 
     public void setAvatar(String avatar) {
@@ -103,40 +117,30 @@ public class Client extends User {
     }
 
     public String getCouverture() {
-        return couverture;
+        return this.couverture;
     }
 
     public void setCouverture(String couverture) {
         this.couverture = couverture;
     }
 
-    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Client client = (Client) o;
-        return id == client.id && age == client.age && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(email, client.email) && Objects.equals(phoneNumber, client.phoneNumber) && Objects.equals(address, client.address) && Objects.equals(avatar, client.avatar) && Objects.equals(couverture, client.couverture);
+        if (this == o) {
+            return true;
+        } else if (o != null && this.getClass() == o.getClass()) {
+            Client client = (Client)o;
+            return this.id == client.id && this.age == client.age && Objects.equals(this.firstName, client.firstName) && Objects.equals(this.lastName, client.lastName) && Objects.equals(this.email, client.email) && Objects.equals(this.phoneNumber, client.phoneNumber) && Objects.equals(this.address, client.address) && Objects.equals(this.avatar, client.avatar) && Objects.equals(this.couverture, client.couverture);
+        } else {
+            return false;
+        }
     }
 
-    @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, phoneNumber, age, address, avatar, couverture);
+        return Objects.hash(new Object[]{this.id, this.firstName, this.lastName, this.email, this.phoneNumber, this.age, this.address, this.avatar, this.couverture});
     }
 
-
-    @Override
     public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", age=" + age +
-                ", address='" + address + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", couverture='" + couverture + '\'' +
-                '}';
+        return "Client{id=" + this.id + ", firstName='" + this.firstName + '\'' + ", lastName='" + this.lastName + '\'' + ", email='" + this.email + '\'' + ", phoneNumber='" + this.phoneNumber + '\'' + ", age=" + this.age + ", address='" + this.address + '\'' + ", avatar='" + this.avatar + '\'' + ", couverture='" + this.couverture + '\'' + '}';
     }
 
 }
