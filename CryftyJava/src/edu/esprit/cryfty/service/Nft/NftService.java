@@ -296,5 +296,17 @@ public class NftService {
         return nfts;
     }
 
+    public void updateOwnerNft(Nft nft,int idOwner) {
+        String request = "update nft set owner_id="+idOwner+" where nft.id = " + nft.getId();
+
+        try {
+            PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
+            //pst.setInt(1, nft.getOwner().getId());
+            pst.executeUpdate();
+            System.out.println("OwnerNft updated");
+        } catch (SQLException var4) {
+            System.out.println(var4.getMessage());
+        }
+    }
 
 }

@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static edu.esprit.cryfty.gui.fxml.Controller.nftClicked;
+import static edu.esprit.cryfty.gui.Controller.nftClicked;
+
 
 public class UpdateNftController implements Initializable {
     @javafx.fxml.FXML

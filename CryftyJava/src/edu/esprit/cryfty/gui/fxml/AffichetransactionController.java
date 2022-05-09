@@ -1,7 +1,6 @@
 package edu.esprit.cryfty.gui.fxml;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.ByteMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -302,32 +301,4 @@ public class AffichetransactionController implements Initializable {
         }
     return test;
     }
-
-    // Function to create the QR code
-    public  String createQR(int ref,String nom,String prenom,String walletAddress)
-            throws Exception
-    {
-
-        String qrcode=QRCode_PATH+"QRCODE.png";
-        QRCodeWriter writer=new QRCodeWriter();
-
-        ByteMatrix matrix =  writer.encode("Réference :"+ref+"\n"+"Nom client:"+nom+" "+prenom+"\nAdresse wallet :"+walletAddress,BarcodeFormat.QR_CODE,350,350);
-
-
-
-        BitMatrix output = new BitMatrix(matrix.get(matrix.width(), matrix.height()));
-        for (int i = 0; i < matrix.width(); i++) {
-            for (int j = 0; j < matrix.height(); j++) {
-                // Zero is white in the bytematrix
-                if (matrix.get(i, j) == 1) {
-                    output.set(i, j);
-                }
-            }
-        }
-
-        Path path= FileSystems.getDefault().getPath(qrcode);
-        MatrixToImageWriter.writeToPath(output, "PNG", path);
-        return "QR CODE IS GENERATED SUCCESSFULLY";
-    }
-
    }

@@ -46,16 +46,12 @@ public class AddGroupController implements Initializable {
 
     }
 
-    public void AddGroup ()
-    {
-        GroupeChatService groupeChatService = new GroupeChatService();
-    }
     ObservableList<User> list = FXCollections.observableArrayList();
     public void checkboxUser()
     {
 
         GroupeChatService groupeChatService = new GroupeChatService();
-        ArrayList<User> OtherUsers = groupeChatService.getUsers(4);
+        ArrayList<User> OtherUsers = groupeChatService.getUsers(1);
         for(int i=0;i<OtherUsers.size();i++)
         {
             CheckBox checkbox = new CheckBox("");
@@ -85,7 +81,7 @@ public class AddGroupController implements Initializable {
                     Participants.add(u);
                 }
             }
-            User currentUser=  groupeChatService.getUserById(4);
+            User currentUser=  groupeChatService.getUserById(1);
             String name = TfieldNameGroup.getText();
             msgError.setStyle("-fx-text-fill: red;");
             msgErrorCheck.setStyle("-fx-text-fill: red;");

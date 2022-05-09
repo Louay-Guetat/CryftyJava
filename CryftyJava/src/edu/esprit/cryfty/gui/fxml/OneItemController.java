@@ -2,8 +2,11 @@ package edu.esprit.cryfty.gui.fxml;
 
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.NftComment;
+import edu.esprit.cryfty.entity.payment.Cart;
 import edu.esprit.cryfty.service.Nft.NftCommentService;
 import edu.esprit.cryfty.service.Nft.NftService;
+import edu.esprit.cryfty.service.payment.CartService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,12 +37,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static edu.esprit.cryfty.gui.Controller.nftClicked;
 import static edu.esprit.cryfty.gui.Main.currentUser;
-import static edu.esprit.cryfty.gui.fxml.Controller.nftClicked;
 import static edu.esprit.cryfty.gui.fxml.ItemController.waterMark;
+import static edu.esprit.cryfty.service.payment.CartService.nfts;
 
 public class OneItemController implements Initializable {
     @javafx.fxml.FXML
@@ -84,6 +89,8 @@ public class OneItemController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     private static final int MIN_PIXELS = 10;
+    @FXML
+    private Button AddToCart;
 
 
     @Override
@@ -151,10 +158,12 @@ public class OneItemController implements Initializable {
         if(!currentUser.equals(nft.getOwner())){
             btnDelete.setVisible(false);
             btnUpdate.setVisible(false);
+            AddToCart.setVisible(true);
         }
         else{
             btnDelete.setVisible(true);
             btnUpdate.setVisible(true);
+            AddToCart.setVisible(false);
         }
         lblTitle.setText(nft.getTitle());
         if(nft.getDescription().isEmpty()){
@@ -265,4 +274,44 @@ public class OneItemController implements Initializable {
         }
     }
 
+    @FXML
+    public void addNftToCart(ActionEvent actionEvent) throws IOException {
+
+        ArrayList<Integer> nb=new ArrayList<>();
+        CartService cartService=new CartService();
+        Cart c=cartService.getCartById(1);
+        //System.out.println(nfts);
+        nfts.add(nft);
+        //System.out.println(nfts);
+        Cart carts=new Cart(nfts, c.getId());
+        System.out.println(nft);
+        for(int i=0;i<cartService.getNftfromCart().size();i++) {
+
+            nb.add(cartService.getNftfromCart().get(i).getId());
+        }
+        if (nb.contains(nft.getId())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("Nft already exists in your cart, choose another nft");
+            alert.showAndWait();
+            Stage window3 = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            window3.hide();
+            Parent tableViewParent = FXMLLoader.load(getClass().getResource("Home.fxml"));
+            Stage window4 = new Stage();
+            window4.setScene(new Scene(tableViewParent));
+            window4.show();
+        } else{
+            cartService.addNftToCart(carts);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Confirmation");
+            alert.setContentText("Nft added, go Check your Cart");
+            alert.showAndWait();
+            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            window.hide();
+            Parent tableViewParent = FXMLLoader.load(getClass().getResource("Home.fxml"));
+            Stage window5 = new Stage();
+            window5.setScene(new Scene(tableViewParent));
+            window5.show();
+        }
+    }
 }

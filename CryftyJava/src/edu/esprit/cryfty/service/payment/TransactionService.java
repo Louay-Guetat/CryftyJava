@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
 
-import static edu.esprit.cryfty.gui.Controller.nft;
 
 public class TransactionService {
 

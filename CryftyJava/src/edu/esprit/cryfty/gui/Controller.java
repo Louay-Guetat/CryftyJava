@@ -7,15 +7,23 @@ import com.vdurmont.emoji.EmojiManager;
 import com.vdurmont.emoji.EmojiParser;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import edu.esprit.cryfty.entity.Nft.Category;
+import edu.esprit.cryfty.entity.Nft.Nft;
+import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.entity.User;
 import edu.esprit.cryfty.entity.chat.Conversation;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
 import edu.esprit.cryfty.entity.chat.Message;
 import edu.esprit.cryfty.entity.chat.PrivateChat;
+import edu.esprit.cryfty.service.Nft.CategoryService;
+import edu.esprit.cryfty.service.Nft.NftService;
+import edu.esprit.cryfty.service.Nft.SubCategoryService;
 import edu.esprit.cryfty.service.chat.GroupeChatService;
 import edu.esprit.cryfty.service.chat.MessageService;
 import edu.esprit.cryfty.service.chat.PrivateChatService;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -41,7 +49,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -58,6 +68,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -71,6 +82,8 @@ import java.net.Socket;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,8 +93,6 @@ import java.util.ResourceBundle;
 
 public class Controller extends Thread implements Initializable {
 
-    @FXML
-    private VBox pnItems = null;
     @FXML
     private Button btnOverview;
 
@@ -138,6 +149,8 @@ public class Controller extends Thread implements Initializable {
     private TextField TfieldMessage;
     @FXML
     private ImageView ImgSendMsg;
+
+    @FXML
     private Button btnArticles;
     @FXML
     private Pane pnlArticles;
@@ -168,32 +181,50 @@ public class Controller extends Thread implements Initializable {
     BufferedReader reader;
     PrintWriter writer;
     Socket socket;
+    @FXML
+    private ScrollPane scrollPaneItems;
+    @FXML
+    private AnchorPane view;
+    @FXML
+    private Button btnAddNft;
+    @FXML
+    private Pane pnlItem;
+    @FXML
+    private HBox boxItems;
+
+    public static Nft nftClicked;
+    public static Nft nft;
+    @FXML
+    private Pane pnlPanier;
+    @FXML
+    private Button btnTransactions;
+    @FXML
+    private Button btnPanier;
+    @FXML
+    private Pane pnlTransactions;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        createView();
+        boxItems.setPrefWidth(1020);
+        boxItems.setPrefHeight(344);
+        scrollPaneItems.setContent(boxItems);
+
+        ImageView add = new ImageView();
+        try {
+            FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\add.png");
+            Image image = new Image(inputstream);
+            add.setImage(image);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        btnAddNft.setGraphic(add);
+
         connectSocket();
         Node[] nodes = new Node[10];
         ArrayList<BlogArticles> list = (ArrayList<BlogArticles>) BlogsService.listerArticles();
         int n;
         n=list.size();
-        for (int i = 0; i < nodes.length; i++) {
-            try {
-
-                final int j = i;
-                nodes[i] = FXMLLoader.load(getClass().getResource("fxml/Item.fxml"));
-
-                //give the items some effect
-
-                nodes[i].setOnMouseEntered(event -> {
-                    nodes[j].setStyle("-fx-background-color : #0A0E3F");
-                });
-                nodes[i].setOnMouseExited(event -> {
-                    nodes[j].setStyle("-fx-background-color : #02030A");
-                });
-                pnItems.getChildren().add(nodes[i]);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public Controller() {
@@ -218,7 +249,7 @@ public class Controller extends Thread implements Initializable {
     @Override
     public void run() {
         GroupeChatService GrService= new GroupeChatService();
-       User u= GrService.getUserById(4);
+       User u = GrService.getUserById(1);
         try {
             while (true) {
                 String msg = reader.readLine();
@@ -270,24 +301,38 @@ public class Controller extends Thread implements Initializable {
         }
     }
 
-
-
-
+    @FXML
     public void handleClicks(ActionEvent actionEvent) throws IOException {
         if (actionEvent.getSource() == btnCustomers) {
             pnlCustomer.setStyle("-fx-background-color : #1620A1");
             pnlCustomer.toFront();
         }
+
+        if(actionEvent.getSource()==btnPanier )
+        {
+            pnlPanier.setStyle("-fx-background-color : #02030A");
+            pnlPanier.toFront();
+            Node n = FXMLLoader.load(getClass().getResource("fxml/Cart.fxml"));
+            pnlPanier.getChildren().add(n);
+        }
+        if(actionEvent.getSource()==btnTransactions )
+        {
+            pnlTransactions.setStyle("-fx-background-color : #02030A");
+            pnlTransactions.toFront();
+            Node n1 = FXMLLoader.load(getClass().getResource("fxml/Affichetransaction.fxml"));
+            pnlTransactions.getChildren().add(n1);
+        }
+
         if (actionEvent.getSource() == btnMenus) {
-             pnlMenus.setStyle("-fx-background-color : #53639F");
+            pnlMenus.setStyle("-fx-background-color : #53639F");
             pnlMenus.toFront();
 
             Node n = FXMLLoader.load(getClass().getResource("fxml/ListeArticles.fxml"));
 
             pnlMenus.getChildren().add(n);
 
-
         }
+
         if (actionEvent.getSource() == btnArticles) {
             pnlArticles.setStyle("-fx-background-color : #53639F");
             pnlArticles.toFront();
@@ -295,69 +340,75 @@ public class Controller extends Thread implements Initializable {
             Node n = FXMLLoader.load(getClass().getResource("fxml/boarticle.fxml"));
 
             pnlArticles.getChildren().add(n);
-
-
         }
+
         if (actionEvent.getSource() == btnOverview) {
             pnlOverview.setStyle("-fx-background-color : #02030A");
             pnlOverview.toFront();
+            pnlOverview.getChildren().clear();
+            pnlOverview.getChildren().add(pnlItem);
         }
+
         if(actionEvent.getSource()==btnOrders)
         {
             pnlOrders.setStyle("-fx-background-color : #464F67");
             pnlOrders.toFront();
         }
+
     }
 
-    public void afficheListConversation(Event actionEvent)
-    {
+    public void afficheListConversation(Event actionEvent) {
 
-        if (actionEvent.getSource() == boule && bool ==true )
-        {
+        if (actionEvent.getSource() == boule && bool == true) {
             ListConversation.setVisible(true);
-            bool=false;
+            bool = false;
             ListConversation(actionEvent);
 
-        }
-        else if(actionEvent.getSource() == boule && bool ==false )
-        {
-
+        } else if (actionEvent.getSource() == boule && bool == false) {
             ListConversation.setVisible(false);
-            bool=true;
+            bool = true;
             conv.setVisible(false);
-
         }
- public  void articlebo(){
-     BorderPane root = new BorderPane();
-    TableView<BlogArticles> table = new TableView<BlogArticles>();
-
-    TableColumn<BlogArticles, String> title = new TableColumn<BlogArticles, String>("Title");
-    title.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("title"));
-
-    TableColumn<BlogArticles, String> category = new TableColumn<BlogArticles, String>("Category");
-    category.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("category"));
-
-    TableColumn<BlogArticles, Date> date = new TableColumn<BlogArticles, Date>("Date");
-    date.setCellValueFactory(new PropertyValueFactory<BlogArticles, Date>("date"));
-
-    TableColumn<BlogArticles, String> contents = new TableColumn<BlogArticles, String>("Contents");
-    contents.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("contents"));
-    TableColumn<BlogArticles, String> author = new TableColumn<BlogArticles, String>("Author");
-    author.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("author"));
-
-    table.getColumns().add(title);
-    table.getColumns().add(contents);
-    table.getColumns().add(category);
-    table.getColumns().add(date);
-
-    table.getColumns().add(author);
-
-    table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-    BlogsService Service = new BlogsService();
-    List<BlogArticles> articles = BlogsService.listerArticles();
-    for(int i=0;i<articles.size();i++ ){
-        table.getItems().add(articles.get(i));
     }
+
+ public void articlebo() {
+     BorderPane root = new BorderPane();
+     TableView<BlogArticles> table = new TableView<BlogArticles>();
+
+     TableColumn<BlogArticles, String> title = new TableColumn<BlogArticles, String>("Title");
+     title.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("title"));
+
+     TableColumn<BlogArticles, String> category = new TableColumn<BlogArticles, String>("Category");
+     category.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("category"));
+
+     TableColumn<BlogArticles, Date> date = new TableColumn<BlogArticles, Date>("Date");
+     date.setCellValueFactory(new PropertyValueFactory<BlogArticles, Date>("date"));
+
+     TableColumn<BlogArticles, String> contents = new TableColumn<BlogArticles, String>("Contents");
+     contents.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("contents"));
+     TableColumn<BlogArticles, String> author = new TableColumn<BlogArticles, String>("Author");
+     author.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("author"));
+
+     table.getColumns().add(title);
+     table.getColumns().add(contents);
+     table.getColumns().add(category);
+     table.getColumns().add(date);
+
+     table.getColumns().add(author);
+
+     table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+     BlogsService Service = new BlogsService();
+     List<BlogArticles> articles = BlogsService.listerArticles();
+     for (int i = 0; i < articles.size(); i++) {
+         table.getItems().add(articles.get(i));
+     }
+     Stage primaryStage = new Stage();
+     root.setCenter(table);
+     Scene scene = new Scene(root, 500, 300);
+     primaryStage.setTitle("TableView Demo");
+     primaryStage.setScene(scene);
+     primaryStage.show();
+ }
 
 
 
@@ -442,6 +493,7 @@ public class Controller extends Thread implements Initializable {
     }
     FontAwesomeIconView Peoples = new FontAwesomeIconView(FontAwesomeIcon.USERS);
     public static GroupeChat GrClicked =null;
+
     public void ListConversation (Event actionEvent)
     {
         ArrayList<Conversation> nom = new ArrayList<>();
@@ -506,7 +558,7 @@ public class Controller extends Thread implements Initializable {
         for (int j=0;j<Affichage_private_chat().size();j++)
         { int idp =Affichage_private_chat().get(j).getId();
             nom.add(Affichage_private_chat().get(j));
-            if(Affichage_private_chat().get(j).getReceived().getId()==4)
+            if(Affichage_private_chat().get(j).getReceived().getId()==1)
             {
                 Label nomP = new Label(Affichage_private_chat().get(j).getSender().getUsername());
                 nomP.setStyle("-fx-font-weight:bold;");
@@ -555,7 +607,7 @@ public class Controller extends Thread implements Initializable {
     ArrayList<PrivateChat > PrivateChat = new ArrayList<>();
     PrivateChatService prvService = new PrivateChatService();
     // user connecté
-    User u=   prvService.getUserById(4);
+    User u=   prvService.getUserById(1);
     ArrayList<PrivateChat> privateChat = prvService.privateChat(u);
     for (int p=0;p<privateChat.size();p++)
     {
@@ -878,15 +930,306 @@ public void langues (VBox vbox,String ContenuMsg)
               notificationBuilder.show();
     }
 
+    public void createView(){
+        NftService nftService = new NftService();
+        List<Nft> nfts = nftService.showNfts();
+        Node[] nodes = new Node[nfts.size()];
+        for (int i = 0; i < nodes.length; i++) {
+            try {
+                final int j = i;
+                nft = nfts.get(i);
+                nodes[i] = FXMLLoader.load(getClass().getResource("fxml/Item.fxml"));
+                //give the items some effect
+                nodes[i].setOnMouseEntered(event -> {
+                    nodes[j].setStyle("-fx-background-color : #0A0E3F");
+                });
+                nodes[i].setOnMouseExited(event -> {
+                    nodes[j].setStyle("-fx-background-color : #02030A");
+                });
 
+                boxItems.getChildren().add(nodes[i]);
 
-     Stage primaryStage = new Stage();
-    root.setCenter(table);
-     Scene scene = new Scene(root, 500, 300);
-     primaryStage.setTitle("TableView Demo");
-     primaryStage.setScene(scene);
-     primaryStage.show();
+                int finalI = i;
+                nodes[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        nftClicked = nfts.get(finalI);
+                        Node node = nodes[finalI];
+                        try {
+                            node = FXMLLoader.load(getClass().getResource("fxml/OneItem.fxml"));
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        pnlItem.getChildren().clear();
+                        pnlItem.getChildren().add(node);
+                    }
+                });
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
+    public void initiateCategories() throws IOException {
+        TableView<Category> tableView = new TableView<>();
+        tableView.setEditable(true);
+        tableView.setStyle("-fx-background-color: transparent;");
+        TableColumn<Category,String> name = new TableColumn("Name");
+        name.setPrefWidth(300);
+        name.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
+        TableColumn<Category, LocalDateTime> creationDate = new TableColumn("Creation Date");
+        creationDate.setPrefWidth(200);
+        creationDate.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
+        TableColumn<Category,String> nbrNfts = new TableColumn("Number of Nfts");
+        nbrNfts.setPrefWidth(150);
+        nbrNfts.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
+        TableColumn<Category,String> nbrSubCat = new TableColumn("Number of subCategories");
+        nbrSubCat.setPrefWidth(150);
+        nbrSubCat.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
+        TableColumn<Category,Void> delete = new TableColumn<>("Delete");
+        delete.setPrefWidth(200);
+        delete.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-alignment: CENTER;");
+        delete.setResizable(false);
+
+        tableView.getColumns().addAll(name,creationDate,nbrNfts,nbrSubCat,delete);
+
+        name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        name.setCellFactory(TextFieldTableCell.<Category> forTableColumn());
+        name.setOnEditCommit((TableColumn.CellEditEvent<Category, String> event) -> {
+            TablePosition<Category, String> pos = event.getTablePosition();
+            String newName = event.getNewValue();
+            int row = pos.getRow();
+            Category category = event.getTableView().getItems().get(row);
+            if(!newName.isEmpty()){
+                CategoryService categoryService = new CategoryService();
+                category.setName(newName);
+                categoryService.updateCategory(category);
+            }
+        });
+
+        creationDate.setCellFactory(column -> {
+            TableCell<Category, LocalDateTime> cell = new TableCell<Category, LocalDateTime>() {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm");
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        item = getTableView().getItems().get(getIndex()).getCreationDate();
+                        setText(item.format(formatter));
+                    }
+                }
+            };
+
+            return cell;
+        });
+
+        nbrNfts.setCellValueFactory(new PropertyValueFactory<>("nbrNfts"));
+        nbrSubCat.setCellValueFactory(new PropertyValueFactory<>("nbrSubCategories"));
+
+        Callback<TableColumn<Category, Void>, TableCell<Category, Void>> cellDelete = new Callback<TableColumn<Category, Void>, TableCell<Category, Void>>() {
+            @Override
+            public TableCell<Category, Void> call(final TableColumn<Category, Void> param) {
+                final TableCell<Category, Void> cell = new TableCell<Category, Void>() {
+
+                    private final Button btn = new Button("Delete");
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Category category = getTableView().getItems().get(getIndex());
+                            if(category.getNbrSubCategories() ==0 && category.getNbrNfts() ==0 ){
+                                CategoryService categoryService = new CategoryService();
+                                categoryService.deleteCategory(category);
+                            }
+                            else{
+                                Alert alert = new Alert(Alert.AlertType.WARNING);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("You can't delete this Category because it contains Products/SubCategories");
+                                alert.showAndWait();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        delete.setCellFactory(cellDelete);
+
+        ObservableList<Category> list = FXCollections.observableArrayList();
+        CategoryService categoryService = new CategoryService();
+        List<Category> categories = categoryService.showCategories();
+        for(int i=0; i<categories.size();i++){
+            list.add(categories.get(i));
+        }
+        tableView.setItems(list);
+        tableView.setPrefHeight(344);
+        tableView.setPrefWidth(1020);
+        tableView.setMaxSize(1020,180);
+        tableView.setFixedCellSize(40);
+        tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+
+        pnlItem.getChildren().add(tableView);
+        tableView.setLayoutY(75);
+    }
+
+    public void initiateSubCategories(){
+        TableView<SubCategory> tableView = new TableView<SubCategory>();
+        tableView.setEditable(true);
+        tableView.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
+        TableColumn<SubCategory,String> name = new TableColumn("Name");
+        name.setPrefWidth(300);
+        name.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-selection-bar: red;");
+        TableColumn<SubCategory, LocalDateTime> creationDate = new TableColumn("Creation Date");
+        creationDate.setPrefWidth(200);
+        creationDate.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
+        TableColumn<SubCategory,String> nbrNfts = new TableColumn("Number of Nfts");
+        nbrNfts.setPrefWidth(150);
+        nbrNfts.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
+        TableColumn<SubCategory, String> category = new TableColumn<SubCategory, String>("Category");
+        category.setPrefWidth(150);
+        category.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
+
+        TableColumn<SubCategory,Void> delete = new TableColumn<>("Delete");
+        delete.setPrefWidth(200);
+        delete.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-alignment: CENTER;");
+        delete.setResizable(false);
+
+        tableView.getColumns().addAll(name,creationDate,nbrNfts,category,delete);
+
+        name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        name.setCellFactory(TextFieldTableCell.<SubCategory> forTableColumn());
+
+        name.setOnEditCommit((TableColumn.CellEditEvent<SubCategory, String> event) -> {
+            TablePosition<SubCategory, String> pos = event.getTablePosition();
+            String newName = event.getNewValue();
+
+            int row = pos.getRow();
+            SubCategory subCategory = event.getTableView().getItems().get(row);
+            if(!newName.isEmpty()){
+                SubCategoryService subCategoryService = new SubCategoryService();
+                subCategory.setName(newName);
+                subCategoryService.updateSubCategory(subCategory);
+            }
+        });
+
+        creationDate.setCellFactory(column -> {
+            TableCell<SubCategory, LocalDateTime> cell = new TableCell<SubCategory, LocalDateTime>() {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm");
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        item = getTableView().getItems().get(getIndex()).getCreationDate();
+                        setText(item.format(formatter));
+                    }
+                }
+            };
+            return cell;
+        });
+        nbrNfts.setCellValueFactory(new PropertyValueFactory<>("nbrNfts"));
+
+        CategoryService categoryService = new CategoryService();
+        List<Category> categoryList = categoryService.showCategories();
+        String[] categoryNames = new String[categoryList.size()];
+        for (int i=0; i<categoryList.size();i++){
+            categoryNames[i] = categoryList.get(i).getName();
+        }
+
+        ObservableList<String> categories = FXCollections.observableArrayList(categoryNames);
+        category.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SubCategory, String>, ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<SubCategory, String> param) {
+                SubCategory subCategory = param.getValue();
+                String categoryName = subCategory.getCategory().getName();
+                Category cat = categoryService.findCategoryByName(categoryName);
+                return new SimpleObjectProperty<String>(cat.getName());
+            }
+        });
+        category.setCellFactory(ComboBoxTableCell.forTableColumn(categories));
+
+        category.setOnEditCommit((TableColumn.CellEditEvent<SubCategory, String> event) -> {
+            TablePosition<SubCategory, String> pos = event.getTablePosition();
+            String newName = event.getNewValue();
+
+            int row = pos.getRow();
+            SubCategory subCategory = event.getTableView().getItems().get(row);
+            if(!newName.isEmpty()){
+                SubCategoryService subCategoryService = new SubCategoryService();
+                Category cat = categoryService.findCategoryByName(newName);
+                subCategory.setCategory(cat);
+                subCategoryService.updateSubCategory(subCategory);
+            }
+        });
+
+        Callback<TableColumn<SubCategory, Void>, TableCell<SubCategory, Void>> cellDelete = new Callback<TableColumn<SubCategory, Void>, TableCell<SubCategory, Void>>() {
+            @Override
+            public TableCell<SubCategory, Void> call(final TableColumn<SubCategory, Void> param) {
+                final TableCell<SubCategory, Void> cell = new TableCell<SubCategory, Void>() {
+                    private final Button btn = new Button("Delete");
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            SubCategory subCategory = getTableView().getItems().get(getIndex());
+                            if(subCategory.getNbrNfts()==0){
+                                SubCategoryService subCategoryService = new SubCategoryService();
+                                subCategoryService.deleteSubCategory(subCategory);
+                            }
+                            else{
+                                Alert alert = new Alert(Alert.AlertType.WARNING);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("You can't delete this SubCategory because it contains Products");
+                                alert.showAndWait();
+                            }
+                            //deleteHere
+
+                        });
+                    }
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        delete.setCellFactory(cellDelete);
+
+        ObservableList<SubCategory> list = FXCollections.observableArrayList();
+        SubCategoryService subCategoryService = new SubCategoryService();
+        List<SubCategory> subCategories = subCategoryService.showSubCategories();
+        for(int i=0; i<subCategories.size();i++){
+            list.add(subCategories.get(i));
+        }
+        tableView.setItems(list);
+        tableView.setPrefHeight(344);
+        tableView.setPrefWidth(1020);
+        tableView.setMaxSize(1020,180);
+        tableView.setFixedCellSize(40);
+        tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
+
+        pnlItem.getChildren().add(tableView);
+        tableView.setLayoutY(280);
     }
 
 }

@@ -37,15 +37,6 @@ public class Client extends User {
         this.avatar = avatar;
         this.couverture = couverture;
     }
-    public Client(int id, String username){
-        this.id = id;
-        this.setUsername(username);
-    }
-
-    public Client(int id, String username){
-        this.id = id;
-        this.setUsername(username);
-    }
 
     public Client(int id, String username) {
         this.id = id;

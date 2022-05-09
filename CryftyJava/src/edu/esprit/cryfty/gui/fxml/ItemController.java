@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import static edu.esprit.cryfty.gui.Main.currentUser;
-import static edu.esprit.cryfty.gui.fxml.Controller.nft;
+import static edu.esprit.cryfty.gui.Controller.nft;
 import static edu.esprit.cryfty.gui.fxml.ExploreController.nft1;
 
 

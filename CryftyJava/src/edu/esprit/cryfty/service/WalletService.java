@@ -174,6 +174,16 @@ public class WalletService {
         }
     }
 
+    public void updateBalanceWallet(Wallet wallet, double balance) {
+        String request = "update wallet set balance="+balance+" where wallet.id = " + wallet.getId();
+        try {
+            PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
+            pst.executeUpdate();
+            System.out.println("balance updated");
+        } catch (SQLException var4) {
+            System.out.println(var4.getMessage());
+        }
 
+    }
 
 }
