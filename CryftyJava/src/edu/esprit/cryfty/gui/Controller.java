@@ -97,12 +97,6 @@ public class Controller extends Thread implements Initializable {
     private Button btnOverview;
 
     @FXML
-    private Button btnOrders;
-
-    @FXML
-    private Button btnCustomers;
-
-    @FXML
     private Button btnMenus;
 
     @FXML
@@ -133,8 +127,8 @@ public class Controller extends Thread implements Initializable {
     private Label addGroup;
     @FXML
     private AnchorPane titleListConv;
-    private boolean bool =true;
-    boolean boolEmoji =true;
+    private boolean bool = true;
+    boolean boolEmoji = true;
     @FXML
     private SplitPane conv;
     @FXML
@@ -166,14 +160,14 @@ public class Controller extends Thread implements Initializable {
     @FXML
     private Label MsgErrorInputMsg;
 
-    private VBox layout ;
+    private VBox layout;
     @FXML
     private ImageView emoji;
     @FXML
     private ScrollPane ScrollPaneEmoji;
     @FXML
     private Pane paneEmoji;
-     String fromLang = "en";
+    String fromLang = "en";
     @FXML
     private ImageView imageBouleDiscussion;
     private FileChooser fileChooser;
@@ -195,13 +189,21 @@ public class Controller extends Thread implements Initializable {
     public static Nft nftClicked;
     public static Nft nft;
     @FXML
+    private Button btnPanier;
+    @FXML
     private Pane pnlPanier;
     @FXML
     private Button btnTransactions;
     @FXML
-    private Button btnPanier;
-    @FXML
     private Pane pnlTransactions;
+    @FXML
+    private StackPane home;
+    @FXML
+    private Pane pnlHome;
+    @FXML
+    private Button btnExplore;
+    @FXML
+    private Button btnWallets;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -224,15 +226,16 @@ public class Controller extends Thread implements Initializable {
         Node[] nodes = new Node[10];
         ArrayList<BlogArticles> list = (ArrayList<BlogArticles>) BlogsService.listerArticles();
         int n;
-        n=list.size();
+        n = list.size();
+
+        conv.toFront();
+        ListConversation.toFront();
+        boule.toFront();
+        boule.setStyle("fx-background-color: TRANSPARENT;");
     }
 
     public Controller() {
     }
-
-
-
-
 
 
     public void connectSocket() {
@@ -246,10 +249,11 @@ public class Controller extends Thread implements Initializable {
             e.printStackTrace();
         }
     }
+
     @Override
     public void run() {
-        GroupeChatService GrService= new GroupeChatService();
-       User u = GrService.getUserById(1);
+        GroupeChatService GrService = new GroupeChatService();
+        User u = GrService.getUserById(1);
         try {
             while (true) {
                 String msg = reader.readLine();
@@ -257,26 +261,26 @@ public class Controller extends Thread implements Initializable {
                 String cmd = tokens[0];
                 System.out.println(cmd);
                 StringBuilder fulmsg = new StringBuilder();
-                for(int i = 1; i < tokens.length; i++) {
+                for (int i = 1; i < tokens.length; i++) {
                     fulmsg.append(tokens[i]);
                 }
                 System.out.println(fulmsg);
                 if (cmd.equalsIgnoreCase(u.getUsername() + "\n")) {
                     continue;
-                } else if(fulmsg.toString().equalsIgnoreCase("bye")) {
+                } else if (fulmsg.toString().equalsIgnoreCase("bye")) {
                     break;
                 }
 
-                Platform.runLater(new Runnable(){
+                Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        if(!(u.getUsername().equals(cmd))) {
+                        if (!(u.getUsername().equals(cmd))) {
                             Label userEnvoyé = new Label(cmd + "");
                             userEnvoyé.setStyle("-fx-text-fill: black;-fx-font-weight:bold;-fx-text-fill:Black");
                             layout.getChildren().add(userEnvoyé);
 
-                            Label newMsg = new Label("  "+fulmsg + "  ");
-                           newMsg.setStyle("-fx-background-radius : 2em;-fx-background-color:#DCDCDC;");
+                            Label newMsg = new Label("  " + fulmsg + "  ");
+                            newMsg.setStyle("-fx-background-radius : 2em;-fx-background-color:#DCDCDC;");
                             layout.getChildren().add(newMsg);
                             String m = String.valueOf(fulmsg);
                             langues(layout, m);
@@ -303,20 +307,19 @@ public class Controller extends Thread implements Initializable {
 
     @FXML
     public void handleClicks(ActionEvent actionEvent) throws IOException {
-        if (actionEvent.getSource() == btnCustomers) {
-            pnlCustomer.setStyle("-fx-background-color : #1620A1");
-            pnlCustomer.toFront();
+        if (actionEvent.getSource() == btnWallets) {
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/Wallets.fxml"));
+            pnlHome.getChildren().add(node);
         }
 
-        if(actionEvent.getSource()==btnPanier )
-        {
+        if (actionEvent.getSource() == btnPanier) {
             pnlPanier.setStyle("-fx-background-color : #02030A");
             pnlPanier.toFront();
             Node n = FXMLLoader.load(getClass().getResource("fxml/Cart.fxml"));
             pnlPanier.getChildren().add(n);
         }
-        if(actionEvent.getSource()==btnTransactions )
-        {
+        if (actionEvent.getSource() == btnTransactions) {
             pnlTransactions.setStyle("-fx-background-color : #02030A");
             pnlTransactions.toFront();
             Node n1 = FXMLLoader.load(getClass().getResource("fxml/Affichetransaction.fxml"));
@@ -336,23 +339,23 @@ public class Controller extends Thread implements Initializable {
         if (actionEvent.getSource() == btnArticles) {
             pnlArticles.setStyle("-fx-background-color : #53639F");
             pnlArticles.toFront();
-         //   articlebo();
+            //   articlebo();
             Node n = FXMLLoader.load(getClass().getResource("fxml/boarticle.fxml"));
-
             pnlArticles.getChildren().add(n);
         }
 
         if (actionEvent.getSource() == btnOverview) {
             pnlOverview.setStyle("-fx-background-color : #02030A");
             pnlOverview.toFront();
-            pnlOverview.getChildren().clear();
-            pnlOverview.getChildren().add(pnlItem);
+            pnlHome.getChildren().clear();
+            pnlHome.getChildren().add(pnlOverview);
         }
 
-        if(actionEvent.getSource()==btnOrders)
-        {
-            pnlOrders.setStyle("-fx-background-color : #464F67");
-            pnlOrders.toFront();
+        if (actionEvent.getSource() == btnExplore) {
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/Explore.fxml"));
+            pnlHome.getChildren().add(node);
+
         }
 
     }
@@ -371,55 +374,55 @@ public class Controller extends Thread implements Initializable {
         }
     }
 
- public void articlebo() {
-     BorderPane root = new BorderPane();
-     TableView<BlogArticles> table = new TableView<BlogArticles>();
+    public void articlebo() {
+        BorderPane root = new BorderPane();
+        TableView<BlogArticles> table = new TableView<BlogArticles>();
 
-     TableColumn<BlogArticles, String> title = new TableColumn<BlogArticles, String>("Title");
-     title.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("title"));
+        TableColumn<BlogArticles, String> title = new TableColumn<BlogArticles, String>("Title");
+        title.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("title"));
 
-     TableColumn<BlogArticles, String> category = new TableColumn<BlogArticles, String>("Category");
-     category.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("category"));
+        TableColumn<BlogArticles, String> category = new TableColumn<BlogArticles, String>("Category");
+        category.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("category"));
 
-     TableColumn<BlogArticles, Date> date = new TableColumn<BlogArticles, Date>("Date");
-     date.setCellValueFactory(new PropertyValueFactory<BlogArticles, Date>("date"));
+        TableColumn<BlogArticles, Date> date = new TableColumn<BlogArticles, Date>("Date");
+        date.setCellValueFactory(new PropertyValueFactory<BlogArticles, Date>("date"));
 
-     TableColumn<BlogArticles, String> contents = new TableColumn<BlogArticles, String>("Contents");
-     contents.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("contents"));
-     TableColumn<BlogArticles, String> author = new TableColumn<BlogArticles, String>("Author");
-     author.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("author"));
+        TableColumn<BlogArticles, String> contents = new TableColumn<BlogArticles, String>("Contents");
+        contents.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("contents"));
+        TableColumn<BlogArticles, String> author = new TableColumn<BlogArticles, String>("Author");
+        author.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("author"));
 
-     table.getColumns().add(title);
-     table.getColumns().add(contents);
-     table.getColumns().add(category);
-     table.getColumns().add(date);
+        table.getColumns().add(title);
+        table.getColumns().add(contents);
+        table.getColumns().add(category);
+        table.getColumns().add(date);
 
-     table.getColumns().add(author);
+        table.getColumns().add(author);
 
-     table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-     BlogsService Service = new BlogsService();
-     List<BlogArticles> articles = BlogsService.listerArticles();
-     for (int i = 0; i < articles.size(); i++) {
-         table.getItems().add(articles.get(i));
-     }
-     Stage primaryStage = new Stage();
-     root.setCenter(table);
-     Scene scene = new Scene(root, 500, 300);
-     primaryStage.setTitle("TableView Demo");
-     primaryStage.setScene(scene);
-     primaryStage.show();
- }
-
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        BlogsService Service = new BlogsService();
+        List<BlogArticles> articles = BlogsService.listerArticles();
+        for (int i = 0; i < articles.size(); i++) {
+            table.getItems().add(articles.get(i));
+        }
+        Stage primaryStage = new Stage();
+        root.setCenter(table);
+        Scene scene = new Scene(root, 500, 300);
+        primaryStage.setTitle("TableView Demo");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
 
     // TODO: If you have your own Premium account credentials, put them down here:
     private static final String CLIENT_ID = "FREE_TRIAL_ACCOUNT";
     private static final String CLIENT_SECRET = "PUBLIC_SECRET";
     private static final String ENDPOINT = "http://api.whatsmate.net/v1/translation/translate";
+
     /**
      * Sends out a WhatsApp message via WhatsMate WA Gateway.
      */
-    public static void translate(String fromLang, String toLang, String text,Label Output2) throws Exception {
+    public static void translate(String fromLang, String toLang, String text, Label Output2) throws Exception {
         // TODO: Should have used a 3rd party library to make a JSON string from an object
         String jsonPayload = new StringBuilder()
                 .append("{")
@@ -460,68 +463,68 @@ public class Controller extends Thread implements Initializable {
         }
         conn.disconnect();
     }
-    public void getEmoji(){
+
+    public void getEmoji() {
         VBox emojis = new VBox();
 
         for (Emoji emoji : EmojiManager.getAll()) {
 
             Label lEmoji = new Label(EmojiParser.parseToUnicode(emoji.getUnicode()));
-           // lEmoji.setStyle("-fx-text-fill:black;");
+            // lEmoji.setStyle("-fx-text-fill:black;");
             emojis.getChildren().add(lEmoji);
             System.out.println(EmojiParser.parseToUnicode(emoji.getUnicode()));
-            lEmoji.setOnMouseClicked(event2->{
-                String e =lEmoji.getText();
-                TfieldMessage.setText(TfieldMessage.getText()+e);
+            lEmoji.setOnMouseClicked(event2 -> {
+                String e = lEmoji.getText();
+                TfieldMessage.setText(TfieldMessage.getText() + e);
             });
         }
 
         ScrollPaneEmoji.setContent(emojis);
     }
-    public void affichListEmoji(Event actionEvent)
-    {
-        if(actionEvent.getSource() == emoji && boolEmoji == true ){
+
+    public void affichListEmoji(Event actionEvent) {
+        if (actionEvent.getSource() == emoji && boolEmoji == true) {
 
             paneEmoji.setVisible(true);
-            boolEmoji=false;
+            boolEmoji = false;
             getEmoji();
 
-        }else if(actionEvent.getSource() == emoji && boolEmoji == false)
-        {
+        } else if (actionEvent.getSource() == emoji && boolEmoji == false) {
             paneEmoji.setVisible(false);
-            boolEmoji=true;
+            boolEmoji = true;
         }
     }
-    FontAwesomeIconView Peoples = new FontAwesomeIconView(FontAwesomeIcon.USERS);
-    public static GroupeChat GrClicked =null;
 
-    public void ListConversation (Event actionEvent)
-    {
+    FontAwesomeIconView Peoples = new FontAwesomeIconView(FontAwesomeIcon.USERS);
+    public static GroupeChat GrClicked = null;
+
+    public void ListConversation(Event actionEvent) {
         ArrayList<Conversation> nom = new ArrayList<>();
-        VBox layout = new  VBox(nom.size());
-        for (int j=0;j< Affichage_GR_chat().size();j++)
-        {
-            nom.add( Affichage_GR_chat().get(j));
+        VBox layout = new VBox(nom.size());
+        for (int j = 0; j < Affichage_GR_chat().size(); j++) {
+            nom.add(Affichage_GR_chat().get(j));
             Label nomG = new Label(Affichage_GR_chat().get(j).getNom());
             nomG.setStyle("-fx-font-weight:bold;");
             layout.getChildren().add(nomG);
-          GroupeChat  gr=Affichage_GR_chat().get(j);
-            int id =Affichage_GR_chat().get(j).getId();
+            GroupeChat gr = Affichage_GR_chat().get(j);
+            int id = Affichage_GR_chat().get(j).getId();
             //System.out.println("idconv"+GrClicked2.getId());
-            String nomgr=Affichage_GR_chat().get(j).getNom();
-            Conversation g=Affichage_GR_chat().get(j);
-            nomG.setOnMouseClicked(event->{
-                System.out.println("id: "+id);
+            String nomgr = Affichage_GR_chat().get(j).getNom();
+            Conversation g = Affichage_GR_chat().get(j);
+            nomG.setOnMouseClicked(event -> {
+                System.out.println("id: " + id);
                 GetMesgsbyConv(id);
                 conv.setVisible(true);
                 NomConv.setText(nomgr);
 
-                ImgSendMsg.setOnMouseClicked(event2->{
-                   // GrClicked2 = gr;
-                    System.out.println("yyy"+id);
-                    SendMsg(id);});
-                HBox hbox=new HBox(Peoples);
+                ImgSendMsg.setOnMouseClicked(event2 -> {
+                    // GrClicked2 = gr;
+                    System.out.println("yyy" + id);
+                    SendMsg(id);
+                });
+                HBox hbox = new HBox(Peoples);
                 hbox.setStyle("-fx-alignement:right;-fx-color:white");
-                hbox.setMargin(Peoples,new Insets(5, 0, 0, 130));
+                hbox.setMargin(Peoples, new Insets(5, 0, 0, 130));
                 HeadConversation.getChildren().add(hbox);
                 Peoples.setStyle("-fx-fill:white;");
                 Peoples.setVisible(true);
@@ -531,64 +534,60 @@ public class Controller extends Thread implements Initializable {
                     public void handle(MouseEvent event) {
                         Stage primaryStage = new Stage();
                         Parent root = null;
-                         GrClicked = gr;
+                        GrClicked = gr;
                         try {
-                          root = FXMLLoader.load(getClass().getResource("fxml/AffichParticipantsByGroup.fxml"));
+                            root = FXMLLoader.load(getClass().getResource("fxml/AffichParticipantsByGroup.fxml"));
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
                         }
-                        primaryStage.setScene(new Scene( root));
+                        primaryStage.setScene(new Scene(root));
                         primaryStage.show();
                     }
                 });
             });
-            if(Affichage_GR_chat().get(j).getOwner().getId()==4)
-            {
+            if (Affichage_GR_chat().get(j).getOwner().getId() == 4) {
                 FontAwesomeIconView deleteIconGroup = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                 deleteIconGroup.setStyle("-fx-fill:red;");
-                HBox hbox=new HBox(deleteIconGroup);
+                HBox hbox = new HBox(deleteIconGroup);
                 hbox.setStyle("-fx-alignement:right;");
-                hbox.setMargin(deleteIconGroup,new Insets(0, 0, 0, 130));
+                hbox.setMargin(deleteIconGroup, new Insets(0, 0, 0, 130));
                 layout.getChildren().add(hbox);
-                deleteGroup(Affichage_GR_chat().get(j),deleteIconGroup);
+                deleteGroup(Affichage_GR_chat().get(j), deleteIconGroup);
 
             }
 
         }
-        for (int j=0;j<Affichage_private_chat().size();j++)
-        { int idp =Affichage_private_chat().get(j).getId();
+        for (int j = 0; j < Affichage_private_chat().size(); j++) {
+            int idp = Affichage_private_chat().get(j).getId();
             nom.add(Affichage_private_chat().get(j));
-            if(Affichage_private_chat().get(j).getReceived().getId()==1)
-            {
+            if (Affichage_private_chat().get(j).getReceived().getId() == 1) {
                 Label nomP = new Label(Affichage_private_chat().get(j).getSender().getUsername());
                 nomP.setStyle("-fx-font-weight:bold;");
-                layout.getChildren().add(nomP );
-                Line l =new Line();
+                layout.getChildren().add(nomP);
+                Line l = new Line();
 
-                String nompr=Affichage_private_chat().get(j).getSender().getUsername();
-                nomP.setOnMouseClicked(event->{
-                    ImgSendMsg.setOnMouseClicked(event2->{
+                String nompr = Affichage_private_chat().get(j).getSender().getUsername();
+                nomP.setOnMouseClicked(event -> {
+                    ImgSendMsg.setOnMouseClicked(event2 -> {
 
                         SendMsg(idp);
                     });
-                        GetMesgsbyConv(idp);
-                        conv.setVisible(true);
-                        NomConv.setText(nompr);
-                        Peoples.setVisible(false);
-                        });
-            }
-            else
-            {
+                    GetMesgsbyConv(idp);
+                    conv.setVisible(true);
+                    NomConv.setText(nompr);
+                    Peoples.setVisible(false);
+                });
+            } else {
                 Label nomP = new Label(Affichage_private_chat().get(j).getReceived().getUsername());
                 nomP.setStyle("-fx-font-weight:bold;");
                 System.out.println(Affichage_private_chat().get(j).getSender().getUsername());
                 layout.getChildren().add(nomP);
-                Line l =new Line();
-                int idp2 =Affichage_private_chat().get(j).getId();
+                Line l = new Line();
+                int idp2 = Affichage_private_chat().get(j).getId();
 
-                String nompr=Affichage_private_chat().get(j).getReceived().getUsername();
-                nomP.setOnMouseClicked(event->{
-                    ImgSendMsg.setOnMouseClicked(event2->{
+                String nompr = Affichage_private_chat().get(j).getReceived().getUsername();
+                nomP.setOnMouseClicked(event -> {
+                    ImgSendMsg.setOnMouseClicked(event2 -> {
 
                         SendMsg(idp);
                     });
@@ -602,38 +601,34 @@ public class Controller extends Thread implements Initializable {
         SpListConv.setContent(layout);
     }
 
-    public ArrayList<PrivateChat>  Affichage_private_chat()
-    {
-    ArrayList<PrivateChat > PrivateChat = new ArrayList<>();
-    PrivateChatService prvService = new PrivateChatService();
-    // user connecté
-    User u=   prvService.getUserById(1);
-    ArrayList<PrivateChat> privateChat = prvService.privateChat(u);
-    for (int p=0;p<privateChat.size();p++)
-    {
+    public ArrayList<PrivateChat> Affichage_private_chat() {
+        ArrayList<PrivateChat> PrivateChat = new ArrayList<>();
+        PrivateChatService prvService = new PrivateChatService();
+        // user connecté
+        User u = prvService.getUserById(1);
+        ArrayList<PrivateChat> privateChat = prvService.privateChat(u);
+        for (int p = 0; p < privateChat.size(); p++) {
             PrivateChat.add(privateChat.get(p));
+        }
+        return PrivateChat;
     }
-    return PrivateChat;
-}
-    public ArrayList<GroupeChat>  Affichage_GR_chat()
-    {  GroupeChatService GrService= new GroupeChatService();
-        ArrayList<GroupeChat> Groups= GrService.getGroups();
-        ArrayList<GroupeChat > nomGroup = new ArrayList<>();
-        for(int i=0;i<Groups.size();i++)
-        {
-            ArrayList <User> Participants = Groups.get(i).getParticipants();
-            for (int j=0;j<Participants.size();j++)
-            {
-                if(Participants.get(j).getId()==4)
-                {
+
+    public ArrayList<GroupeChat> Affichage_GR_chat() {
+        GroupeChatService GrService = new GroupeChatService();
+        ArrayList<GroupeChat> Groups = GrService.getGroups();
+        ArrayList<GroupeChat> nomGroup = new ArrayList<>();
+        for (int i = 0; i < Groups.size(); i++) {
+            ArrayList<User> Participants = Groups.get(i).getParticipants();
+            for (int j = 0; j < Participants.size(); j++) {
+                if (Participants.get(j).getId() == 4) {
                     nomGroup.add(Groups.get(i));
                 }
             }
-            if(Groups.get(i).getOwner().getId()==4)
-            {
+            if (Groups.get(i).getOwner().getId() == 4) {
                 nomGroup.add(Groups.get(i));
             }
-        }return nomGroup;
+        }
+        return nomGroup;
     }
 
     @FXML
@@ -641,26 +636,25 @@ public class Controller extends Thread implements Initializable {
         conv.setVisible(false);
     }
 
-    public void GetMesgsbyConv(int id )
-    {
+    public void GetMesgsbyConv(int id) {
         MessageService msgService = new MessageService();
-        ArrayList<Message> msgs=msgService.getMessageByCon(msgService.getConversationById(id));
-        layout = new  VBox();
+        ArrayList<Message> msgs = msgService.getMessageByCon(msgService.getConversationById(id));
+        layout = new VBox();
         layout.setStyle("-fx-pref-width:145;");
 
-        for(int i=0;i<msgs.size();i++) {
+        for (int i = 0; i < msgs.size(); i++) {
             Message m = msgs.get(i);
             if (m.getSender().getId() != 4) {
-                HBox hbox=new HBox();
+                HBox hbox = new HBox();
                 Label SenderLaber = new Label(m.getSender().getUsername());
                 layout.getChildren().add(SenderLaber);
                 SenderLaber.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
-                Label ContenuLabel = new Label("  "+m.getContenu()+"  ");
+                Label ContenuLabel = new Label("  " + m.getContenu() + "  ");
 
                 ContenuLabel.setStyle("-fx-text-fill: black;-fx-background-radius : 2em;-fx-background-color:#DCDCDC;");
                 layout.getChildren().add(ContenuLabel);
 
-                langues(layout,m.getContenu());
+                langues(layout, m.getContenu());
 
 
                 Label DateLaber = new Label(m.getCreatedAt());
@@ -676,18 +670,17 @@ public class Controller extends Thread implements Initializable {
                 SenderLaber.setAlignment(Pos.BASELINE_RIGHT);
 
 
-            }else if(m.getSender().getId() == 4)
-            {
+            } else if (m.getSender().getId() == 4) {
 
                 Label SenderLaber = new Label("you");
                 SenderLaber.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
                 layout.getChildren().add(SenderLaber);
 
-                Label ContenuLabel = new Label("  "+m.getContenu()+"  ");
+                Label ContenuLabel = new Label("  " + m.getContenu() + "  ");
                 ContenuLabel.setStyle("-fx-text-fill: black;-fx-background-radius : 2em;-fx-background-color:blue;");
                 FontAwesomeIconView deleteIconMsg = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                 deleteIconMsg.setStyle("-fx-fill:#8B0000	;");
-                HBox hbox=new HBox(ContenuLabel,deleteIconMsg);
+                HBox hbox = new HBox(ContenuLabel, deleteIconMsg);
               /*  hbox.setPrefWidth(5);
                 hbox.setStyle("-fx-border-radius : 2em;-fx-background-color:blue;");*/
                 hbox.setAlignment(Pos.BASELINE_RIGHT);
@@ -699,7 +692,7 @@ public class Controller extends Thread implements Initializable {
                 //ContenuLabel.setPadding(new Insets(0, 0, 0, 50));
                 DateLaber.setPadding(new Insets(0, 0, 1, 30));
 
-                deletMsg(m,deleteIconMsg);
+                deletMsg(m, deleteIconMsg);
 
             }
         }
@@ -714,63 +707,58 @@ public class Controller extends Thread implements Initializable {
             public void handle(MouseEvent event) {
                 Stage primaryStage = new Stage();
                 Parent root = null;
-               // GrClicked = gr;
+                // GrClicked = gr;
                 try {
                     root = FXMLLoader.load(getClass().getResource("fxml/AddGroup.fxml"));
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                 }
-                primaryStage.setScene(new Scene( root));
+                primaryStage.setScene(new Scene(root));
                 primaryStage.show();
             }
         });
     }
 
-    public  void  SendMsg(int id)
-    {
-        MessageService MsgService =new MessageService();
-         Conversation c= MsgService.getConversationById(id);
+    public void SendMsg(int id) {
+        MessageService MsgService = new MessageService();
+        Conversation c = MsgService.getConversationById(id);
 
-         TfieldMessage.setStyle("-fx-text-fill:light;");
-         //Current User
-         User u = MsgService.getUserById(4);
-            if(TfieldMessage.getText().isEmpty())
-            {
-                MsgErrorInputMsg.setVisible(true);
-            }else
-                {
-                    String msg2 = TfieldMessage.getText();
-                    writer.println(u.getUsername() + "  " + msg2);
-                    afficheNotification(u.getUsername());
+        TfieldMessage.setStyle("-fx-text-fill:light;");
+        //Current User
+        User u = MsgService.getUserById(4);
+        if (TfieldMessage.getText().isEmpty()) {
+            MsgErrorInputMsg.setVisible(true);
+        } else {
+            String msg2 = TfieldMessage.getText();
+            writer.println(u.getUsername() + "  " + msg2);
+            afficheNotification(u.getUsername());
 
 
-                    MsgErrorInputMsg.setVisible(false);
-                    Message msg = new Message(TfieldMessage.getText(),c,u);
-                    MsgService.SendMsg(msg,c);
+            MsgErrorInputMsg.setVisible(false);
+            Message msg = new Message(TfieldMessage.getText(), c, u);
+            MsgService.SendMsg(msg, c);
 
-                    TfieldMessage.setText("");
-                     GetMesgsbyConv(id);
-                }
+            TfieldMessage.setText("");
+            GetMesgsbyConv(id);
+        }
     }
 
-    public void s(int id)
-    {
-        ImgSendMsg.setOnMouseClicked(event->{
-            System.out.println("yyy"+id);
-            SendMsg(id);});
+    public void s(int id) {
+        ImgSendMsg.setOnMouseClicked(event -> {
+            System.out.println("yyy" + id);
+            SendMsg(id);
+        });
     }
 
-    public void deleteGroup(Conversation conversation,FontAwesomeIconView icon)
-    {
-        GroupeChatService GrService= new GroupeChatService();
+    public void deleteGroup(Conversation conversation, FontAwesomeIconView icon) {
+        GroupeChatService GrService = new GroupeChatService();
 
-        icon.setOnMouseClicked(event->{
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        icon.setOnMouseClicked(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation Dialog");
-            alert.setContentText("Are you sure to delete Group "+conversation.getNom()+" ?");
-            Optional<ButtonType> action =alert.showAndWait();
-            if(action.get()== ButtonType.OK)
-            {
+            alert.setContentText("Are you sure to delete Group " + conversation.getNom() + " ?");
+            Optional<ButtonType> action = alert.showAndWait();
+            if (action.get() == ButtonType.OK) {
                 GrService.deleteGroup(conversation);
                 ListConversation(event);
             }
@@ -778,159 +766,157 @@ public class Controller extends Thread implements Initializable {
         });
     }
 
-    public void deletMsg(Message m,FontAwesomeIconView icon)
-    {
-        MessageService Servicemsg=new MessageService();
-       // imgDeletmsg.setVisible(true);
-        icon.setOnMouseClicked(event->{
+    public void deletMsg(Message m, FontAwesomeIconView icon) {
+        MessageService Servicemsg = new MessageService();
+        // imgDeletmsg.setVisible(true);
+        icon.setOnMouseClicked(event -> {
             Servicemsg.deleteMessage(m);
             GetMesgsbyConv(m.getConversation().getId());
         });
     }
 
-public void langues (VBox vbox,String ContenuMsg)
-{
-       HashMap<String ,String >  l=new HashMap<>();
-       ComboBox langue = new ComboBox();
-         l.put("Afrikaans","af");
-         l.put( "Arabic" ,"ar");
-         l.put(  "Azerbaijani","az");
-        l.put( "Belarusian","be");
-        l.put(  "Bulgarian","bg");
-        l.put( "Bengali","bn" );
-        l.put( "Bosnian","bs" );
-        l.put( "Catalan","ca");
-        l.put( "Cebuano","ceb");
-        l.put( "Czech","cs");
-        l.put("Welsh","cy" );
-        l.put( "Danish","da");
+    public void langues(VBox vbox, String ContenuMsg) {
+        HashMap<String, String> l = new HashMap<>();
+        ComboBox langue = new ComboBox();
+        l.put("Afrikaans", "af");
+        l.put("Arabic", "ar");
+        l.put("Azerbaijani", "az");
+        l.put("Belarusian", "be");
+        l.put("Bulgarian", "bg");
+        l.put("Bengali", "bn");
+        l.put("Bosnian", "bs");
+        l.put("Catalan", "ca");
+        l.put("Cebuano", "ceb");
+        l.put("Czech", "cs");
+        l.put("Welsh", "cy");
+        l.put("Danish", "da");
         l.put("German", "de");
-        l.put( "Greek","el");
-        l.put("English","en" );
-        l.put("Esperanto","eo" );
-        l.put("Spanish","es");
-        l.put( "Estonian","et");
-        l.put("Basque","eu" );
-        l.put( "Persian","fa");
-        l.put( "Finnish","fi");
-        l.put( "French","fr");
-        l.put("Irish","ga" );
-        l.put(  "Galician","gl");
-        l.put( "Gujarati","gu" );
-        l.put( "Hausa", "ha");
-        l.put( "Hindi","hi");
-        l.put("Hmong","hmn" );
-        l.put("Croatian","hr" );
-        l.put( "Haitian Creole","ht");
-        l.put("Hungarian","hu" );
-        l.put("Armenian","hy" );
-        l.put( "Indonesian","id");
-        l.put("Igbo","ig" );
-        l.put("Icelandic","is");
-        l.put( "Italian","it");
-        l.put("Hebrew","iw" );
-        l.put( "Japanese","ja");
-        l.put("Javanese","jw");
-        l.put( "Georgian","ka");
-        l.put( "Kazakh","kk");
-        l.put("Khmer","km" );
-        l.put("Kannada","kn" );
-        l.put( "Korean","ko");
-        l.put("Latin","la" );
-        l.put("Lao","lo" );
-        l.put( "Lithuanian","lt");
-        l.put("Latvian","lv" );
-        l.put(  "Punjabi","ma");
-        l.put( "Malagasy","mg" );
-        l.put( "Maori","mi");
-        l.put("Macedonian","mk");
-        l.put( "Malayalam","ml");
-        l.put( "Mongolian","mn");
-        l.put( "Marathi","mr");
-        l.put( "Malay","ms");
-        l.put( "Maltese","mt");
-        l.put( "Myanmar (Burmese)","my");
-        l.put( "Nepali","ne");
-        l.put( "Dutch","nl");
-        l.put( "Norwegian","no");
-        l.put( "Chichewa","ny");
-        l.put( "Polish", "pl");
-        l.put("Portuguese","pt");
-        l.put( "Romanian","ro");
-        l.put( "Russian" ,"ru");
-        l.put("Sinhala" ,"si" );
-        l.put( "Slovak","sk" );
-        l.put( "Slovenian", "sl");
-        l.put( "Somali","so");
-        l.put( "Albanian", "sq");
-        l.put("Serbian","sr");
-        l.put( "Sesotho","st");
-        l.put( "Sudanese","su");
-        l.put( "Swedish","sv");
-        l.put("Swahili","sw");
-        l.put( "Tamil","ta");
-        l.put( "Telugu","te");
-        l.put(  "Tajik","tg");
-        l.put("Thai","th" );
-        l.put( "Filipino","tl");
-        l.put("Turkish","tr" );
-        l.put("Ukrainian","uk");
-        l.put( "Urdu", "ur");
-        l.put("Uzbek","uz");
-        l.put("Vietnamese","vi");
-        l.put( "Yiddish","yi");
-        l.put( "Yoruba","yo");
-        l.put("Chinese Simplified","zh-CN");
-        l.put( "Chinese Traditional","zh-TW");
-        l.put("Zulu","zu");
- ArrayList<String> k= new ArrayList<>();
-    l.entrySet().stream().forEach(e -> {
-       k.add(e.getKey());
-    });
-    ObservableList<String> listlang= FXCollections.observableArrayList(k);
-    langue.setItems(listlang);
-    vbox.getChildren().add(langue);
-          langue.setStyle("-fx-background-color:#BDB76B;-fx-font-weight:bold;-fx-text-fill:black");
-          langue.setPrefWidth(80);
+        l.put("Greek", "el");
+        l.put("English", "en");
+        l.put("Esperanto", "eo");
+        l.put("Spanish", "es");
+        l.put("Estonian", "et");
+        l.put("Basque", "eu");
+        l.put("Persian", "fa");
+        l.put("Finnish", "fi");
+        l.put("French", "fr");
+        l.put("Irish", "ga");
+        l.put("Galician", "gl");
+        l.put("Gujarati", "gu");
+        l.put("Hausa", "ha");
+        l.put("Hindi", "hi");
+        l.put("Hmong", "hmn");
+        l.put("Croatian", "hr");
+        l.put("Haitian Creole", "ht");
+        l.put("Hungarian", "hu");
+        l.put("Armenian", "hy");
+        l.put("Indonesian", "id");
+        l.put("Igbo", "ig");
+        l.put("Icelandic", "is");
+        l.put("Italian", "it");
+        l.put("Hebrew", "iw");
+        l.put("Japanese", "ja");
+        l.put("Javanese", "jw");
+        l.put("Georgian", "ka");
+        l.put("Kazakh", "kk");
+        l.put("Khmer", "km");
+        l.put("Kannada", "kn");
+        l.put("Korean", "ko");
+        l.put("Latin", "la");
+        l.put("Lao", "lo");
+        l.put("Lithuanian", "lt");
+        l.put("Latvian", "lv");
+        l.put("Punjabi", "ma");
+        l.put("Malagasy", "mg");
+        l.put("Maori", "mi");
+        l.put("Macedonian", "mk");
+        l.put("Malayalam", "ml");
+        l.put("Mongolian", "mn");
+        l.put("Marathi", "mr");
+        l.put("Malay", "ms");
+        l.put("Maltese", "mt");
+        l.put("Myanmar (Burmese)", "my");
+        l.put("Nepali", "ne");
+        l.put("Dutch", "nl");
+        l.put("Norwegian", "no");
+        l.put("Chichewa", "ny");
+        l.put("Polish", "pl");
+        l.put("Portuguese", "pt");
+        l.put("Romanian", "ro");
+        l.put("Russian", "ru");
+        l.put("Sinhala", "si");
+        l.put("Slovak", "sk");
+        l.put("Slovenian", "sl");
+        l.put("Somali", "so");
+        l.put("Albanian", "sq");
+        l.put("Serbian", "sr");
+        l.put("Sesotho", "st");
+        l.put("Sudanese", "su");
+        l.put("Swedish", "sv");
+        l.put("Swahili", "sw");
+        l.put("Tamil", "ta");
+        l.put("Telugu", "te");
+        l.put("Tajik", "tg");
+        l.put("Thai", "th");
+        l.put("Filipino", "tl");
+        l.put("Turkish", "tr");
+        l.put("Ukrainian", "uk");
+        l.put("Urdu", "ur");
+        l.put("Uzbek", "uz");
+        l.put("Vietnamese", "vi");
+        l.put("Yiddish", "yi");
+        l.put("Yoruba", "yo");
+        l.put("Chinese Simplified", "zh-CN");
+        l.put("Chinese Traditional", "zh-TW");
+        l.put("Zulu", "zu");
+        ArrayList<String> k = new ArrayList<>();
+        l.entrySet().stream().forEach(e -> {
+            k.add(e.getKey());
+        });
+        ObservableList<String> listlang = FXCollections.observableArrayList(k);
+        langue.setItems(listlang);
+        vbox.getChildren().add(langue);
+        langue.setStyle("-fx-background-color:#BDB76B;-fx-font-weight:bold;-fx-text-fill:black");
+        langue.setPrefWidth(80);
 
-     FontAwesomeIconView traductionIcon = new FontAwesomeIconView(FontAwesomeIcon.EXCHANGE);
-   traductionIcon.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            String langSelected =langue.getSelectionModel().getSelectedItem().toString();
-            System.out.println("lang selecte"+langSelected);
-            String ToLangue=l.get(langSelected);
-            System.out.println("value de key"+ToLangue);
-            Label tr = new Label();
-            tr.setStyle("-fx-font-weight:bold;-fx-text-fill: purple");
-            vbox.getChildren().add(tr);
-            try {
-                Controller.translate(fromLang,ToLangue, ContenuMsg,tr);
-            } catch (Exception e) {
-                e.printStackTrace();
+        FontAwesomeIconView traductionIcon = new FontAwesomeIconView(FontAwesomeIcon.EXCHANGE);
+        traductionIcon.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                String langSelected = langue.getSelectionModel().getSelectedItem().toString();
+                System.out.println("lang selecte" + langSelected);
+                String ToLangue = l.get(langSelected);
+                System.out.println("value de key" + ToLangue);
+                Label tr = new Label();
+                tr.setStyle("-fx-font-weight:bold;-fx-text-fill: purple");
+                vbox.getChildren().add(tr);
+                try {
+                    Controller.translate(fromLang, ToLangue, ContenuMsg, tr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
-    });
-    vbox.getChildren().add(traductionIcon);
+        });
+        vbox.getChildren().add(traductionIcon);
 
-}
-    @Deprecated
-    public void afficheNotification( String user ) {
-        ImageView img = new ImageView("file:C:\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\newMessage.png");
-       img.setFitHeight(65);
-       img.setFitWidth(80);
-        Notifications notificationBuilder = Notifications.create()
-                .title("Cryfty")
-                .text("You have a new message from "+user)
-                .graphic((img))
-                .hideAfter(Duration.seconds(7))
-                .position(Pos.BOTTOM_RIGHT)
-                ;
-        notificationBuilder.darkStyle();
-              notificationBuilder.show();
     }
 
-    public void createView(){
+    @Deprecated
+    public void afficheNotification(String user) {
+        ImageView img = new ImageView("file:C:\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\newMessage.png");
+        img.setFitHeight(65);
+        img.setFitWidth(80);
+        Notifications notificationBuilder = Notifications.create()
+                .title("Cryfty")
+                .text("You have a new message from " + user)
+                .graphic((img))
+                .hideAfter(Duration.seconds(7))
+                .position(Pos.BOTTOM_RIGHT);
+        notificationBuilder.darkStyle();
+        notificationBuilder.show();
+    }
+
+    public void createView() {
         NftService nftService = new NftService();
         List<Nft> nfts = nftService.showNfts();
         Node[] nodes = new Node[nfts.size()];
@@ -953,6 +939,7 @@ public void langues (VBox vbox,String ContenuMsg)
                 nodes[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
+                        System.out.println(nfts.get(finalI));
                         nftClicked = nfts.get(finalI);
                         Node node = nodes[finalI];
                         try {
@@ -960,8 +947,8 @@ public void langues (VBox vbox,String ContenuMsg)
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
                         }
-                        pnlItem.getChildren().clear();
-                        pnlItem.getChildren().add(node);
+                        pnlHome.getChildren().clear();
+                        pnlHome.getChildren().add(node);
                     }
                 });
             } catch (IOException e) {
@@ -974,33 +961,33 @@ public void langues (VBox vbox,String ContenuMsg)
         TableView<Category> tableView = new TableView<>();
         tableView.setEditable(true);
         tableView.setStyle("-fx-background-color: transparent;");
-        TableColumn<Category,String> name = new TableColumn("Name");
+        TableColumn<Category, String> name = new TableColumn("Name");
         name.setPrefWidth(300);
         name.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<Category, LocalDateTime> creationDate = new TableColumn("Creation Date");
         creationDate.setPrefWidth(200);
         creationDate.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
-        TableColumn<Category,String> nbrNfts = new TableColumn("Number of Nfts");
+        TableColumn<Category, String> nbrNfts = new TableColumn("Number of Nfts");
         nbrNfts.setPrefWidth(150);
         nbrNfts.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
-        TableColumn<Category,String> nbrSubCat = new TableColumn("Number of subCategories");
+        TableColumn<Category, String> nbrSubCat = new TableColumn("Number of subCategories");
         nbrSubCat.setPrefWidth(150);
         nbrSubCat.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
-        TableColumn<Category,Void> delete = new TableColumn<>("Delete");
+        TableColumn<Category, Void> delete = new TableColumn<>("Delete");
         delete.setPrefWidth(200);
         delete.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-alignment: CENTER;");
         delete.setResizable(false);
 
-        tableView.getColumns().addAll(name,creationDate,nbrNfts,nbrSubCat,delete);
+        tableView.getColumns().addAll(name, creationDate, nbrNfts, nbrSubCat, delete);
 
         name.setCellValueFactory(new PropertyValueFactory<>("Name"));
-        name.setCellFactory(TextFieldTableCell.<Category> forTableColumn());
+        name.setCellFactory(TextFieldTableCell.<Category>forTableColumn());
         name.setOnEditCommit((TableColumn.CellEditEvent<Category, String> event) -> {
             TablePosition<Category, String> pos = event.getTablePosition();
             String newName = event.getNewValue();
             int row = pos.getRow();
             Category category = event.getTableView().getItems().get(row);
-            if(!newName.isEmpty()){
+            if (!newName.isEmpty()) {
                 CategoryService categoryService = new CategoryService();
                 category.setName(newName);
                 categoryService.updateCategory(category);
@@ -1010,13 +997,13 @@ public void langues (VBox vbox,String ContenuMsg)
         creationDate.setCellFactory(column -> {
             TableCell<Category, LocalDateTime> cell = new TableCell<Category, LocalDateTime>() {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm");
+
                 @Override
                 protected void updateItem(LocalDateTime item, boolean empty) {
                     super.updateItem(item, empty);
-                    if(empty) {
+                    if (empty) {
                         setText(null);
-                    }
-                    else {
+                    } else {
                         item = getTableView().getItems().get(getIndex()).getCreationDate();
                         setText(item.format(formatter));
                     }
@@ -1039,11 +1026,10 @@ public void langues (VBox vbox,String ContenuMsg)
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Category category = getTableView().getItems().get(getIndex());
-                            if(category.getNbrSubCategories() ==0 && category.getNbrNfts() ==0 ){
+                            if (category.getNbrSubCategories() == 0 && category.getNbrNfts() == 0) {
                                 CategoryService categoryService = new CategoryService();
                                 categoryService.deleteCategory(category);
-                            }
-                            else{
+                            } else {
                                 Alert alert = new Alert(Alert.AlertType.WARNING);
                                 alert.setTitle("Error");
                                 alert.setHeaderText("You can't delete this Category because it contains Products/SubCategories");
@@ -1070,13 +1056,13 @@ public void langues (VBox vbox,String ContenuMsg)
         ObservableList<Category> list = FXCollections.observableArrayList();
         CategoryService categoryService = new CategoryService();
         List<Category> categories = categoryService.showCategories();
-        for(int i=0; i<categories.size();i++){
+        for (int i = 0; i < categories.size(); i++) {
             list.add(categories.get(i));
         }
         tableView.setItems(list);
         tableView.setPrefHeight(344);
         tableView.setPrefWidth(1020);
-        tableView.setMaxSize(1020,180);
+        tableView.setMaxSize(1020, 180);
         tableView.setFixedCellSize(40);
         tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 
@@ -1084,32 +1070,32 @@ public void langues (VBox vbox,String ContenuMsg)
         tableView.setLayoutY(75);
     }
 
-    public void initiateSubCategories(){
+    public void initiateSubCategories() {
         TableView<SubCategory> tableView = new TableView<SubCategory>();
         tableView.setEditable(true);
         tableView.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
-        TableColumn<SubCategory,String> name = new TableColumn("Name");
+        TableColumn<SubCategory, String> name = new TableColumn("Name");
         name.setPrefWidth(300);
         name.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-selection-bar: red;");
         TableColumn<SubCategory, LocalDateTime> creationDate = new TableColumn("Creation Date");
         creationDate.setPrefWidth(200);
         creationDate.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
-        TableColumn<SubCategory,String> nbrNfts = new TableColumn("Number of Nfts");
+        TableColumn<SubCategory, String> nbrNfts = new TableColumn("Number of Nfts");
         nbrNfts.setPrefWidth(150);
         nbrNfts.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
         TableColumn<SubCategory, String> category = new TableColumn<SubCategory, String>("Category");
         category.setPrefWidth(150);
         category.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171;");
 
-        TableColumn<SubCategory,Void> delete = new TableColumn<>("Delete");
+        TableColumn<SubCategory, Void> delete = new TableColumn<>("Delete");
         delete.setPrefWidth(200);
         delete.setStyle("-fx-background-color: #02030A; -fx-text-fill: white; -fx-border-color: #4e7171; -fx-alignment: CENTER;");
         delete.setResizable(false);
 
-        tableView.getColumns().addAll(name,creationDate,nbrNfts,category,delete);
+        tableView.getColumns().addAll(name, creationDate, nbrNfts, category, delete);
 
         name.setCellValueFactory(new PropertyValueFactory<>("Name"));
-        name.setCellFactory(TextFieldTableCell.<SubCategory> forTableColumn());
+        name.setCellFactory(TextFieldTableCell.<SubCategory>forTableColumn());
 
         name.setOnEditCommit((TableColumn.CellEditEvent<SubCategory, String> event) -> {
             TablePosition<SubCategory, String> pos = event.getTablePosition();
@@ -1117,7 +1103,7 @@ public void langues (VBox vbox,String ContenuMsg)
 
             int row = pos.getRow();
             SubCategory subCategory = event.getTableView().getItems().get(row);
-            if(!newName.isEmpty()){
+            if (!newName.isEmpty()) {
                 SubCategoryService subCategoryService = new SubCategoryService();
                 subCategory.setName(newName);
                 subCategoryService.updateSubCategory(subCategory);
@@ -1127,13 +1113,13 @@ public void langues (VBox vbox,String ContenuMsg)
         creationDate.setCellFactory(column -> {
             TableCell<SubCategory, LocalDateTime> cell = new TableCell<SubCategory, LocalDateTime>() {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm");
+
                 @Override
                 protected void updateItem(LocalDateTime item, boolean empty) {
                     super.updateItem(item, empty);
-                    if(empty) {
+                    if (empty) {
                         setText(null);
-                    }
-                    else {
+                    } else {
                         item = getTableView().getItems().get(getIndex()).getCreationDate();
                         setText(item.format(formatter));
                     }
@@ -1146,7 +1132,7 @@ public void langues (VBox vbox,String ContenuMsg)
         CategoryService categoryService = new CategoryService();
         List<Category> categoryList = categoryService.showCategories();
         String[] categoryNames = new String[categoryList.size()];
-        for (int i=0; i<categoryList.size();i++){
+        for (int i = 0; i < categoryList.size(); i++) {
             categoryNames[i] = categoryList.get(i).getName();
         }
 
@@ -1169,7 +1155,7 @@ public void langues (VBox vbox,String ContenuMsg)
 
             int row = pos.getRow();
             SubCategory subCategory = event.getTableView().getItems().get(row);
-            if(!newName.isEmpty()){
+            if (!newName.isEmpty()) {
                 SubCategoryService subCategoryService = new SubCategoryService();
                 Category cat = categoryService.findCategoryByName(newName);
                 subCategory.setCategory(cat);
@@ -1186,11 +1172,10 @@ public void langues (VBox vbox,String ContenuMsg)
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             SubCategory subCategory = getTableView().getItems().get(getIndex());
-                            if(subCategory.getNbrNfts()==0){
+                            if (subCategory.getNbrNfts() == 0) {
                                 SubCategoryService subCategoryService = new SubCategoryService();
                                 subCategoryService.deleteSubCategory(subCategory);
-                            }
-                            else{
+                            } else {
                                 Alert alert = new Alert(Alert.AlertType.WARNING);
                                 alert.setTitle("Error");
                                 alert.setHeaderText("You can't delete this SubCategory because it contains Products");
@@ -1200,6 +1185,7 @@ public void langues (VBox vbox,String ContenuMsg)
 
                         });
                     }
+
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -1218,13 +1204,13 @@ public void langues (VBox vbox,String ContenuMsg)
         ObservableList<SubCategory> list = FXCollections.observableArrayList();
         SubCategoryService subCategoryService = new SubCategoryService();
         List<SubCategory> subCategories = subCategoryService.showSubCategories();
-        for(int i=0; i<subCategories.size();i++){
+        for (int i = 0; i < subCategories.size(); i++) {
             list.add(subCategories.get(i));
         }
         tableView.setItems(list);
         tableView.setPrefHeight(344);
         tableView.setPrefWidth(1020);
-        tableView.setMaxSize(1020,180);
+        tableView.setMaxSize(1020, 180);
         tableView.setFixedCellSize(40);
         tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 
@@ -1233,3 +1219,4 @@ public void langues (VBox vbox,String ContenuMsg)
     }
 
 }
+

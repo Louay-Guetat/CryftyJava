@@ -132,7 +132,7 @@ public class TransactionService {
                 wallet.setWalletLabel(rs.getString("wallet_label"));
                 wallet.setWalletAddress(rs.getString("wallet_address"));
                 wallet.setBalance(rs.getDouble("balance"));
-                wallet.setMain(rs.getBoolean("is_main"));
+                wallet.setIsMain(rs.getBoolean("is_main"));
                 wallet.setNode(nodeService.getNodeById(rs.getInt("node_id_id")));
                 walletEntities.add(wallet);
             }
