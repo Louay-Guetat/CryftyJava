@@ -1,4 +1,4 @@
-package edu.esprit.cryfty.entity;
+package edu.esprit.cryfty.entity.User;
 
 public class User {
     public int id;
@@ -9,10 +9,10 @@ public class User {
     public User() {
     }
 
-    public User(int id,String username, String roles, String password){
+    public User(int id,String username, String password){
         this.id = id;
         this.username = username;
-        this.roles= roles;
+
         this.password = password;
     }
 

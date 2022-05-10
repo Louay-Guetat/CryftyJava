@@ -1,5 +1,7 @@
 package edu.esprit.cryfty.entity;
 
+import edu.esprit.cryfty.entity.User.Client;
+
 import java.util.ArrayList;
 import java.util.Objects;
 

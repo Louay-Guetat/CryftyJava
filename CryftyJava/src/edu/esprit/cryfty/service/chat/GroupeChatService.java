@@ -1,6 +1,6 @@
 package edu.esprit.cryfty.service.chat;
 
-import edu.esprit.cryfty.entity.*;
+import edu.esprit.cryfty.entity.User.User;
 import edu.esprit.cryfty.entity.chat.Conversation;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
 import edu.esprit.cryfty.utils.DataSource;
@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class GroupeChatService {
     /* UserService userService;

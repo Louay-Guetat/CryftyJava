@@ -1,18 +1,12 @@
 package edu.esprit.cryfty.service.payment;
 
-import edu.esprit.cryfty.entity.*;
 import edu.esprit.cryfty.entity.Nft.Nft;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.payment.Cart;
 import edu.esprit.cryfty.utils.DataSource;
 
-import javax.net.ssl.ExtendedSSLSession;
-import java.io.Console;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Properties;
 
 public class CartService {
     public static ArrayList<Nft> nfts=new ArrayList<>();

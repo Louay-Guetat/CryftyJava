@@ -1,6 +1,6 @@
 package edu.esprit.cryfty.service.chat;
 
-import edu.esprit.cryfty.entity.User;
+import edu.esprit.cryfty.entity.User.User;
 import edu.esprit.cryfty.entity.chat.Conversation;
 import edu.esprit.cryfty.entity.chat.PrivateChat;
 import edu.esprit.cryfty.utils.DataSource;

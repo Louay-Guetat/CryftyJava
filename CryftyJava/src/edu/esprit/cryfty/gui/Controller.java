@@ -52,6 +52,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        pnlOverview.setVisible(false);
         Node[] nodes = new Node[10];
         for (int i = 0; i < nodes.length; i++) {
             try {
@@ -76,7 +77,7 @@ public class Controller implements Initializable {
     }
 
 
-    public void handleClicks(ActionEvent actionEvent) {
+    public void handleClicks(ActionEvent actionEvent) throws IOException {
         if (actionEvent.getSource() == btnCustomers) {
             pnlCustomer.setStyle("-fx-background-color : #1620A1");
             pnlCustomer.toFront();
@@ -91,8 +92,10 @@ public class Controller implements Initializable {
         }
         if(actionEvent.getSource()==btnOrders)
         {
-            pnlOrders.setStyle("-fx-background-color : #464F67");
+            pnlOrders.setStyle("fx-background-color: #02030A");
             pnlOrders.toFront();
+            Node n1=FXMLLoader.load(getClass().getResource("fxml/reclamation.fxml"));
+            pnlOrders.getChildren().add(n1);
         }
     }
 }

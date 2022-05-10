@@ -1,4 +1,4 @@
-package edu.esprit.cryfty.entity;
+package edu.esprit.cryfty.entity.User;
 
 import java.util.Objects;
 
@@ -16,9 +16,9 @@ public class Client extends User {
     public Client() {
     }
 
-    public Client(int id,String username, String roles,String password,String firstName, String lastName,
+    public Client(int id,String username,String password,String firstName, String lastName,
                   String email, int phoneNumber, int age, String address,String avatar,String couverture) {
-        super(id,username,roles,password);
+        super(id,username,password);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

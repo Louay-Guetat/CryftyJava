@@ -1,6 +1,6 @@
 package edu.esprit.cryfty.entity.payment;
 
-import edu.esprit.cryfty.entity.Client;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.Nft.Nft;
 
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
 package edu.esprit.cryfty.service.Nft;
 
-import edu.esprit.cryfty.entity.Client;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
-import edu.esprit.cryfty.service.ClientService;
+import edu.esprit.cryfty.service.user.ClientService;
 import edu.esprit.cryfty.utils.DataSource;
 
 import java.sql.PreparedStatement;

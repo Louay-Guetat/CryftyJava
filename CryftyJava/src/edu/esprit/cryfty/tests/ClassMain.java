@@ -1,11 +1,15 @@
 package edu.esprit.cryfty.tests;
 
-import edu.esprit.cryfty.entity.Client;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.entity.Node;
+import edu.esprit.cryfty.entity.User.Reclamation;
 import edu.esprit.cryfty.service.Nft.NftService;
+import edu.esprit.cryfty.service.user.ClientService;
+import edu.esprit.cryfty.service.user.ReclamationService;
+import org.omg.CORBA.SystemException;
 
 import java.util.Date;
 
@@ -33,13 +37,18 @@ public class ClassMain {
         NftCommentService commentSrv = new NftCommentService();
         System.out.println(commentSrv.showCommentsByNft(nft));*/
 
-        /*Client cl = new Client(1,"username","[\"ROLE_USER\"]","123456","Louay","Guetat","hhhh@gmail.com",55160398,24,"hhhh","h","h");
-        ClientService clientSrv = new ClientService();
-        clientSrv.addClient(cl);*/
+       // Client cl = new Client(1,"username","[\"ROLE_USER\"]","123456","Louay","Guetat","hhhh@gmail.com",55160398,24,"hhhh","h","h");
+        //ClientService clientSrv = new ClientService();
+        //clientSrv.addClient(cl);
 
-        Nft nft = new Nft(25,"","testUpdate","testDescrption",(float)13.0,nd,ct,subCt,client,now,0);
-        NftService nftSrv = new NftService();
-        System.out.println(nftSrv.showNfts());
-
+        //Nft nft = new Nft(25,"","testUpdate","testDescrption",(float)13.0,nd,ct,subCt,client,now,0);
+        //NftService nftSrv = new NftService();
+        //System.out.println(nftSrv.showNfts());
+        //ReclamationService pcd =new ReclamationService();
+        //Reclamation r2 = new Reclamation("test","aaaa","bbbb","cccc");
+        //pcd.addReclamation(r2);
+        //System.out.println(pcd.showReclamations());
+        ClientService sc = new ClientService();
+        sc.verifPassword("adadd", "aaaaa");
     }
 }

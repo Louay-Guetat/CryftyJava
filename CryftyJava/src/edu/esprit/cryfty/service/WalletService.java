@@ -1,6 +1,7 @@
 package edu.esprit.cryfty.service;
 
 import edu.esprit.cryfty.entity.Wallet;
+import edu.esprit.cryfty.service.user.ClientService;
 import edu.esprit.cryfty.utils.DataSource;
 
 import java.sql.ResultSet;
