@@ -12,8 +12,11 @@ import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import edu.esprit.cryfty.entity.Nft.Nft;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.payment.Transaction;
 import edu.esprit.cryfty.service.payment.TransactionService;
+import edu.esprit.cryfty.service.user.ClientService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -110,7 +113,10 @@ public class AffichetransactionController implements Initializable {
 
                         PDFIcon.setOnMouseClicked((MouseEvent event) -> {
                             Transaction transaction= TableTransaction.getSelectionModel().getSelectedItem();
-                            if(pdfGen(transaction.getId(),transaction.getWallets().getWalletAddress(),transaction.getCartId().getTotal(),transaction.getDatetransaction(),transaction.getCartId().getClientId().getFirstName(),transaction.getCartId().getClientId().getLastName(),transaction.getCartId().getClientId().getAddress(),transaction.getCartId().getClientId().getPhoneNumber()))
+                            ClientService clientService = new ClientService();
+                            Client client = clientService.getClientByIdTransaction(Session.getInstance().getCurrentUser().getId());
+                            System.out.println(client);
+                            if(pdfGen(transaction.getId(),transaction.getWallets().getWalletAddress(),transaction.getCartId().getTotal(),transaction.getDatetransaction(),client.getFirstName(),client.getLastName(),client.getAddress(),client.getPhoneNumber()))
                             {
                                 Alert alert=new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Success");
@@ -138,8 +144,8 @@ public class AffichetransactionController implements Initializable {
             return cell;
         };
         pdfBtn.setCellFactory(cellFoctory);
-        System.out.println(transactionService.getTransactionsByClient(1));
-        TableTransaction.setItems(transactionService.getTransactionsByClient(1));
+        System.out.println(transactionService.getTransactionsByClient(Session.getInstance().getCurrentUser().getId()));
+        TableTransaction.setItems(transactionService.getTransactionsByClient(Session.getInstance().getCurrentUser().getId()));
         ObservableList<TableColumn<Transaction, ?>> listT=TableTransaction.getColumns();
         for (int i=0;i<listT.size();i++)
         {
@@ -152,7 +158,7 @@ public class AffichetransactionController implements Initializable {
 
         TransactionService transactionService=new TransactionService();
         // Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<Transaction> filteredData = new FilteredList<>(transactionService.getTransactionsByClient(1), b -> true);
+        FilteredList<Transaction> filteredData = new FilteredList<>(transactionService.getTransactionsByClient(Session.getInstance().getCurrentUser().getId()), b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
         searchId.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -187,7 +193,7 @@ public class AffichetransactionController implements Initializable {
         boolean test=false;
         try {
             Document document = new Document();
-            OutputStream file = new FileOutputStream(new File("C:\\Users\\Siam Info\\Desktop\\JavaFinal\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\Downloads\\Test.pdf"));
+            OutputStream file = new FileOutputStream(new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\Downloads\\Test.pdf"));
             PdfWriter writer=PdfWriter.getInstance(document, file);
             /*Document document2 = new Document();
             OutputStream file2 = new FileOutputStream(new File("C:\\Users\\Siam Info\\Desktop\\JavaFinal\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\Downloads\\qr.pdf"));
@@ -204,7 +210,7 @@ public class AffichetransactionController implements Initializable {
                                          structure.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
                                      }
                                  });
-                Image front = Image.getInstance("C:\\Users\\Siam Info\\Desktop\\JavaFinal\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\logo.png");
+                Image front = Image.getInstance("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\logo.png");
             document.open();
             front.scaleAbsolute(100,100);
             document.add(front);
@@ -213,7 +219,7 @@ public class AffichetransactionController implements Initializable {
             Phrase title=new Phrase("                                    FACTURE n° #00"+String.valueOf(ref)+"00 \n \n \n",f);
             document.add(title);
 
-            Font fnomcl=new Font(Font.FontFamily.UNDEFINED, 11, BOLD,BaseColor.BLACK);
+            Font fnomcl = new Font(Font.FontFamily.UNDEFINED, 11, BOLD,BaseColor.BLACK);
 
             document.add(new Phrase("Nom du client : ",fnomcl));
             document.add(new Phrase(nom+" "+prenom+"\n"));

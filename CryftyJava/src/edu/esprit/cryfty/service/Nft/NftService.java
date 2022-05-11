@@ -1,11 +1,11 @@
 package edu.esprit.cryfty.service.Nft;
 
-import edu.esprit.cryfty.entity.Client;
 import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
-import edu.esprit.cryfty.service.ClientService;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.service.NodeService;
+import edu.esprit.cryfty.service.user.ClientService;
 import edu.esprit.cryfty.utils.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +17,6 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 public class NftService {
 

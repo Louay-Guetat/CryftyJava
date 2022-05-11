@@ -1,37 +1,25 @@
 package edu.esprit.cryfty.service.payment;
 
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import edu.esprit.cryfty.entity.Block;
-import edu.esprit.cryfty.entity.Client;
 import edu.esprit.cryfty.entity.Nft.Nft;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.Wallet;
 import edu.esprit.cryfty.entity.payment.Cart;
 import edu.esprit.cryfty.entity.payment.Transaction;
-import edu.esprit.cryfty.service.ClientService;
 import edu.esprit.cryfty.service.Nft.NftService;
 import edu.esprit.cryfty.service.NodeService;
 import edu.esprit.cryfty.service.WalletService;
+import edu.esprit.cryfty.service.user.ClientService;
 import edu.esprit.cryfty.utils.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import com.itextpdf.text.Document;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Observable;
 
 
 public class TransactionService {
@@ -58,8 +46,9 @@ public class TransactionService {
         }
         return cart.get(0);
     }
-    public ArrayList<Transaction> getTransactions(){
-        ArrayList<Transaction> transactionEntities = new ArrayList();
+
+    public ObservableList<Transaction> getTransactions(){
+        ObservableList<Transaction> transactionEntities= FXCollections.observableArrayList();
         String request = "SELECT * FROM transaction";
         try{
             Statement st = DataSource.getInstance().getCnx().createStatement();
@@ -67,10 +56,9 @@ public class TransactionService {
             while(rs.next()){
                 Transaction transaction= new Transaction();
                 transaction.setId(rs.getInt(1));
+                transaction.setCartId(getCart2ById(rs.getInt("cart_id_id")));
+                transaction.setWallets(getwalletId(rs.getInt("wallets_id")));
                 transaction.setDatetransaction(rs.getDate(4));
-                //System.out.println(getCartById(rs.getInt("cart_id_id")));
-                //transaction.setCartId(getCartById(rs.getInt("cart_id_id")));
-                transaction.setCartId(getCartById(rs.getInt("cart_id_id")));
                 transactionEntities.add(transaction);
             }
         }catch(SQLException ex){

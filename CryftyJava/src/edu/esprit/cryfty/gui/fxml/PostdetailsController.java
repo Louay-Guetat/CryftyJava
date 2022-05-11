@@ -8,6 +8,7 @@ import edu.esprit.cryfty.entity.blogs.BlogComment;
 import edu.esprit.cryfty.entity.blogs.BlogRating;
 import edu.esprit.cryfty.service.blogs.BlogRatingService;
 import edu.esprit.cryfty.service.blogs.BlogsCommentsService;
+import edu.esprit.cryfty.service.user.Session;
 import edu.esprit.cryfty.utils.DataSource;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -45,7 +46,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static edu.esprit.cryfty.gui.Main.currentUser;
 import static edu.esprit.cryfty.gui.fxml.ItemBController.Posta;
 import static edu.esprit.cryfty.gui.fxml.ItemBController.ayja;
 
@@ -110,7 +110,7 @@ public class PostdetailsController implements Initializable {
         BlogRating ratchek=null;
         int k=0;
         while ((check==false)&&(k< ratings.size())){
-            if (currentUser.getId() == ratings.get(k).getUser().getId()) {
+            if (Session.getInstance().getCurrentUser().getId() == ratings.get(k).getUser().getId()) {
                 ratchek=ratings.get(k);
                 check= true;
 
@@ -124,7 +124,7 @@ public class PostdetailsController implements Initializable {
 
         //  rating.setRating(4);
         try {
-            FileInputStream inputstream = new FileInputStream("C:\\Users\\med amine ben lazrak\\Desktop\\javaaaa\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs\\"+Posta.getImage());
+            FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs\\"+Posta.getImage());
            System.out.println(ayja);
             Image image = new Image(inputstream);
             imNft.setImage(image);
@@ -207,7 +207,7 @@ public class PostdetailsController implements Initializable {
             articleComment.setArticle(Posta);
             Date now = new Date();
             articleComment.setPostDate(now);
-            articleComment.setUser(currentUser);
+            articleComment.setUser(Session.getInstance().getCurrentUser());
             articleCommentService.addComment(articleComment);
 
         }
@@ -253,7 +253,7 @@ public class PostdetailsController implements Initializable {
             PdfWriter.getInstance(doc, new FileOutputStream(file_name));
 
             doc.open();
-            com.itextpdf.text.Image imgl = com.itextpdf.text.Image.getInstance("C:\\Users\\med amine ben lazrak\\Desktop\\javaaaa\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs\\LogoV1.png");
+            com.itextpdf.text.Image imgl = com.itextpdf.text.Image.getInstance("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs\\LogoV1.png");
             imgl.scaleAbsoluteWidth(100);
             imgl.scaleAbsoluteHeight(100);
             imgl.setAlignment(com.itextpdf.text.Image.ALIGN_RIGHT);
@@ -261,7 +261,7 @@ public class PostdetailsController implements Initializable {
          //   doc.add(new Paragraph(" "));
           //  doc.add(new Paragraph(" "));
 
-            com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance("C:\\Users\\med amine ben lazrak\\Desktop\\javaaaa\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs\\"+Posta.getImage());
+            com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs\\"+Posta.getImage());
             img.scaleAbsoluteWidth(350);
             img.scaleAbsoluteHeight(290);
             img.setAlignment(com.itextpdf.text.Image.ALIGN_CENTER);
@@ -332,7 +332,7 @@ public class PostdetailsController implements Initializable {
         System.out.println(ratingeeeee.getRating());
         BlogRating articlerating = new BlogRating();
         articlerating.setArticle(Posta);
-        articlerating.setUser(currentUser);
+        articlerating.setUser(Session.getInstance().getCurrentUser());
         articlerating.setRating(ratingeeeee.getRating());
         BlogRatingService articleCommentService = new BlogRatingService();
         List<BlogRating> ratings = new ArrayList();
@@ -341,7 +341,7 @@ public class PostdetailsController implements Initializable {
         BlogRating ratchek=null;
         int i=0;
         while ((check==false)&&(i< ratings.size())){
-            if (currentUser.getId() == ratings.get(i).getUser().getId()) {
+            if (Session.getInstance().getCurrentUser().getId() == ratings.get(i).getUser().getId()) {
                 ratchek=ratings.get(i);
                check= true;
 

@@ -5,6 +5,7 @@ import edu.esprit.cryfty.entity.payment.Cart;
 import edu.esprit.cryfty.entity.payment.Transaction;
 import edu.esprit.cryfty.service.payment.CartService;
 import edu.esprit.cryfty.service.payment.TransactionService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,7 +34,7 @@ public class TransactionController  implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         TransactionService transactionService=new TransactionService();
-        ArrayList<Wallet> transactionWallet=transactionService.getwalletIdClient(1);
+        ArrayList<Wallet> transactionWallet=transactionService.getwalletIdClient(Session.getInstance().getCurrentUser().getId());
         String [] walletAdress=new String[transactionWallet.size()];
         for (int i=0;i<transactionWallet.size();i++)
         {

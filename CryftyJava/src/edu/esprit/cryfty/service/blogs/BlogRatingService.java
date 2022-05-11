@@ -1,10 +1,9 @@
 package edu.esprit.cryfty.service.blogs;
 
-import edu.esprit.cryfty.entity.User;
+import edu.esprit.cryfty.entity.User.User;
 import edu.esprit.cryfty.entity.blogs.BlogArticles;
-import edu.esprit.cryfty.entity.blogs.BlogComment;
 import edu.esprit.cryfty.entity.blogs.BlogRating;
-import edu.esprit.cryfty.service.UserService;
+import edu.esprit.cryfty.service.user.UserService;
 import edu.esprit.cryfty.utils.DataSource;
 
 import java.sql.PreparedStatement;

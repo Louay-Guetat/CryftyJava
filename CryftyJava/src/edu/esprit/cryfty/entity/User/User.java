@@ -1,4 +1,4 @@
-package edu.esprit.cryfty.entity;
+package edu.esprit.cryfty.entity.User;
 
 import javafx.scene.control.CheckBox;
 
@@ -8,7 +8,26 @@ public class User {
     private String roles;
     private String password;
     private CheckBox select;
+
+    public User(int id, String username, CheckBox checkbox) {
+        this.username = username;
+        this.select = checkbox;
+        this.id=id;
+    }
+
+    public CheckBox getSelect() {
+        return select;
+    }
+
+    public void setSelect(CheckBox select) {
+        this.select = select;
+    }
+
     public User() {
+    }
+    public User(int id , String s){
+        this.username = s;
+        this.id = id;
     }
 
     public User(int id,String username, String roles, String password){
@@ -16,12 +35,6 @@ public class User {
         this.username = username;
         this.roles= roles;
         this.password = password;
-    }
-
-    public User(int id ,String username, CheckBox select) {
-        this.username = username;
-        this.select = select;
-        this.id=id;
     }
 
     public int getId() {
@@ -54,14 +67,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public CheckBox getSelect() {
-        return select;
-    }
-
-    public void setSelect(CheckBox select) {
-        this.select = select;
     }
 
     @Override

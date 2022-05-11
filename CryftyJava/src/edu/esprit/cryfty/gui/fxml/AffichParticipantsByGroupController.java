@@ -1,13 +1,12 @@
 package edu.esprit.cryfty.gui.fxml;
 
-import com.sun.prism.paint.Color;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import edu.esprit.cryfty.entity.User;
+import edu.esprit.cryfty.entity.User.User;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
 import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.chat.GroupeChatService;
-import javafx.event.ActionEvent;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,14 +24,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.swing.text.StyledEditorKit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static com.sun.prism.paint.Color.RED;
 
 public class AffichParticipantsByGroupController implements Initializable {
     @javafx.fxml.FXML
@@ -69,7 +65,7 @@ public class AffichParticipantsByGroupController implements Initializable {
             Label pr = new Label(Participants.get(i).getUsername());
            pr.setStyle("-fx-font-weight:bold;-fx-text-fill: white");
             layout.getChildren().add(pr);
-                if(c.getOwner().getId()==4)
+                if(c.getOwner().getId()== Session.getInstance().getCurrentUser().getId())
                 {
                     FontAwesomeIconView deleteIconParticipants = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                     HBox hbox=new HBox(deleteIconParticipants);
@@ -109,7 +105,7 @@ public class AffichParticipantsByGroupController implements Initializable {
 
     public void rediectToUpdate(GroupeChat c)
     {
-        if(c.getOwner().getId()==4){
+        if(c.getOwner().getId()==Session.getInstance().getCurrentUser().getId()){
             btnUpdate.setVisible(true);}
             btnUpdate.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override

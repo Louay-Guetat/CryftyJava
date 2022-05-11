@@ -1,13 +1,9 @@
 package edu.esprit.cryfty.entity.chat;
 
-import edu.esprit.cryfty.entity.User;
-import javafx.scene.control.Label;
+import edu.esprit.cryfty.entity.User.User;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Message {
     private int id ;

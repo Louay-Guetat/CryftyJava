@@ -3,6 +3,7 @@ package edu.esprit.cryfty.service;
 import edu.esprit.cryfty.entity.Transfer;
 import edu.esprit.cryfty.entity.Block;
 import edu.esprit.cryfty.entity.Wallet;
+import edu.esprit.cryfty.service.user.ClientService;
 import edu.esprit.cryfty.utils.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

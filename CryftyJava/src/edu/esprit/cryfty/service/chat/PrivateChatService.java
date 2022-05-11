@@ -1,6 +1,6 @@
 package edu.esprit.cryfty.service.chat;
 
-import edu.esprit.cryfty.entity.User;
+import edu.esprit.cryfty.entity.User.User;
 import edu.esprit.cryfty.entity.chat.Conversation;
 import edu.esprit.cryfty.entity.chat.PrivateChat;
 import edu.esprit.cryfty.utils.DataSource;
@@ -32,27 +32,6 @@ public class PrivateChatService {
 
         return ConversationEntities;
     }
-
-    public void AjouterPrivateChat (PrivateChat prv)
-
-    {
-        Conversation c = new Conversation("privatechat","privatechat");
-        AjouterConversation(c);
-        int idC = getLastConversation().get(0).getId();
-        String req= "INSERT INTO private_chat (id,sender_id,received_id) VALUES "+"(?,?,?)";
-        try {
-            PreparedStatement pst= DataSource.getInstance().getCnx().prepareStatement(req);
-            pst.setInt(1, idC);
-            pst.setInt(2, prv.getSender().getId());
-            pst.setInt(3, prv.getReceived().getId());
-            pst.executeUpdate();
-            System.out.println("private chat inserer");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-
 
     public void AjouterConversation(Conversation c)
 
@@ -90,6 +69,7 @@ public class PrivateChatService {
 
         return user.get(0);
     }
+
     public ArrayList<PrivateChat> privateChat(User Currentuser){
         ArrayList<PrivateChat> PrivateChatEntities = new ArrayList();
         String request = "select * from private_chat  where sender_id=? or received_id=?";
@@ -114,5 +94,30 @@ public class PrivateChatService {
         }
 
         return PrivateChatEntities;
+    }
+
+    GroupeChatService GrService = new GroupeChatService();
+
+    public void AjouterPrivateChat (int id)
+
+    {
+        ArrayList<User> OtherUsers =GrService.getUsers(id);
+        for (int i=0;i<OtherUsers.size();i++)
+        {
+            Conversation c = new Conversation("privatechat", "privatechat");
+            AjouterConversation(c);
+            int idC = getLastConversation().get(0).getId();
+            String req = "INSERT INTO private_chat (id,sender_id,received_id) VALUES " + "(?,?,?)";
+            try {
+                PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(req);
+                pst.setInt(1, idC);
+                pst.setInt(2, id);
+                pst.setInt(3,OtherUsers.get(i).getId());
+                pst.executeUpdate();
+                System.out.println("private chat inserer");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 }

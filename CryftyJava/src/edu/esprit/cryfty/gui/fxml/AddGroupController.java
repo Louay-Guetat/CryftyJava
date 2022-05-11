@@ -1,13 +1,12 @@
 package edu.esprit.cryfty.gui.fxml;
 
-import edu.esprit.cryfty.entity.User;
+import edu.esprit.cryfty.entity.User.User;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
-import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.chat.GroupeChatService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -17,7 +16,6 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class AddGroupController implements Initializable {
@@ -51,7 +49,7 @@ public class AddGroupController implements Initializable {
     {
 
         GroupeChatService groupeChatService = new GroupeChatService();
-        ArrayList<User> OtherUsers = groupeChatService.getUsers(1);
+        ArrayList<User> OtherUsers = groupeChatService.getUsers(Session.getInstance().getCurrentUser().getId());
         for(int i=0;i<OtherUsers.size();i++)
         {
             CheckBox checkbox = new CheckBox("");
@@ -81,7 +79,7 @@ public class AddGroupController implements Initializable {
                     Participants.add(u);
                 }
             }
-            User currentUser=  groupeChatService.getUserById(1);
+            User currentUser=  groupeChatService.getUserById(Session.getInstance().getCurrentUser().getId());
             String name = TfieldNameGroup.getText();
             msgError.setStyle("-fx-text-fill: red;");
             msgErrorCheck.setStyle("-fx-text-fill: red;");
@@ -112,6 +110,10 @@ public class AddGroupController implements Initializable {
 
                Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
                window.hide();
+               Alert alert=new Alert(Alert.AlertType.INFORMATION);
+               alert.setTitle("Success");
+               alert.setContentText("Your  Group "+name+" is Added");
+               alert.showAndWait();
 
 
             }

@@ -2,6 +2,7 @@ package edu.esprit.cryfty.service.payment;
 
 import edu.esprit.cryfty.entity.*;
 import edu.esprit.cryfty.entity.Nft.Nft;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.payment.Cart;
 import edu.esprit.cryfty.service.Nft.NftService;
 import edu.esprit.cryfty.utils.DataSource;
@@ -50,23 +51,21 @@ public class CartService {
     }
 
     public Cart getCartById(int id) {
-        ArrayList<Cart> cartEntities = new ArrayList();
+        Cart cart= new Cart();
         String request = "SELECT * FROM cart where id ="+id;
         try{
             Statement st = DataSource.getInstance().getCnx().createStatement();
             ResultSet rs = st.executeQuery(request);
             while(rs.next()){
-                Cart cart= new Cart();
-                cart.setId(rs.getInt(1));
-                cart.setDate_creation(rs.getDate(3));
+                cart.setId(rs.getInt("id"));
+                cart.setDate_creation(rs.getDate("date_creation"));
                 cart.setClientId(getClientById(rs.getInt("client_id_id")));
-                cart.setTotal(rs.getDouble(4));
-                cartEntities.add(cart);
+                cart.setTotal(rs.getDouble("total"));
             }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return cartEntities.get(0);
+        return cart;
     }
 
     public ArrayList<Cart> getCarts(){
@@ -237,5 +236,27 @@ public class CartService {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
+    }
+
+    public ObservableList<Nft> getNftfromCart2(int id){
+        ObservableList<Nft> NftcartEntities=FXCollections.observableArrayList();
+        NftService nftService=new NftService();
+        List<Nft> nfts = nftService.showNfts();
+        String request = "SELECT nft_id FROM nft_cart where cart_id="+id;
+        try{
+            Statement st = DataSource.getInstance().getCnx().createStatement();
+            ResultSet rs = st.executeQuery(request);
+            while(rs.next()){
+                Nft nft=new Nft();
+                for (int i =0; i<nfts.size();i++){
+                    if(nfts.get(i).getId()==rs.getInt(1))
+                        nft = nfts.get(i);
+                }
+                NftcartEntities.add(nft);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return NftcartEntities;
     }
 }

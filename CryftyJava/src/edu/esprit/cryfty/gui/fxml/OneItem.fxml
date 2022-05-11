@@ -16,7 +16,7 @@
    <children>
       <Pane fx:id="paneContent" layoutX="11.0" layoutY="-18.0" prefHeight="455.0" prefWidth="487.0">
          <children>
-            <ImageView fx:id="imNft" fitHeight="207.0" fitWidth="271.0" layoutX="130.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imNft" fitHeight="207.0" fitWidth="271.0" layoutX="130.0" layoutY="64.0" onMouseClicked="#released" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/Nfts/default.png" />
                </image>

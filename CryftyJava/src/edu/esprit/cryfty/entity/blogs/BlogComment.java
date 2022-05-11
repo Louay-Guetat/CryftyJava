@@ -1,6 +1,7 @@
 package edu.esprit.cryfty.entity.blogs;
+import edu.esprit.cryfty.entity.User.User;
+
 import java.util.Date;
-import edu.esprit.cryfty.entity.User;
 
 public class BlogComment {
     int id;

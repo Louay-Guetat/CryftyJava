@@ -6,6 +6,7 @@ import edu.esprit.cryfty.entity.payment.Cart;
 import edu.esprit.cryfty.service.Nft.NftCommentService;
 import edu.esprit.cryfty.service.Nft.NftService;
 import edu.esprit.cryfty.service.payment.CartService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,7 +43,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static edu.esprit.cryfty.gui.Controller.nftClicked;
-import static edu.esprit.cryfty.gui.Main.currentUser;
 import static edu.esprit.cryfty.gui.fxml.ItemController.waterMark;
 import static edu.esprit.cryfty.service.payment.CartService.nfts;
 
@@ -95,6 +95,16 @@ public class OneItemController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if(Session.getInstance().getCurrentUser().getId() != nft.getOwner().getId()){
+            btnDelete.setVisible(false);
+            btnUpdate.setVisible(false);
+            AddToCart.setVisible(true);
+        }
+        else{
+            btnDelete.setVisible(true);
+            btnUpdate.setVisible(true);
+            AddToCart.setVisible(false);
+        }
         paneContent.toFront();
         imNft.setOnMouseClicked(this::onClick);
         imNft.setOnScroll(this::imageScrolled);
@@ -139,7 +149,7 @@ public class OneItemController implements Initializable {
             nftComment.setContent(tfComment.getText());
             nftComment.setNft(nft);
             nftComment.setPostDate(LocalDateTime.now());
-            nftComment.setUser(currentUser);
+            nftComment.setUser(Session.getInstance().getCurrentUser());
             nftCommentService.addComment(nftComment);
             comment = nftComment;
             Node node = FXMLLoader.load(getClass().getResource("OneComment.fxml"));
@@ -155,16 +165,6 @@ public class OneItemController implements Initializable {
     }
 
     public void createView(){
-        if(!currentUser.equals(nft.getOwner())){
-            btnDelete.setVisible(false);
-            btnUpdate.setVisible(false);
-            AddToCart.setVisible(true);
-        }
-        else{
-            btnDelete.setVisible(true);
-            btnUpdate.setVisible(true);
-            AddToCart.setVisible(false);
-        }
         lblTitle.setText(nft.getTitle());
         if(nft.getDescription().isEmpty()){
             lblDescription.setText("Nothing to mention.");
@@ -183,7 +183,7 @@ public class OneItemController implements Initializable {
             File watermarkImageFile  = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + nft.getImage());
             File sourceImage = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\LogoNoText.png");
             Image image;
-            if(nft.getOwner().getId() != currentUser.getId()){
+            if(nft.getOwner().getId() != Session.getInstance().getCurrentUser().getId()){
                 File destinationImage = waterMark(sourceImage,watermarkImageFile);
                 image = new Image(new FileInputStream(destinationImage));
                 BoxBlur blur = new BoxBlur();
@@ -244,10 +244,17 @@ public class OneItemController implements Initializable {
         if (event.isControlDown()) {
             double delta = event.getDeltaY();
             double adjust = delta / 1000.0;
-            double zoom = Math.min(10, Math.max(0.1, imNft.getScaleX() + adjust));
-            setImageZoom(zoom);
+            double zoomMin = Math.min(10, Math.max(0.1, imNft.getScaleX()+adjust));
+            setImageZoom(zoomMin);
             event.consume();
         }
+    }
+
+    @FXML
+    private void released(){
+        System.out.println("hello");
+            imNft.setScaleX(20);
+            imNft.setScaleY(20);
     }
 
     private void placeMarker(double sceneX, double sceneY) {
@@ -279,11 +286,13 @@ public class OneItemController implements Initializable {
 
         ArrayList<Integer> nb=new ArrayList<>();
         CartService cartService=new CartService();
-        Cart c=cartService.getCartById(1);
+        // a modifier
+        Cart c = cartService.getCartById(Session.getInstance().getCurrentUser().getId());
+        System.out.println(c);
         //System.out.println(nfts);
         nfts.add(nft);
         //System.out.println(nfts);
-        Cart carts=new Cart(nfts, c.getId());
+        Cart carts = new Cart(nfts, c.getId());
         System.out.println(nft);
         for(int i=0;i<cartService.getNftfromCart().size();i++) {
 

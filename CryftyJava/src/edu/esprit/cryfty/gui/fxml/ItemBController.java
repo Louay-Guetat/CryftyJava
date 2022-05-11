@@ -83,7 +83,7 @@ public class ItemBController implements Initializable {
         Posta.setId(Integer.valueOf(id));
         lblCurrency.setText(article.getContents());
         try {
-            FileInputStream inputstream = new FileInputStream("C:\\Users\\med amine ben lazrak\\Desktop\\javaaaa\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs\\"+ayja);
+            FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs\\"+ayja);
             Image image = new Image(inputstream);
             imNft.setImage(image);
         } catch (FileNotFoundException e) {

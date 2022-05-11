@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="638.0" style="-fx-background-color : #53639F" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.BoarticleController">
+<AnchorPane prefHeight="400.0" prefWidth="638.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.BoarticleController">
    <children>
       <TableView fx:id="table" layoutX="4.0" layoutY="66.0" prefHeight="298.0" prefWidth="610.0" />
       <Button fx:id="addbtn" layoutX="63.0" layoutY="27.0" mnemonicParsing="false" onAction="#add" text="ADD ARTICLE" />

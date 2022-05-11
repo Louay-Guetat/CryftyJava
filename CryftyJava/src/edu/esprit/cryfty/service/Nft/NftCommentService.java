@@ -1,10 +1,9 @@
 package edu.esprit.cryfty.service.Nft;
 
-import edu.esprit.cryfty.entity.Client;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.NftComment;
-import edu.esprit.cryfty.entity.User;
-import edu.esprit.cryfty.service.UserService;
+import edu.esprit.cryfty.entity.User.User;
+import edu.esprit.cryfty.service.user.UserService;
 import edu.esprit.cryfty.utils.DataSource;
 
 import java.sql.PreparedStatement;

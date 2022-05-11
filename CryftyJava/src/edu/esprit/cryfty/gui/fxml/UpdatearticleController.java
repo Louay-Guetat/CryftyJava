@@ -8,9 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,7 +58,7 @@ public class UpdatearticleController implements Initializable {
     }
 
     @FXML
-    public void updatearticle() throws IOException {
+    public void updatearticle(ActionEvent actionEvent) throws IOException {
       /*  title.setText(r.getTitle());
         contents.setText(r.getContents());*/
 
@@ -79,8 +81,7 @@ public class UpdatearticleController implements Initializable {
         arti.setDate(Date.valueOf(date.getValue()));
         BlogsService sr = new BlogsService();
         sr.updateArticle(arti,arti.getId());
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("boarticle.fxml"));
-        Parent root2 = loader.load();
-        btnUpdate.getScene().setRoot(root2);
+        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        window.hide();
     }
 }

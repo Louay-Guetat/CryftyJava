@@ -1,6 +1,6 @@
 package edu.esprit.cryfty.entity.Nft;
 
-import edu.esprit.cryfty.entity.User;
+import edu.esprit.cryfty.entity.User.User;
 
 import java.time.LocalDateTime;
 

@@ -1,7 +1,5 @@
 package edu.esprit.cryfty.gui;
 
-import com.sun.java.accessibility.util.Translator;
-import com.sun.javafx.css.Style;
 import com.vdurmont.emoji.Emoji;
 import com.vdurmont.emoji.EmojiManager;
 import com.vdurmont.emoji.EmojiParser;
@@ -10,7 +8,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
-import edu.esprit.cryfty.entity.User;
+import edu.esprit.cryfty.entity.User.User;
 import edu.esprit.cryfty.entity.chat.Conversation;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
 import edu.esprit.cryfty.entity.chat.Message;
@@ -21,15 +19,13 @@ import edu.esprit.cryfty.service.Nft.SubCategoryService;
 import edu.esprit.cryfty.service.chat.GroupeChatService;
 import edu.esprit.cryfty.service.chat.MessageService;
 import edu.esprit.cryfty.service.chat.PrivateChatService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import edu.esprit.cryfty.entity.blogs.BlogArticles;
 import edu.esprit.cryfty.service.blogs.BlogsService;
 import javafx.event.ActionEvent;
@@ -39,13 +35,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -62,25 +56,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
-import javax.management.Notification;
-import javax.swing.*;
-import javax.xml.soap.Text;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -90,20 +76,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 public class Controller extends Thread implements Initializable {
 
     @FXML
-    private Button btnOverview;
-
-    @FXML
     private Button btnMenus;
-
-    @FXML
-    private Button btnPackages;
-
-    @FXML
-    private Button btnSettings;
 
     @FXML
     private Button btnSignout;
@@ -144,8 +120,6 @@ public class Controller extends Thread implements Initializable {
     @FXML
     private ImageView ImgSendMsg;
 
-    @FXML
-    private Button btnArticles;
     @FXML
     private Pane pnlArticles;
 
@@ -204,9 +178,46 @@ public class Controller extends Thread implements Initializable {
     private Button btnExplore;
     @FXML
     private Button btnWallets;
+    @FXML
+    private Label lblUsername;
+    @FXML
+    private Button btnReclamations;
+    @FXML
+    private Button btnOffice;
+    @FXML
+    private Button btnNodeOffice;
+    @FXML
+    private VBox vboxOffice;
+    @FXML
+    private Button btnTransactionsOffice;
+    @FXML
+    private Button btnReclamationsOffice;
+    @FXML
+    public Button btnBlogsOffice;
+    @FXML
+    private Button btnCategoriesOffice;
+    @FXML
+    private VBox vboxFront;
+    @FXML
+    private Button btnBackToFront;
+    @FXML
+    private Label lblUsername1;
+    @FXML
+    private Button btnHome;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        view.setPrefHeight(750);
+        view.setPrefWidth(1500);
+        System.out.println(Session.getInstance().getCurrentUser());
+        if(Session.getInstance().getCurrentUser().getRoles().equals("[\"ROLE_CLIENT\"]")){
+            btnOffice.setVisible(false);
+        }
+        else{
+            btnOffice.setVisible(true);
+        }
+        lblUsername.setText(Session.getInstance().getCurrentUser().getUsername());
+        lblUsername1.setText(Session.getInstance().getCurrentUser().getUsername());
         createView();
         boxItems.setPrefWidth(1020);
         boxItems.setPrefHeight(344);
@@ -229,9 +240,9 @@ public class Controller extends Thread implements Initializable {
         n = list.size();
 
         conv.toFront();
+        paneEmoji.toFront();
         ListConversation.toFront();
-        boule.toFront();
-        boule.setStyle("fx-background-color: TRANSPARENT;");
+        imageBouleDiscussion.toFront();
     }
 
     public Controller() {
@@ -253,7 +264,7 @@ public class Controller extends Thread implements Initializable {
     @Override
     public void run() {
         GroupeChatService GrService = new GroupeChatService();
-        User u = GrService.getUserById(1);
+        User u = GrService.getUserById(Session.getInstance().getCurrentUser().getId());
         try {
             while (true) {
                 String msg = reader.readLine();
@@ -307,44 +318,56 @@ public class Controller extends Thread implements Initializable {
 
     @FXML
     public void handleClicks(ActionEvent actionEvent) throws IOException {
+        if(actionEvent.getSource()==btnAddNft){
+            pnlHome.getChildren().clear();
+            Node node = new FXMLLoader().load(getClass().getResource("fxml/AddNft.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlHome.getChildren().add(node);
+        }
+
         if (actionEvent.getSource() == btnWallets) {
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/Wallets.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlHome.getChildren().add(node);
+        }
+
+        if(actionEvent.getSource() == btnReclamations){
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/Addreclamation.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
             pnlHome.getChildren().add(node);
         }
 
         if (actionEvent.getSource() == btnPanier) {
-            pnlPanier.setStyle("-fx-background-color : #02030A");
-            pnlPanier.toFront();
-            Node n = FXMLLoader.load(getClass().getResource("fxml/Cart.fxml"));
-            pnlPanier.getChildren().add(n);
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/Cart.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlHome.getChildren().add(node);
         }
         if (actionEvent.getSource() == btnTransactions) {
-            pnlTransactions.setStyle("-fx-background-color : #02030A");
-            pnlTransactions.toFront();
-            Node n1 = FXMLLoader.load(getClass().getResource("fxml/Affichetransaction.fxml"));
-            pnlTransactions.getChildren().add(n1);
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/Affichetransaction.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlHome.getChildren().add(node);
         }
 
         if (actionEvent.getSource() == btnMenus) {
-            pnlMenus.setStyle("-fx-background-color : #53639F");
-            pnlMenus.toFront();
+            pnlHome.getChildren().clear();
 
-            Node n = FXMLLoader.load(getClass().getResource("fxml/ListeArticles.fxml"));
-
-            pnlMenus.getChildren().add(n);
+            Node node = FXMLLoader.load(getClass().getResource("fxml/ListeArticles.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlHome.getChildren().add(node);
 
         }
 
-        if (actionEvent.getSource() == btnArticles) {
-            pnlArticles.setStyle("-fx-background-color : #53639F");
-            pnlArticles.toFront();
-            //   articlebo();
-            Node n = FXMLLoader.load(getClass().getResource("fxml/boarticle.fxml"));
-            pnlArticles.getChildren().add(n);
-        }
-
-        if (actionEvent.getSource() == btnOverview) {
+        if (actionEvent.getSource() == btnHome) {
             pnlOverview.setStyle("-fx-background-color : #02030A");
             pnlOverview.toFront();
             pnlHome.getChildren().clear();
@@ -355,19 +378,164 @@ public class Controller extends Thread implements Initializable {
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/Explore.fxml"));
             pnlHome.getChildren().add(node);
-
         }
 
+        if (actionEvent.getSource() == btnOffice) {
+            vboxOffice.setVisible(true);
+            vboxFront.setVisible(false);
+            pnlHome.getChildren().clear();
+            Button btnStats = new Button("Check Stats");
+            pnlHome.getChildren().add(btnStats);
+            btnStats.setLayoutX(900);
+            btnStats.setLayoutY(25);
+            btnStats.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    pnlHome.getChildren().clear();
+                    try {
+                        Node node = new FXMLLoader().load(getClass().getResource("fxml/Gchart.fxml"));
+                        System.out.println("done");
+                        pnlHome.getChildren().add(node);
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            });
+            initiateCategories();
+            initiateSubCategories();
+            Button btnCategory = new Button("Add");
+            pnlHome.getChildren().add(btnCategory);
+            btnCategory.setLayoutY(25);
+            btnCategory.setLayoutX(15);
+            btnCategory.setPrefWidth(100);
+
+            btnCategory.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    try {
+                        Node node = new FXMLLoader().load(getClass().getResource("fxml/AddCategory.fxml"));
+                        pnlHome.getChildren().clear();
+                        pnlHome.getChildren().add(node);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+        if (actionEvent.getSource() == btnCategoriesOffice) {
+            pnlHome.getChildren().clear();
+            Button btnStats = new Button("Check Stats");
+            pnlHome.getChildren().add(btnStats);
+            btnStats.setLayoutX(900);
+            btnStats.setLayoutY(25);
+            btnStats.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    pnlHome.getChildren().clear();
+                    try {
+                        Node node = new FXMLLoader().load(getClass().getResource("fxml/Gchart.fxml"));
+                        System.out.println("done");
+                        pnlHome.getChildren().add(node);
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            });
+            initiateCategories();
+            initiateSubCategories();
+            Button btnCategory = new Button("Add");
+            pnlHome.getChildren().add(btnCategory);
+            btnCategory.setLayoutY(25);
+            btnCategory.setLayoutX(15);
+            btnCategory.setPrefWidth(100);
+
+            btnCategory.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    try {
+                        Node node = new FXMLLoader().load(getClass().getResource("fxml/AddCategory.fxml"));
+                        pnlHome.getChildren().clear();
+                        pnlHome.getChildren().add(node);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+        if (actionEvent.getSource() == btnBlogsOffice) {
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/boarticle.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlHome.getChildren().add(node);
+        }
+
+        if (actionEvent.getSource() == btnNodeOffice) {
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/node/NodeCrud.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlHome.getChildren().add(node);
+        }
+
+        if (actionEvent.getSource() == btnReclamationsOffice) {
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/reclamation.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlHome.getChildren().add(node);
+        }
+
+        if (actionEvent.getSource() == btnTransactionsOffice) {
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/afficheTransactionBO.fxml"));
+            node.setLayoutX(80);
+            node.setLayoutY(20);
+            pnlHome.getChildren().add(node);
+        }
+
+        if (actionEvent.getSource() == btnBackToFront) {
+            vboxOffice.setVisible(false);
+            vboxFront.setVisible(true);
+            pnlOverview.setStyle("-fx-background-color : #02030A");
+            pnlOverview.toFront();
+            pnlHome.getChildren().clear();
+            pnlHome.getChildren().add(pnlOverview);
+        }
+
+        if(actionEvent.getSource() == btnSignout){
+            Session.getInstance().setCurrentUser(null);
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            window.hide();
+            Parent tableViewParent = FXMLLoader.load(getClass().getResource("fxml/login.fxml"));
+            Stage newWindow = new Stage();
+            newWindow.setScene(new Scene(tableViewParent));
+            newWindow.show();
+        }
     }
 
+    @FXML
     public void afficheListConversation(Event actionEvent) {
 
-        if (actionEvent.getSource() == boule && bool == true) {
+        if (actionEvent.getSource() == boule  && bool == true) {
             ListConversation.setVisible(true);
             bool = false;
             ListConversation(actionEvent);
 
         } else if (actionEvent.getSource() == boule && bool == false) {
+            ListConversation.setVisible(false);
+            bool = true;
+            conv.setVisible(false);
+        }
+
+        if (actionEvent.getSource() == imageBouleDiscussion  && bool == true) {
+            ListConversation.setVisible(true);
+            bool = false;
+            ListConversation(actionEvent);
+
+        } else if (actionEvent.getSource() == imageBouleDiscussion && bool == false) {
             ListConversation.setVisible(false);
             bool = true;
             conv.setVisible(false);
@@ -482,6 +650,7 @@ public class Controller extends Thread implements Initializable {
         ScrollPaneEmoji.setContent(emojis);
     }
 
+    @FXML
     public void affichListEmoji(Event actionEvent) {
         if (actionEvent.getSource() == emoji && boolEmoji == true) {
 
@@ -545,7 +714,7 @@ public class Controller extends Thread implements Initializable {
                     }
                 });
             });
-            if (Affichage_GR_chat().get(j).getOwner().getId() == 4) {
+            if (Affichage_GR_chat().get(j).getOwner().getId() == Session.getInstance().getCurrentUser().getId()) {
                 FontAwesomeIconView deleteIconGroup = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                 deleteIconGroup.setStyle("-fx-fill:red;");
                 HBox hbox = new HBox(deleteIconGroup);
@@ -560,7 +729,7 @@ public class Controller extends Thread implements Initializable {
         for (int j = 0; j < Affichage_private_chat().size(); j++) {
             int idp = Affichage_private_chat().get(j).getId();
             nom.add(Affichage_private_chat().get(j));
-            if (Affichage_private_chat().get(j).getReceived().getId() == 1) {
+            if (Affichage_private_chat().get(j).getReceived().getId() == Session.getInstance().getCurrentUser().getId()) {
                 Label nomP = new Label(Affichage_private_chat().get(j).getSender().getUsername());
                 nomP.setStyle("-fx-font-weight:bold;");
                 layout.getChildren().add(nomP);
@@ -605,7 +774,7 @@ public class Controller extends Thread implements Initializable {
         ArrayList<PrivateChat> PrivateChat = new ArrayList<>();
         PrivateChatService prvService = new PrivateChatService();
         // user connecté
-        User u = prvService.getUserById(1);
+        User u = prvService.getUserById(Session.getInstance().getCurrentUser().getId());
         ArrayList<PrivateChat> privateChat = prvService.privateChat(u);
         for (int p = 0; p < privateChat.size(); p++) {
             PrivateChat.add(privateChat.get(p));
@@ -620,11 +789,11 @@ public class Controller extends Thread implements Initializable {
         for (int i = 0; i < Groups.size(); i++) {
             ArrayList<User> Participants = Groups.get(i).getParticipants();
             for (int j = 0; j < Participants.size(); j++) {
-                if (Participants.get(j).getId() == 4) {
+                if (Participants.get(j).getId() == Session.getInstance().getCurrentUser().getId()) {
                     nomGroup.add(Groups.get(i));
                 }
             }
-            if (Groups.get(i).getOwner().getId() == 4) {
+            if (Groups.get(i).getOwner().getId() == Session.getInstance().getCurrentUser().getId()) {
                 nomGroup.add(Groups.get(i));
             }
         }
@@ -644,7 +813,7 @@ public class Controller extends Thread implements Initializable {
 
         for (int i = 0; i < msgs.size(); i++) {
             Message m = msgs.get(i);
-            if (m.getSender().getId() != 4) {
+            if (m.getSender().getId() != Session.getInstance().getCurrentUser().getId()) {
                 HBox hbox = new HBox();
                 Label SenderLaber = new Label(m.getSender().getUsername());
                 layout.getChildren().add(SenderLaber);
@@ -670,7 +839,7 @@ public class Controller extends Thread implements Initializable {
                 SenderLaber.setAlignment(Pos.BASELINE_RIGHT);
 
 
-            } else if (m.getSender().getId() == 4) {
+            } else if (m.getSender().getId() == Session.getInstance().getCurrentUser().getId()) {
 
                 Label SenderLaber = new Label("you");
                 SenderLaber.setStyle("-fx-font-weight:bold;-fx-text-fill:Black");
@@ -725,7 +894,7 @@ public class Controller extends Thread implements Initializable {
 
         TfieldMessage.setStyle("-fx-text-fill:light;");
         //Current User
-        User u = MsgService.getUserById(4);
+        User u = MsgService.getUserById(Session.getInstance().getCurrentUser().getId());
         if (TfieldMessage.getText().isEmpty()) {
             MsgErrorInputMsg.setVisible(true);
         } else {
@@ -903,7 +1072,7 @@ public class Controller extends Thread implements Initializable {
 
     @Deprecated
     public void afficheNotification(String user) {
-        ImageView img = new ImageView("file:C:\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\newMessage.png");
+        ImageView img = new ImageView("file:C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\newMessage.png");
         img.setFitHeight(65);
         img.setFitWidth(80);
         Notifications notificationBuilder = Notifications.create()
@@ -1066,7 +1235,7 @@ public class Controller extends Thread implements Initializable {
         tableView.setFixedCellSize(40);
         tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 
-        pnlItem.getChildren().add(tableView);
+        pnlHome.getChildren().add(tableView);
         tableView.setLayoutY(75);
     }
 
@@ -1214,7 +1383,7 @@ public class Controller extends Thread implements Initializable {
         tableView.setFixedCellSize(40);
         tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 
-        pnlItem.getChildren().add(tableView);
+        pnlHome.getChildren().add(tableView);
         tableView.setLayoutY(280);
     }
 

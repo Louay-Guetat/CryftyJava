@@ -1,6 +1,8 @@
 package edu.esprit.cryfty.gui.fxml;
 
 import edu.esprit.cryfty.entity.blogs.BlogArticles;
+import edu.esprit.cryfty.gui.Main;
+import edu.esprit.cryfty.gui.fxml.wallet.WalletsListController;
 import edu.esprit.cryfty.service.blogs.BlogsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,6 +19,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedReader;
@@ -174,14 +179,12 @@ public class AddArticleController implements Initializable {
                 try {
                     System.out.println(selectedFile.toString());
                     File source = new File(selectedFile.toString());
-                    File dest = new File("C:\\Users\\med amine ben lazrak\\Desktop\\javaaaa\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs");
+                    File dest = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Blogs");
                     FileUtils.copyFileToDirectory(source, dest);
                 } catch (IOException ex) {
                     Logger.getLogger(AddArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
-
 
             if ((btitle==null)||(bcontents==null)||(bcategory==null)||(bauthor==null)||(bdate==null)) {
 
@@ -220,13 +223,11 @@ public class AddArticleController implements Initializable {
 
           //// REDIRECTION
 
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("ListeArticles.fxml"));
-          Parent root2 = loader.load();
+                Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+                window.hide();
 
-
-          btnadd.getScene().setRoot(root2);
       }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 

@@ -1,11 +1,12 @@
 package edu.esprit.cryfty.gui.fxml;
 
-import edu.esprit.cryfty.entity.User;
+import edu.esprit.cryfty.entity.User.User;
 import edu.esprit.cryfty.entity.chat.GroupeChat;
-import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.chat.GroupeChatService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -14,7 +15,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -63,7 +63,7 @@ public class UpdateGroupController  implements Initializable {
 
 
     }
-    public void SelectItems2()
+    public void SelectItems2(ActionEvent actionEvent)
     {
         ArrayList<User> Participants = new ArrayList<>();
         GroupeChatService groupeChatService = new GroupeChatService();
@@ -76,7 +76,7 @@ public class UpdateGroupController  implements Initializable {
                 Participants.add(u2);
             }
         }
-        User currentUser=  groupeChatService.getUserById(4);
+        User currentUser=  groupeChatService.getUserById(Session.getInstance().getCurrentUser().getId());
         String name = NomG.getText();
 
         if(name.equals("") ) {
@@ -91,7 +91,12 @@ public class UpdateGroupController  implements Initializable {
             AffichParticipantsByGroupController.UpdateClicked.setNom(name);
             groupeChatService.updateConversation(AffichParticipantsByGroupController.UpdateClicked);
             groupeChatService.Ajoutergroup_chat_user(group,AffichParticipantsByGroupController.UpdateClicked.getId());
-
+            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            window.hide();
+            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setContentText("Your  Group "+name+" is updated");
+            alert.showAndWait();
 
         }
     }

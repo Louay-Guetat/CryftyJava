@@ -1,25 +1,5 @@
 package edu.esprit.cryfty.tests;
 
-import edu.esprit.cryfty.entity.Client;
-import edu.esprit.cryfty.entity.Nft.Category;
-import edu.esprit.cryfty.entity.Nft.Nft;
-import edu.esprit.cryfty.entity.Nft.SubCategory;
-import edu.esprit.cryfty.entity.Node;
-import edu.esprit.cryfty.entity.User;
-import edu.esprit.cryfty.entity.chat.Conversation;
-import edu.esprit.cryfty.entity.chat.GroupeChat;
-import edu.esprit.cryfty.entity.chat.Message;
-import edu.esprit.cryfty.entity.chat.PrivateChat;
-import edu.esprit.cryfty.service.Nft.NftService;
-import edu.esprit.cryfty.service.chat.GroupeChatService;
-import edu.esprit.cryfty.service.chat.MessageService;
-import edu.esprit.cryfty.service.chat.PrivateChatService;
-import edu.esprit.cryfty.utils.DataSource;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-
 public class ClassMain {
     public static void main(String[]args){
        /* Client client = new Client();

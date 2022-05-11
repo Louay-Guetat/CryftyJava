@@ -1,14 +1,12 @@
 package edu.esprit.cryfty.gui.fxml.wallet;
 
-import edu.esprit.cryfty.entity.Client;
 import edu.esprit.cryfty.entity.Node;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.Wallet;
 import edu.esprit.cryfty.service.NodeService;
 import edu.esprit.cryfty.service.WalletService;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;

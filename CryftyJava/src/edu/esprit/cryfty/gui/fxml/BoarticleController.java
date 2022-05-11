@@ -3,15 +3,21 @@ package edu.esprit.cryfty.gui.fxml;
 import edu.esprit.cryfty.entity.blogs.BlogArticles;
 import edu.esprit.cryfty.entity.blogs.BlogComment;
 import edu.esprit.cryfty.entity.blogs.BlogRating;
+import edu.esprit.cryfty.gui.Main;
+import edu.esprit.cryfty.gui.fxml.wallet.WalletsListController;
 import edu.esprit.cryfty.service.blogs.BlogRatingService;
 import edu.esprit.cryfty.service.blogs.BlogsCommentsService;
 import edu.esprit.cryfty.service.blogs.BlogsService;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,89 +46,21 @@ public class BoarticleController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        int usersn;
-        double sommerat=0;
-        double moy;
-
-        TableColumn<BlogArticles, Integer> id = new TableColumn<BlogArticles, Integer>("Id");
-        id.setCellValueFactory(new PropertyValueFactory<BlogArticles, Integer>("id"));
-        TableColumn<BlogArticles, String> title = new TableColumn<BlogArticles, String>("Title");
-        title.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("title"));
-
-        TableColumn<BlogArticles, String> category = new TableColumn<BlogArticles, String>("Category");
-        category.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("category"));
-
-        TableColumn<BlogArticles, Date> date = new TableColumn<BlogArticles, Date>("Date");
-        date.setCellValueFactory(new PropertyValueFactory<BlogArticles, Date>("date"));
-
-        TableColumn<BlogArticles, String> contents = new TableColumn<BlogArticles, String>("Contents");
-        contents.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("contents"));
-
-        TableColumn<BlogArticles, String> author = new TableColumn<BlogArticles, String>("Author");
-        author.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("author"));
-
-        TableColumn<BlogArticles, String> rating = new TableColumn<BlogArticles, String>("Rating");
-        rating.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("ratingMoy"));
-
-
-
-
-        table.getColumns().add(id);
-        table.getColumns().add(title);
-        table.getColumns().add(contents);
-        table.getColumns().add(category);
-        table.getColumns().add(date);
-
-        table.getColumns().add(author);
-        table.getColumns().add(rating);
-
-
-
-
-
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-     //   tablerat.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        BlogsService Service = new BlogsService();
-        List<BlogArticles> articles = BlogsService.listerArticles();
-        BlogRatingService moyrating = new BlogRatingService();
-
-        for(int i=0;i<articles.size();i++ ){
-
-            List<BlogRating> ratings = moyrating.showRatingsByArticle(articles.get(i));
-            usersn=ratings.size();
-
-                    for(int k=0;k<usersn;k++){
-                          sommerat=sommerat+ratings.get(k).getRating();
-                    }
-            moy=(sommerat/(5*usersn))*100;
-             sommerat=0;
-             articles.get(i).setRatingMoy(String.valueOf(moy)+" %");
-
-
-            table.getItems().add(articles.get(i));
-
-
-            System.out.println(moy);
-
-
-
-
-        }
-
-
-
-
-
-
+        afficheBlog();
     }
 
 
     public void add(javafx.event.ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AddArticle.fxml"));
-        Parent root2 = loader.load();
-
-
-        addbtn.getScene().setRoot(root2);
+        Parent root1 = (Parent) loader.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.DECORATED);
+        stage.setTitle("Blogs");
+        stage.setScene(new Scene(root1));
+        stage.setMinHeight(559);
+        stage.setMinWidth(944);
+        stage.show();
     }
 
     public void delete(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -152,13 +90,9 @@ public class BoarticleController implements Initializable {
             }
 
             articleService.deleteArticle(i);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("boarticle.fxml"));
-            Parent root2 = loader.load();
-
-
-            deletebtn.getScene().setRoot(root2);
-
-
+            table.getColumns().clear();
+            table.getItems().clear();
+            afficheBlog();
         }
     }
 
@@ -179,14 +113,85 @@ public class BoarticleController implements Initializable {
             }
         }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("updatearticle.fxml"));
-        Parent root2 = loader.load();
-
-
-        btnAddBA.getScene().setRoot(root2);
+        Parent root1 = (Parent) loader.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.DECORATED);
+        stage.setTitle("Blogs");
+        stage.setScene(new Scene(root1));
+        stage.setMinHeight(559);
+        stage.setMinWidth(944);
+        stage.show();
 
     }
 
+public void afficheBlog(){
+    int usersn;
+    double sommerat=0;
+    double moy;
 
+    TableColumn<BlogArticles, Integer> id = new TableColumn<BlogArticles, Integer>("Id");
+    id.setCellValueFactory(new PropertyValueFactory<BlogArticles, Integer>("id"));
+    TableColumn<BlogArticles, String> title = new TableColumn<BlogArticles, String>("Title");
+    title.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("title"));
+
+    TableColumn<BlogArticles, String> category = new TableColumn<BlogArticles, String>("Category");
+    category.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("category"));
+
+    TableColumn<BlogArticles, Date> date = new TableColumn<BlogArticles, Date>("Date");
+    date.setCellValueFactory(new PropertyValueFactory<BlogArticles, Date>("date"));
+
+    TableColumn<BlogArticles, String> contents = new TableColumn<BlogArticles, String>("Contents");
+    contents.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("contents"));
+
+    TableColumn<BlogArticles, String> author = new TableColumn<BlogArticles, String>("Author");
+    author.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("author"));
+
+    TableColumn<BlogArticles, String> rating = new TableColumn<BlogArticles, String>("Rating");
+    rating.setCellValueFactory(new PropertyValueFactory<BlogArticles, String>("ratingMoy"));
+
+
+
+
+    table.getColumns().add(id);
+    table.getColumns().add(title);
+    table.getColumns().add(contents);
+    table.getColumns().add(category);
+    table.getColumns().add(date);
+
+    table.getColumns().add(author);
+    table.getColumns().add(rating);
+
+
+
+
+
+    table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    //   tablerat.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    BlogsService Service = new BlogsService();
+    List<BlogArticles> articles = BlogsService.listerArticles();
+    BlogRatingService moyrating = new BlogRatingService();
+
+    for(int i=0;i<articles.size();i++ ){
+
+        List<BlogRating> ratings = moyrating.showRatingsByArticle(articles.get(i));
+        usersn=ratings.size();
+
+        for(int k=0;k<usersn;k++){
+            sommerat=sommerat+ratings.get(k).getRating();
+        }
+        moy=(sommerat/(5*usersn))*100;
+        sommerat=0;
+        articles.get(i).setRatingMoy(String.valueOf(moy)+" %");
+
+
+        table.getItems().add(articles.get(i));
+
+
+        System.out.println(moy);
+
+    }
+}
 
 
 

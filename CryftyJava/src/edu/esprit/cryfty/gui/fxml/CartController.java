@@ -6,6 +6,7 @@ import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.payment.Cart;
 import edu.esprit.cryfty.service.payment.CartService;
 import edu.esprit.cryfty.service.payment.TransactionService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -141,9 +142,9 @@ public class CartController implements Initializable {
         }
         TransactionService transactionService=new TransactionService();
         double balance=0;
-        for (int i=0;i<transactionService.getwalletIdClient(1).size();i++)
+        for (int i = 0; i<transactionService.getwalletIdClient(Session.getInstance().getCurrentUser().getId()).size(); i++)
         {
-            balance=balance+transactionService.getwalletIdClient(1).get(i).getBalance();
+            balance=balance+transactionService.getwalletIdClient(Session.getInstance().getCurrentUser().getId()).get(i).getBalance();
             if(balance>=tot)
             {
                 cartWalletBtn.setDisable(false);

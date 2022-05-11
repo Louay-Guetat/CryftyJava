@@ -1,14 +1,16 @@
 package edu.esprit.cryfty.gui.fxml;
 
-import edu.esprit.cryfty.entity.Client;
 import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.entity.Node;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.service.Nft.CategoryService;
 import edu.esprit.cryfty.service.Nft.NftService;
 import edu.esprit.cryfty.service.Nft.SubCategoryService;
 import edu.esprit.cryfty.service.NodeService;
+import edu.esprit.cryfty.service.user.ClientService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,7 +38,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 
-import static edu.esprit.cryfty.gui.Main.currentUser;
 
 public class AddNftController implements Initializable {
     @FXML
@@ -193,7 +194,9 @@ public class AddNftController implements Initializable {
                         nft.setCategory(category);
                         nft.setSubCategory(subCategory);
                         nft.setCurrency(node);
-                        nft.setOwner((Client) currentUser);
+                        ClientService clientService = new ClientService();
+                        Client client = clientService.getClientById(Session.getInstance().getCurrentUser().getId());
+                        nft.setOwner(client);
 
                         LocalDateTime now = LocalDateTime.now();
                         nft.setCreationDate(now);

@@ -1,6 +1,7 @@
 package edu.esprit.cryfty.gui.fxml;
 
 import edu.esprit.cryfty.entity.Nft.Nft;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -21,7 +22,6 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-import static edu.esprit.cryfty.gui.Main.currentUser;
 import static edu.esprit.cryfty.gui.Controller.nft;
 import static edu.esprit.cryfty.gui.fxml.ExploreController.nft1;
 
@@ -72,7 +72,7 @@ public class ItemController implements Initializable{
                 File watermarkImageFile  = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + nft1.getImage());
                 File sourceImage = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\LogoNoText.png");
                 Image image;
-                if(nft1.getOwner().getId() != currentUser.getId()){
+                if(nft1.getOwner().getId() != Session.getInstance().getCurrentUser().getId()){
                     File destinationImage = waterMark(sourceImage,watermarkImageFile);
                     image = new Image(new FileInputStream(destinationImage));
                     BoxBlur blur = new BoxBlur();
@@ -106,7 +106,7 @@ public class ItemController implements Initializable{
                 File watermarkImageFile  = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\Nfts\\" + nft.getImage());
                 File sourceImage = new File("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\LogoNoText.png");
                 Image image;
-                if(nft.getOwner().getId() != currentUser.getId()){
+                if(nft.getOwner().getId() != Session.getInstance().getCurrentUser().getId()){
                     File destinationImage = waterMark(sourceImage,watermarkImageFile);
                     image = new Image(new FileInputStream(destinationImage));
                     BoxBlur blur = new BoxBlur();
