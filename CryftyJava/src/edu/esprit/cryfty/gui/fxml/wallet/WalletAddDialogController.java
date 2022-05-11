@@ -5,6 +5,7 @@ import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.Wallet;
 import edu.esprit.cryfty.service.NodeService;
 import edu.esprit.cryfty.service.WalletService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
@@ -75,7 +76,7 @@ public class WalletAddDialogController {
             wallet.setIsActive(false);
             wallet.setWalletAddress(walletService.generateAddress());
             Client client = new Client();
-            client.setId(1);
+            client.setId(Session.getInstance().getCurrentUser().getId());
             wallet.setClient(client);
             wallet.setWalletImageFileName("default-image.jpg");
             wallet.setBalance(0);

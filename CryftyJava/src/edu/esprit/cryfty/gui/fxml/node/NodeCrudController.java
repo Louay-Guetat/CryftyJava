@@ -64,6 +64,10 @@ public class NodeCrudController {
         nodeRewardColumn.setCellValueFactory(nodeStringCellDataFeatures -> nodeStringCellDataFeatures.getValue().nodeRewardProperty().asObject());
         nodeTableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showNodeDetails(newValue));
+        NodeService nodeService = new NodeService();
+        ObservableList<Node> nodes = nodeService.getNodes();
+        nodes.forEach(System.out::println);
+        nodeTableView.setItems(nodes);
 
     }
 

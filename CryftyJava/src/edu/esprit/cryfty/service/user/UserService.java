@@ -134,6 +134,23 @@ public class UserService {
         return t;
     }
 
+    public void updateProfil(Client client){
+        String request = "update client set first_name=?, last_name=?, email=?, phone_number=?" +
+                " where id = "+ client.getId();
+        try{
+            PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
+            pst.setString(1,client.getFirstName());
+            pst.setString(2,client.getLastName());
+            pst.setString(3,client.getEmail());
+            pst.setInt(4,client.getPhoneNumber());
+
+            pst.executeUpdate();
+            System.out.println("Profile updated");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
     public int findIdByEmail(String username){
         try {
             String role="";

@@ -6,6 +6,7 @@ import edu.esprit.cryfty.gui.Main;
 import edu.esprit.cryfty.gui.fxml.node.NodeCrudController;
 import edu.esprit.cryfty.gui.fxml.wallet.WalletsListController;
 import edu.esprit.cryfty.service.WalletService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,7 +61,7 @@ public class WalletsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         WalletService walletService = new WalletService();
-        Wallet wallet = walletService.getClientMainWallet(2);
+        Wallet wallet = walletService.getClientMainWallet(Session.getInstance().getCurrentUser().getId());
         walletBalance.setText(String.valueOf(wallet.getBalance()) + " " +wallet.getNode().getCoinCode());
         walletNode.setText(wallet.getNode().getNodeLabel());
         System.out.println(wallet.getWalletLabel());

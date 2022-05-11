@@ -1,5 +1,8 @@
 package edu.esprit.cryfty.utils;
 
+import edu.esprit.cryfty.entity.User.Client;
+import edu.esprit.cryfty.service.user.ClientService;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -22,8 +25,10 @@ public class MailUtil {
                 return new PasswordAuthentication(emailAccount,password);
             }
         });
-
-        Message message = prepareMessage(session,emailAccount,"khalilrezgui1607@gmail.com",walletId);
+        ClientService clientService = new ClientService();
+        Client client = clientService.getClientByIdTransaction(edu.esprit.cryfty.service.user.Session.getInstance().getCurrentUser().getId());
+        System.out.println(client);
+        Message message = prepareMessage(session,emailAccount,client.getEmail(),walletId);
         Transport.send(message);
         System.out.println("Email Sent");
     }

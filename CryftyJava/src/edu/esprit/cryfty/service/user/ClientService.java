@@ -112,6 +112,7 @@ public class ClientService {
                 client.setFirstName(rs.getString("first_name"));
                 client.setLastName(rs.getString("last_name"));
                 client.setAddress(rs.getString("address"));
+                client.setEmail(rs.getString("email"));
                 client.setAge(rs.getInt("age"));
                 client.setAvatar(rs.getString("avatar"));
                 client.setCouverture(rs.getString("couverture"));
@@ -122,5 +123,22 @@ public class ClientService {
             System.out.println(ex.getMessage());
         }
         return clients.get(0);
+    }
+
+    public void updateProfil(Client client){
+        String request = "update client set first_name=?, last_name=?, email=?, phone_number=?" +
+                " where id = "+ client.getId();
+        try{
+            PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
+            pst.setString(1,client.getFirstName());
+            pst.setString(2,client.getLastName());
+            pst.setString(3,client.getEmail());
+            pst.setInt(4,client.getPhoneNumber());
+
+            pst.executeUpdate();
+            System.out.println("Profile updated");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }

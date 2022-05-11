@@ -4,6 +4,7 @@ import edu.esprit.cryfty.entity.Transfer;
 import edu.esprit.cryfty.entity.Block;
 import edu.esprit.cryfty.entity.Wallet;
 import edu.esprit.cryfty.service.user.ClientService;
+import edu.esprit.cryfty.service.user.Session;
 import edu.esprit.cryfty.utils.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +24,7 @@ public class WalletService {
 
 
     public ObservableList<Wallet> getWallets(){
-        String request = "select * from wallet";
+        String request = "select * from wallet where client_id="+ Session.getInstance().getCurrentUser().getId();
         ObservableList<Wallet> wallets = FXCollections.observableArrayList();
         try{
             Statement st = DataSource.getInstance().getCnx().prepareStatement(request);
@@ -177,7 +178,7 @@ public class WalletService {
             if(wallet.isIsMain()) {
                 String request2 = "update wallet set is_main=false where client_id=?";
                 PreparedStatement st2 = DataSource.getInstance().getCnx().prepareStatement(request2);
-                st2.setInt(1,1); //Replace with ID from session
+                st2.setInt(1,Session.getInstance().getCurrentUser().getId()); //Replace with ID from session
                 st2.executeUpdate();
             }
             st.executeUpdate();

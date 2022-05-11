@@ -4,8 +4,11 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import edu.esprit.cryfty.entity.User.Client;
 import edu.esprit.cryfty.entity.payment.Transaction;
 import edu.esprit.cryfty.service.payment.TransactionService;
+import edu.esprit.cryfty.service.user.ClientService;
+import edu.esprit.cryfty.service.user.Session;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -102,7 +105,9 @@ public class AfficheTransactionBOController implements Initializable {
 
                         PDFIcon.setOnMouseClicked((MouseEvent event) -> {
                             Transaction transaction= TableTransaction.getSelectionModel().getSelectedItem();
-                            if(pdfGen(transaction.getId(),transaction.getWallets().getWalletAddress(),transaction.getCartId().getTotal(),transaction.getDatetransaction(),transaction.getCartId().getClientId().getFirstName(),transaction.getCartId().getClientId().getLastName(),transaction.getCartId().getClientId().getAddress(),transaction.getCartId().getClientId().getPhoneNumber()))
+                            ClientService clientService = new ClientService();
+                            Client client = clientService.getClientByIdTransaction(transaction.getCartId().getId());
+                            if(pdfGen(transaction.getId(),transaction.getWallets().getWalletAddress(),transaction.getCartId().getTotal(),transaction.getDatetransaction(),client.getFirstName(),client.getLastName(),client.getAddress(),client.getPhoneNumber()))
                             {
                                 Alert alert=new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Success");
@@ -194,7 +199,7 @@ public class AfficheTransactionBOController implements Initializable {
                     structure.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
                 }
             });
-            Image front = Image.getInstance("C:\\Users\\Siam Info\\Desktop\\JavaFinal\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\logo.png");
+            Image front = Image.getInstance("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\logo.png");
             document.open();
             front.scaleAbsolute(100,100);
             document.add(front);

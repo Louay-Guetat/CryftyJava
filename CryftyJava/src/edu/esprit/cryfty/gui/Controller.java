@@ -204,6 +204,8 @@ public class Controller extends Thread implements Initializable {
     private Label lblUsername1;
     @FXML
     private Button btnHome;
+    @FXML
+    private Button btnProfil;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -219,10 +221,11 @@ public class Controller extends Thread implements Initializable {
         lblUsername.setText(Session.getInstance().getCurrentUser().getUsername());
         lblUsername1.setText(Session.getInstance().getCurrentUser().getUsername());
         createView();
-        boxItems.setPrefWidth(1020);
-        boxItems.setPrefHeight(344);
+        boxItems.setPrefWidth(1196);
+        boxItems.setPrefHeight(365);
         scrollPaneItems.setContent(boxItems);
-
+        scrollPaneItems.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        pnlItem.setLayoutY(150);
         ImageView add = new ImageView();
         try {
             FileInputStream inputstream = new FileInputStream("C:\\Users\\LOUAY\\Desktop\\CryftyJava\\CryftyJava\\src\\edu\\esprit\\cryfty\\images\\add.png");
@@ -329,16 +332,16 @@ public class Controller extends Thread implements Initializable {
         if (actionEvent.getSource() == btnWallets) {
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/Wallets.fxml"));
-            node.setLayoutX(80);
-            node.setLayoutY(20);
+            node.setLayoutX(120);
+            node.setLayoutY(50);
             pnlHome.getChildren().add(node);
         }
 
         if(actionEvent.getSource() == btnReclamations){
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/Addreclamation.fxml"));
-            node.setLayoutX(80);
-            node.setLayoutY(20);
+            node.setLayoutX(120);
+            node.setLayoutY(50);
             pnlHome.getChildren().add(node);
         }
 
@@ -346,14 +349,14 @@ public class Controller extends Thread implements Initializable {
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/Cart.fxml"));
             node.setLayoutX(80);
-            node.setLayoutY(20);
+            node.setLayoutY(80);
             pnlHome.getChildren().add(node);
         }
         if (actionEvent.getSource() == btnTransactions) {
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/Affichetransaction.fxml"));
-            node.setLayoutX(80);
-            node.setLayoutY(20);
+            node.setLayoutX(120);
+            node.setLayoutY(80);
             pnlHome.getChildren().add(node);
         }
 
@@ -361,8 +364,8 @@ public class Controller extends Thread implements Initializable {
             pnlHome.getChildren().clear();
 
             Node node = FXMLLoader.load(getClass().getResource("fxml/ListeArticles.fxml"));
-            node.setLayoutX(80);
-            node.setLayoutY(20);
+            node.setLayoutX(120);
+            node.setLayoutY(80);
             pnlHome.getChildren().add(node);
 
         }
@@ -386,8 +389,8 @@ public class Controller extends Thread implements Initializable {
             pnlHome.getChildren().clear();
             Button btnStats = new Button("Check Stats");
             pnlHome.getChildren().add(btnStats);
-            btnStats.setLayoutX(900);
-            btnStats.setLayoutY(25);
+            btnStats.setLayoutX(930);
+            btnStats.setLayoutY(150);
             btnStats.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -396,6 +399,8 @@ public class Controller extends Thread implements Initializable {
                         Node node = new FXMLLoader().load(getClass().getResource("fxml/Gchart.fxml"));
                         System.out.println("done");
                         pnlHome.getChildren().add(node);
+                        node.setLayoutY(120);
+                        node.setLayoutX(80);
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
@@ -405,8 +410,8 @@ public class Controller extends Thread implements Initializable {
             initiateSubCategories();
             Button btnCategory = new Button("Add");
             pnlHome.getChildren().add(btnCategory);
-            btnCategory.setLayoutY(25);
-            btnCategory.setLayoutX(15);
+            btnCategory.setLayoutY(150);
+            btnCategory.setLayoutX(45);
             btnCategory.setPrefWidth(100);
 
             btnCategory.setOnAction(new EventHandler<ActionEvent>() {
@@ -427,8 +432,8 @@ public class Controller extends Thread implements Initializable {
             pnlHome.getChildren().clear();
             Button btnStats = new Button("Check Stats");
             pnlHome.getChildren().add(btnStats);
-            btnStats.setLayoutX(900);
-            btnStats.setLayoutY(25);
+            btnStats.setLayoutX(930);
+            btnStats.setLayoutY(150);
             btnStats.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -446,8 +451,8 @@ public class Controller extends Thread implements Initializable {
             initiateSubCategories();
             Button btnCategory = new Button("Add");
             pnlHome.getChildren().add(btnCategory);
-            btnCategory.setLayoutY(25);
-            btnCategory.setLayoutX(15);
+            btnCategory.setLayoutY(150);
+            btnCategory.setLayoutX(45);
             btnCategory.setPrefWidth(100);
 
             btnCategory.setOnAction(new EventHandler<ActionEvent>() {
@@ -467,32 +472,40 @@ public class Controller extends Thread implements Initializable {
         if (actionEvent.getSource() == btnBlogsOffice) {
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/boarticle.fxml"));
-            node.setLayoutX(80);
-            node.setLayoutY(20);
+            node.setLayoutX(160);
+            node.setLayoutY(150);
+            pnlHome.getChildren().add(node);
+        }
+
+        if (actionEvent.getSource() == btnProfil) {
+            pnlHome.getChildren().clear();
+            Node node = FXMLLoader.load(getClass().getResource("fxml/UpdateClient.fxml"));
+            node.setLayoutX(160);
+            node.setLayoutY(150);
             pnlHome.getChildren().add(node);
         }
 
         if (actionEvent.getSource() == btnNodeOffice) {
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/node/NodeCrud.fxml"));
-            node.setLayoutX(80);
-            node.setLayoutY(20);
+            node.setLayoutX(200);
+            node.setLayoutY(170);
             pnlHome.getChildren().add(node);
         }
 
         if (actionEvent.getSource() == btnReclamationsOffice) {
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/reclamation.fxml"));
-            node.setLayoutX(80);
-            node.setLayoutY(20);
+            node.setLayoutX(120);
+            node.setLayoutY(80);
             pnlHome.getChildren().add(node);
         }
 
         if (actionEvent.getSource() == btnTransactionsOffice) {
             pnlHome.getChildren().clear();
             Node node = FXMLLoader.load(getClass().getResource("fxml/afficheTransactionBO.fxml"));
-            node.setLayoutX(80);
-            node.setLayoutY(20);
+            node.setLayoutX(135);
+            node.setLayoutY(100);
             pnlHome.getChildren().add(node);
         }
 
@@ -1236,7 +1249,8 @@ public class Controller extends Thread implements Initializable {
         tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 
         pnlHome.getChildren().add(tableView);
-        tableView.setLayoutY(75);
+        tableView.setLayoutY(230);
+        tableView.setLayoutX(30);
     }
 
     public void initiateSubCategories() {
@@ -1384,7 +1398,8 @@ public class Controller extends Thread implements Initializable {
         tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(Bindings.size(tableView.getItems()).add(1.01)));
 
         pnlHome.getChildren().add(tableView);
-        tableView.setLayoutY(280);
+        tableView.setLayoutY(400);
+        tableView.setLayoutX(30);
     }
 
 }
