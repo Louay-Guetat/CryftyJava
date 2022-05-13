@@ -3,6 +3,7 @@ package edu.esprit.cryfty.gui.fxml;
 import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
+import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.Nft.CategoryService;
 import edu.esprit.cryfty.service.Nft.NftService;
 import edu.esprit.cryfty.service.Nft.SubCategoryService;
@@ -39,6 +40,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+import static edu.esprit.cryfty.gui.Controller.nftClicked;
+import static edu.esprit.cryfty.gui.Main.stage;
 
 public class ExploreController implements Initializable {
     @FXML
@@ -85,7 +89,6 @@ public class ExploreController implements Initializable {
     private Button btnClear;
 
     public static Nft nft1 = null;
-    public static Nft nftClicked= null;
     private List<Nft> nfts = new NftService().showNfts();
     private final ToggleGroup groupPrice = new ToggleGroup();
     private final ToggleGroup groupLikes = new ToggleGroup();
@@ -198,15 +201,43 @@ public class ExploreController implements Initializable {
                     nft1 = nfts.get(i);
                     nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
                     hBox.getChildren().add(nodes[i]);
-                    i++;
                     boxItems.getChildren().add(hBox);
                 }
                 else{
                     nft1 = nfts.get(i);
                     nodes[i] = FXMLLoader.load(getClass().getResource("Item.fxml"));
                     hBox.getChildren().add(nodes[i]);
-                    i++;
                 }
+
+                final int j = i;
+                //give the items some effect
+                nodes[i].setOnMouseEntered(event -> {
+                    nodes[j].setStyle("-fx-background-color : #0A0E3F");
+                });
+                nodes[i].setOnMouseExited(event -> {
+                    nodes[j].setStyle("-fx-background-color : #02030A");
+                });
+
+                int finalI = i;
+                nodes[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        nftClicked = nfts.get(finalI);
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
+                        try {
+                            Parent root = fxmlLoader.load();
+                            Controller controller = fxmlLoader.getController();
+                            controller.setPane("OneItem.fxml");
+                            stage.setScene(new Scene(root));
+                            stage.show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                i++;
             }while(i<nfts.size());
         }
         else{

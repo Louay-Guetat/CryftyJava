@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static edu.esprit.cryfty.gui.Main.stage;
+
 public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -86,12 +88,10 @@ public class LoginController implements Initializable {
                     alert.setContentText("!!! welcome  !!!");
                     alert.showAndWait();
 
-                Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                window.hide();
+                stage.hide();
                 Parent tableViewParent = FXMLLoader.load(getClass().getResource("Home.fxml"));
-                Stage window5 = new Stage();
-                window5.setScene(new Scene(tableViewParent));
-                window5.show();
+                stage.setScene(new Scene(tableViewParent));
+                stage.show();
 
             }  else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

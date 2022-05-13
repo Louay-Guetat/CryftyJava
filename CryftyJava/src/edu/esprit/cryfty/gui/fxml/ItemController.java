@@ -47,7 +47,6 @@ public class ItemController implements Initializable{
     private Label lblCurrency;
     @FXML
     private Label lblLikes;
-    public static Nft thisNft = nft;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

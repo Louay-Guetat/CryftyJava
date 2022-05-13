@@ -3,6 +3,7 @@ package edu.esprit.cryfty.gui.fxml;
 import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.NftComment;
 import edu.esprit.cryfty.entity.payment.Cart;
+import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.Nft.NftCommentService;
 import edu.esprit.cryfty.service.Nft.NftService;
 import edu.esprit.cryfty.service.payment.CartService;
@@ -43,6 +44,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static edu.esprit.cryfty.gui.Controller.nftClicked;
+import static edu.esprit.cryfty.gui.Main.stage;
 import static edu.esprit.cryfty.gui.fxml.ItemController.waterMark;
 import static edu.esprit.cryfty.service.payment.CartService.nfts;
 
@@ -129,16 +131,17 @@ public class OneItemController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        nftClicked = null;
     }
 
     @javafx.fxml.FXML
     public void updateNft() throws IOException {
-        Scene scene = btnUpdate.getScene();
-        scene.getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("UpdateNft.fxml"));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
+        Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setPane("UpdateNft.FXML");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @javafx.fxml.FXML

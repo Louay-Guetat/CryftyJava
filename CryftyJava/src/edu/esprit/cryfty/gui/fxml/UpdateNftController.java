@@ -3,6 +3,7 @@ package edu.esprit.cryfty.gui.fxml;
 import edu.esprit.cryfty.entity.Nft.Category;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.entity.Node;
+import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.Nft.CategoryService;
 import edu.esprit.cryfty.service.Nft.NftService;
 import edu.esprit.cryfty.service.Nft.SubCategoryService;
@@ -30,6 +31,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static edu.esprit.cryfty.gui.Controller.nftClicked;
+import static edu.esprit.cryfty.gui.Main.stage;
 
 
 public class UpdateNftController implements Initializable {
@@ -163,15 +165,17 @@ public class UpdateNftController implements Initializable {
 
                         Scene scene = btnSubmit.getScene();
                         scene.getWindow().hide();
-                        Stage primaryStage = new Stage();
                         Parent root = null;
                         try {
-                            root = FXMLLoader.load(getClass().getResource("Home.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
+                            root = fxmlLoader.load();
+                            Controller controller = fxmlLoader.getController();
+                            controller.setPane("OneItem.fxml");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        primaryStage.setScene(new Scene(root));
-                        primaryStage.show();
+                        stage.setScene(new Scene(root));
+                        stage.show();
                     }
                 }
             }
@@ -213,9 +217,12 @@ public class UpdateNftController implements Initializable {
     public void goBack() throws IOException {
         Scene scene = lblTitle.getScene();
         scene.getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        stage.hide();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
+        Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setPane("OneItem.fxml");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }

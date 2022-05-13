@@ -76,6 +76,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static edu.esprit.cryfty.gui.Main.stage;
+import static edu.esprit.cryfty.gui.fxml.ExploreController.nft1;
+
 public class Controller extends Thread implements Initializable {
 
     @FXML
@@ -103,8 +106,6 @@ public class Controller extends Thread implements Initializable {
     private Label addGroup;
     @FXML
     private AnchorPane titleListConv;
-    private boolean bool = true;
-    boolean boolEmoji = true;
     @FXML
     private SplitPane conv;
     @FXML
@@ -144,11 +145,6 @@ public class Controller extends Thread implements Initializable {
     String fromLang = "en";
     @FXML
     private ImageView imageBouleDiscussion;
-    private FileChooser fileChooser;
-    private File filePath;
-    BufferedReader reader;
-    PrintWriter writer;
-    Socket socket;
     @FXML
     private ScrollPane scrollPaneItems;
     @FXML
@@ -207,6 +203,15 @@ public class Controller extends Thread implements Initializable {
     @FXML
     private Button btnProfil;
 
+    private FileChooser fileChooser;
+    private File filePath;
+    BufferedReader reader;
+    PrintWriter writer;
+    Socket socket;
+    private List<Nft> nfts;
+    private boolean bool = true;
+    boolean boolEmoji = true;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         view.setPrefHeight(750);
@@ -220,7 +225,6 @@ public class Controller extends Thread implements Initializable {
         }
         lblUsername.setText(Session.getInstance().getCurrentUser().getUsername());
         lblUsername1.setText(Session.getInstance().getCurrentUser().getUsername());
-        createView();
         boxItems.setPrefWidth(1196);
         boxItems.setPrefHeight(365);
         scrollPaneItems.setContent(boxItems);
@@ -246,6 +250,7 @@ public class Controller extends Thread implements Initializable {
         paneEmoji.toFront();
         ListConversation.toFront();
         imageBouleDiscussion.toFront();
+        createView();
     }
 
     public Controller() {
@@ -520,12 +525,10 @@ public class Controller extends Thread implements Initializable {
 
         if(actionEvent.getSource() == btnSignout){
             Session.getInstance().setCurrentUser(null);
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.hide();
+            stage.hide();
             Parent tableViewParent = FXMLLoader.load(getClass().getResource("fxml/login.fxml"));
-            Stage newWindow = new Stage();
-            newWindow.setScene(new Scene(tableViewParent));
-            newWindow.show();
+            stage.setScene(new Scene(tableViewParent));
+            stage.show();
         }
     }
 
@@ -1099,8 +1102,9 @@ public class Controller extends Thread implements Initializable {
     }
 
     public void createView() {
+        nft1 = null;
         NftService nftService = new NftService();
-        List<Nft> nfts = nftService.showNfts();
+        nfts = nftService.showNfts();
         Node[] nodes = new Node[nfts.size()];
         for (int i = 0; i < nodes.length; i++) {
             try {
@@ -1114,14 +1118,12 @@ public class Controller extends Thread implements Initializable {
                 nodes[i].setOnMouseExited(event -> {
                     nodes[j].setStyle("-fx-background-color : #02030A");
                 });
-
                 boxItems.getChildren().add(nodes[i]);
 
                 int finalI = i;
                 nodes[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        System.out.println(nfts.get(finalI));
                         nftClicked = nfts.get(finalI);
                         Node node = nodes[finalI];
                         try {
@@ -1131,6 +1133,8 @@ public class Controller extends Thread implements Initializable {
                         }
                         pnlHome.getChildren().clear();
                         pnlHome.getChildren().add(node);
+                        node.setLayoutX(50);
+                        node.setLayoutY(80);
                     }
                 });
             } catch (IOException e) {
@@ -1400,6 +1404,12 @@ public class Controller extends Thread implements Initializable {
         pnlHome.getChildren().add(tableView);
         tableView.setLayoutY(400);
         tableView.setLayoutX(30);
+    }
+
+    public void setPane(String path) throws IOException {
+        pnlHome.getChildren().clear();
+        Node node = FXMLLoader.load(getClass().getResource("fxml/"+path));
+        pnlHome.getChildren().add(node);
     }
 
 }

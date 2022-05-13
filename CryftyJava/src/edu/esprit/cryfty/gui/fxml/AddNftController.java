@@ -5,6 +5,7 @@ import edu.esprit.cryfty.entity.Nft.Nft;
 import edu.esprit.cryfty.entity.Nft.SubCategory;
 import edu.esprit.cryfty.entity.Node;
 import edu.esprit.cryfty.entity.User.Client;
+import edu.esprit.cryfty.gui.Controller;
 import edu.esprit.cryfty.service.Nft.CategoryService;
 import edu.esprit.cryfty.service.Nft.NftService;
 import edu.esprit.cryfty.service.Nft.SubCategoryService;
@@ -37,6 +38,9 @@ import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
+
+import static edu.esprit.cryfty.gui.Main.stage;
+
 
 
 public class AddNftController implements Initializable {
@@ -92,24 +96,6 @@ public class AddNftController implements Initializable {
         }
         ObservableList<String> nodeList = FXCollections.observableArrayList(coinCodes);
         cbCurrency.setItems(nodeList);
-
-        /*SubCategoryService subCategoryService = new SubCategoryService();
-        List<SubCategory> subCategories = new ArrayList();
-        String[] subCategoryNames = new String[subCategories.size()];
-        for(int i=0;i<subCategories.size();i++){
-            Category category = subCategories.get(i).getCategory();
-            if(category.getName().equals(cbCategory.getValue())){
-                subCategoryNames
-            }
-        }*/
-        /*tfPrice.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d*,\\d*")) {
-                    tfPrice.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });*/
 
         tfPrice.addEventFilter(KeyEvent.KEY_TYPED, priceFilter());
 
@@ -221,15 +207,15 @@ public class AddNftController implements Initializable {
 
                         Scene scene = btnSubmit.getScene();
                         scene.getWindow().hide();
-                        Stage primaryStage = new Stage();
                         Parent root = null;
                         try {
-                            root = FXMLLoader.load(getClass().getResource("Home.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
+                            root = fxmlLoader.load();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        primaryStage.setScene(new Scene(root));
-                        primaryStage.show();
+                        stage.setScene(new Scene(root));
+                        stage.show();
                     }
                 }
             }
