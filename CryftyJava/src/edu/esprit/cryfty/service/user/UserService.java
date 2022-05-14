@@ -16,12 +16,12 @@ import java.util.logging.Logger;
 public class UserService {
     Connection cnx = DataSource.getInstance().getCnx();
     public void addUser(String username,String password){
-        String request = "insert into user(username,roles,password,type,is_active) values(?,?,?,?,0)";
+        String request = "insert into user(username,roles,password,type,is_active) values(?,?,?,?,1)";
         try{
             PreparedStatement pst = DataSource.getInstance().getCnx().prepareStatement(request);
             String password2= BCrypt.hashpw(password, BCrypt.gensalt());
             pst.setString(1,username);
-            pst.setString(2,"[\"ROLE_CLIENT\"]");
+            pst.setString(2,"[\"ROLE_USER\"]");
             pst.setString(3,password2);
             pst.setString(4,"client");
             pst.executeUpdate();
