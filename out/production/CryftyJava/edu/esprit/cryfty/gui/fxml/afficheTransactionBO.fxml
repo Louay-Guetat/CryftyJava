@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="564.0" prefWidth="764.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.AfficheTransactionBOController">
+    <children>
+        <Label layoutX="275.0" layoutY="48.0" prefWidth="235.0" text="     List Transactions " textFill="#e7e5e5">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <TableView fx:id="TableTransaction" accessibleRole="TABLE_CELL" layoutX="45.0" layoutY="172.0" prefHeight="329.0" prefWidth="643.0" style="-fx-background-color: #02030A;">
+            <columns>
+                <TableColumn fx:id="RefId" maxWidth="750.0" minWidth="30.0" prefWidth="99.0" style="-fx-background-color: #02030A;" text="Réference" />
+                <TableColumn fx:id="AmountId" maxWidth="750.0" minWidth="28.0" prefWidth="84.0" style="-fx-background-color: #02030A;" text="Amount" />
+                <TableColumn fx:id="wAddressId" maxWidth="750.0" minWidth="11.0" prefWidth="245.0" style="-fx-background-color: #02030A;" text="Wallet address" />
+                <TableColumn fx:id="dateTransactionId" maxWidth="750.0" minWidth="20.0" prefWidth="138.0" style="-fx-background-color: #02030A;" text="Date transaction" />
+                <TableColumn fx:id="pdfBtn" prefWidth="75.0" style="-fx-background-color: #02030A;" text="Actions" />
+            </columns>
+        </TableView>
+        <TextField fx:id="searchId" layoutX="527.0" layoutY="116.0" prefHeight="27.0" prefWidth="183.0" promptText="search" style="-fx-background-color: #02030A; -fx-border-color: #B7C3D7; -fx-border-radius: 2em;" />
+        <ImageView fitHeight="17.0" fitWidth="16.0" layoutX="687.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../images/icons8_Search_52px.png" />
+            </image>
+        </ImageView>
+    </children>
+    <effect>
+        <DropShadow color="#1b1eeb" />
+    </effect>
+</AnchorPane>

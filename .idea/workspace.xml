@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a19f7a18-a10b-4844-8f18-db47a185cd52" name="Changes" comment="" />
+    <list default="true" id="a19f7a18-a10b-4844-8f18-db47a185cd52" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CryftyJava.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CryftyJava.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CryftyJava/src/edu/esprit/cryfty/gui/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/CryftyJava/src/edu/esprit/cryfty/gui/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CryftyJava/src/edu/esprit/cryfty/service/chat/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CryftyJava/src/edu/esprit/cryfty/service/chat/MessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Client.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Nft/Category.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Nft/Category.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Nft/Nft.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Nft/Nft.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Nft/NftComment.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Nft/NftComment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Nft/SubCategory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Nft/SubCategory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Wallet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/Wallet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/chat/GroupeChat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/chat/GroupeChat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/chat/Message.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/chat/Message.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/chat/PrivateChat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/chat/PrivateChat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/payment/Cart.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/payment/Cart.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/payment/Transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/entity/payment/Transaction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/fxml/Home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/fxml/Home.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/fxml/Item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/fxml/Item.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/gui/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/ClientService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/Nft/CategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/Nft/CategoryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/Nft/NftCommentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/Nft/NftCommentService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/Nft/NftService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/Nft/NftService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/Nft/SubCategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/Nft/SubCategoryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/NodeService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/NodeService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/WalletService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/WalletService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/chat/GroupeChatService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/chat/GroupeChatService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/chat/MessageService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/chat/MessageService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/chat/PrivateChatService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/chat/PrivateChatService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/payment/CartService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/payment/CartService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/payment/TransactionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/service/payment/TransactionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/tests/ClassMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryftyJava/edu/esprit/cryfty/tests/ClassMain.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,9 +57,44 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/CryftyJava" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../CryftyJava/controlsfx-8.40.18.jar" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15234375" />
+    <property name="project.structure.side.proportion" value="0.14306152" />
+  </component>
+  <component name="RunManager" selected="Application.Unnamed">
+    <configuration name="Unnamed (1)" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.esprit.cryfty.Server.Server" />
+      <module name="CryftyJava" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed (2)" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.esprit.cryfty.gui.Main" />
+      <module name="CryftyJava" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.esprit.cryfty.gui.Main" />
+      <module name="CryftyJava" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Application.Unnamed (2)" />
+      <item itemvalue="Application.Unnamed (1)" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

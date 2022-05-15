@@ -295,6 +295,7 @@ public class Controller extends Thread implements Initializable {
                     public void run() {
                         if (!(u.getUsername().equals(cmd))) {
                             Label userEnvoyé = new Label(cmd + "");
+                            afficheNotification(cmd);
                             userEnvoyé.setStyle("-fx-text-fill: black;-fx-font-weight:bold;-fx-text-fill:Black");
                             layout.getChildren().add(userEnvoyé);
 
@@ -683,33 +684,41 @@ public class Controller extends Thread implements Initializable {
     FontAwesomeIconView Peoples = new FontAwesomeIconView(FontAwesomeIcon.USERS);
     public static GroupeChat GrClicked = null;
 
-    public void ListConversation(Event actionEvent) {
+    public void ListConversation (Event actionEvent)
+    {
         ArrayList<Conversation> nom = new ArrayList<>();
-        VBox layout = new VBox(nom.size());
-        for (int j = 0; j < Affichage_GR_chat().size(); j++) {
-            nom.add(Affichage_GR_chat().get(j));
+        VBox layout = new  VBox(nom.size());
+        MessageService msgS = new MessageService();
+        for (int j=0;j< Affichage_GR_chat().size();j++)
+        {
+            nom.add( Affichage_GR_chat().get(j));
+            GroupeChat  gr=Affichage_GR_chat().get(j);
             Label nomG = new Label(Affichage_GR_chat().get(j).getNom());
+
             nomG.setStyle("-fx-font-weight:bold;");
             layout.getChildren().add(nomG);
-            GroupeChat gr = Affichage_GR_chat().get(j);
-            int id = Affichage_GR_chat().get(j).getId();
+            for(int z =0;z<msgS.getLastMessageByCon(gr).size();z++)
+            {Label lastm = new Label(msgS.getLastMessageByCon(gr).get(z).getContenu()+" ");
+                layout.getChildren().add(lastm);}
+            Line l =new Line();
+            layout.getChildren().add(l);
+            int id =Affichage_GR_chat().get(j).getId();
             //System.out.println("idconv"+GrClicked2.getId());
-            String nomgr = Affichage_GR_chat().get(j).getNom();
-            Conversation g = Affichage_GR_chat().get(j);
-            nomG.setOnMouseClicked(event -> {
-                System.out.println("id: " + id);
+            String nomgr=Affichage_GR_chat().get(j).getNom();
+            Conversation g=Affichage_GR_chat().get(j);
+            nomG.setOnMouseClicked(event->{
+                System.out.println("id: "+id);
                 GetMesgsbyConv(id);
                 conv.setVisible(true);
                 NomConv.setText(nomgr);
 
-                ImgSendMsg.setOnMouseClicked(event2 -> {
+                ImgSendMsg.setOnMouseClicked(event2->{
                     // GrClicked2 = gr;
-                    System.out.println("yyy" + id);
-                    SendMsg(id);
-                });
-                HBox hbox = new HBox(Peoples);
+                    System.out.println("yyy"+id);
+                    SendMsg(id);});
+                HBox hbox=new HBox(Peoples);
                 hbox.setStyle("-fx-alignement:right;-fx-color:white");
-                hbox.setMargin(Peoples, new Insets(5, 0, 0, 130));
+                hbox.setMargin(Peoples,new Insets(5, 0, 0, 130));
                 HeadConversation.getChildren().add(hbox);
                 Peoples.setStyle("-fx-fill:white;");
                 Peoples.setVisible(true);
@@ -725,35 +734,41 @@ public class Controller extends Thread implements Initializable {
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
                         }
-                        primaryStage.setScene(new Scene(root));
+                        primaryStage.setScene(new Scene( root));
                         primaryStage.show();
                     }
                 });
             });
-            if (Affichage_GR_chat().get(j).getOwner().getId() == Session.getInstance().getCurrentUser().getId()) {
+            if(Affichage_GR_chat().get(j).getOwner().getId()==4)
+            {
                 FontAwesomeIconView deleteIconGroup = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                 deleteIconGroup.setStyle("-fx-fill:red;");
-                HBox hbox = new HBox(deleteIconGroup);
+                HBox hbox=new HBox(deleteIconGroup);
                 hbox.setStyle("-fx-alignement:right;");
-                hbox.setMargin(deleteIconGroup, new Insets(0, 0, 0, 130));
+                hbox.setMargin(deleteIconGroup,new Insets(0, 0, 0, 130));
                 layout.getChildren().add(hbox);
-                deleteGroup(Affichage_GR_chat().get(j), deleteIconGroup);
+                deleteGroup(Affichage_GR_chat().get(j),deleteIconGroup);
 
             }
 
         }
-        for (int j = 0; j < Affichage_private_chat().size(); j++) {
-            int idp = Affichage_private_chat().get(j).getId();
+        for (int j=0;j<Affichage_private_chat().size();j++)
+        { int idp =Affichage_private_chat().get(j).getId();
             nom.add(Affichage_private_chat().get(j));
-            if (Affichage_private_chat().get(j).getReceived().getId() == Session.getInstance().getCurrentUser().getId()) {
+            if(Affichage_private_chat().get(j).getReceived().getId()==4)
+            {
                 Label nomP = new Label(Affichage_private_chat().get(j).getSender().getUsername());
                 nomP.setStyle("-fx-font-weight:bold;");
-                layout.getChildren().add(nomP);
-                Line l = new Line();
 
-                String nompr = Affichage_private_chat().get(j).getSender().getUsername();
-                nomP.setOnMouseClicked(event -> {
-                    ImgSendMsg.setOnMouseClicked(event2 -> {
+                layout.getChildren().add(nomP );
+                for(int z =0;z<msgS.getLastMessageByCon(Affichage_private_chat().get(j)).size();z++)
+                {Label lastm = new Label(msgS.getLastMessageByCon(Affichage_private_chat().get(j)).get(z).getContenu()+" ");
+                    layout.getChildren().add(lastm);}
+                Line l =new Line();
+                layout.getChildren().add(l);
+                String nompr=Affichage_private_chat().get(j).getSender().getUsername();
+                nomP.setOnMouseClicked(event->{
+                    ImgSendMsg.setOnMouseClicked(event2->{
 
                         SendMsg(idp);
                     });
@@ -762,17 +777,23 @@ public class Controller extends Thread implements Initializable {
                     NomConv.setText(nompr);
                     Peoples.setVisible(false);
                 });
-            } else {
+            }
+            else
+            {
                 Label nomP = new Label(Affichage_private_chat().get(j).getReceived().getUsername());
                 nomP.setStyle("-fx-font-weight:bold;");
                 System.out.println(Affichage_private_chat().get(j).getSender().getUsername());
                 layout.getChildren().add(nomP);
-                Line l = new Line();
-                int idp2 = Affichage_private_chat().get(j).getId();
+                for(int z =0;z<msgS.getLastMessageByCon(Affichage_private_chat().get(j)).size();z++)
+                {Label lastm = new Label(msgS.getLastMessageByCon(Affichage_private_chat().get(j)).get(z).getContenu()+" ");
+                    layout.getChildren().add(lastm);}
+                Line l =new Line();
+                layout.getChildren().add(l);
+                int idp2 =Affichage_private_chat().get(j).getId();
 
-                String nompr = Affichage_private_chat().get(j).getReceived().getUsername();
-                nomP.setOnMouseClicked(event -> {
-                    ImgSendMsg.setOnMouseClicked(event2 -> {
+                String nompr=Affichage_private_chat().get(j).getReceived().getUsername();
+                nomP.setOnMouseClicked(event->{
+                    ImgSendMsg.setOnMouseClicked(event2->{
 
                         SendMsg(idp);
                     });
@@ -864,7 +885,7 @@ public class Controller extends Thread implements Initializable {
                 Label ContenuLabel = new Label("  " + m.getContenu() + "  ");
                 ContenuLabel.setStyle("-fx-text-fill: black;-fx-background-radius : 2em;-fx-background-color:blue;");
                 FontAwesomeIconView deleteIconMsg = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
-                deleteIconMsg.setStyle("-fx-fill:#8B0000	;");
+                deleteIconMsg.setStyle("-fx-fill:#8B0000;");
                 HBox hbox = new HBox(ContenuLabel, deleteIconMsg);
               /*  hbox.setPrefWidth(5);
                 hbox.setStyle("-fx-border-radius : 2em;-fx-background-color:blue;");*/
@@ -875,7 +896,7 @@ public class Controller extends Thread implements Initializable {
                 layout.getChildren().add(DateLaber);
                 SenderLaber.setPadding(new Insets(1, 0, 0, 100));
                 //ContenuLabel.setPadding(new Insets(0, 0, 0, 50));
-                DateLaber.setPadding(new Insets(0, 0, 1, 30));
+                DateLaber.setPadding(new Insets(0, 0, 1, 2));
 
                 deletMsg(m, deleteIconMsg);
 
@@ -916,8 +937,6 @@ public class Controller extends Thread implements Initializable {
         } else {
             String msg2 = TfieldMessage.getText();
             writer.println(u.getUsername() + "  " + msg2);
-            afficheNotification(u.getUsername());
-
 
             MsgErrorInputMsg.setVisible(false);
             Message msg = new Message(TfieldMessage.getText(), c, u);

@@ -134,4 +134,32 @@ public class MessageService {
             System.out.println(ex.getMessage());
         }
     }
+
+    public ArrayList<Message> getLastMessageByCon(Conversation c){
+        ArrayList<Message> MessageEntities = new ArrayList();
+        String request = "select * from message where conversation_id = ?  ORDER BY created_at DESC limit 1";
+        try{
+            PreparedStatement st = DataSource.getInstance().getCnx().prepareStatement(request);
+            st.setInt(1,c.getId());
+
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()){
+
+                Message msg=new Message();
+                msg.setId(rs.getInt(1));
+                msg.setCreatedAt((rs.getString("created_at")));
+                msg.setContenu((rs.getString("contenu")));
+                msg.setSender(getUserById(rs.getInt("sender_id")));
+                msg.setConversation(getConversationById(rs.getInt("conversation_id")));
+                //st.setInt(2,rs.getInt(1));
+                MessageEntities.add(msg);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return MessageEntities;
+    }
+
 }

@@ -25,5 +25,31 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/javax.activation-1.2.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/twilio-8.9.0-jar-with-dependencies.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/jackson-databind-2.13.2.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/TrayNotification.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/org.apache.commons.io.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/zxing-1.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/javax.mail-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/javax.mail.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/mysql-connector-java-8.0.28.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/jackson-core-2.13.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/jackson-annotations-2.13.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/fontawesomefx-8.9.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/itextpdf-5.1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/controlsfx-8.40.18.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/../../CryftyJava/itextpdf-5.5.2-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="vdurmont.emoji.java" level="project" />
+    <orderEntry type="library" name="stripe.java" level="project" />
   </component>
 </module>

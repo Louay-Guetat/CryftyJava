@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.UpdateGroupController">
+   <children>
+      <Pane fx:id="PaneUpdate" layoutX="39.0" layoutY="45.0" prefHeight="332.0" prefWidth="521.0" style="-fx-border-radius: 10; -fx-border-color: white;">
+         <children>
+            <TableView fx:id="tabUser" layoutX="239.0" layoutY="66.0" prefHeight="200.0" prefWidth="249.0">
+              <columns>
+                <TableColumn fx:id="nameUser" prefWidth="75.0" text="Username" />
+                <TableColumn fx:id="select" prefWidth="75.0" text="select" />
+                  <TableColumn fx:id="idUser" prefWidth="75.0" text="idUser" visible="false" />
+              </columns>
+            </TableView>
+            <Button fx:id="update" layoutX="386.0" layoutY="275.0" mnemonicParsing="false" onAction="#SelectItems2" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #807eff;" text="Update" textFill="WHITE" />
+            <Label fx:id="MsgError" layoutX="51.0" layoutY="24.0" text="Label" visible="false" />
+            <TextField fx:id="NomG" layoutX="40.0" layoutY="30.0" />
+            <Label layoutX="289.0" layoutY="33.0" prefHeight="25.0" prefWidth="121.0" style="-fx-font-weight: bold;" text="Add new users " textFill="#2b11d0" />
+         </children></Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="857.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.cryfty.gui.fxml.ListeArticlesController">
+    <children>
+        <StackPane layoutX="45.0" layoutY="25.0" prefHeight="519.0" prefWidth="794.0" style="-fx-background-color: #02030A;">
+            <children>
+                <Pane fx:id="pnlOverview" prefHeight="522.0" prefWidth="775.0">
+                    <children>
+                        <Label layoutX="52.0" layoutY="43.0" text="     ARTICLES" textFill="#e7e5e5">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                        <ScrollPane fx:id="scrollPaneItems" layoutX="14.0" layoutY="120.0" prefHeight="420.0" prefWidth="746.0" stylesheets="@../style.css">
+                            <content>
+                                <HBox fx:id="boxItems" prefHeight="465.0" prefWidth="747.0" style="-fx-background-color: #02030A;" />
+                            </content>
+                        </ScrollPane>
+                  <Button fx:id="home" layoutX="541.0" layoutY="48.0" mnemonicParsing="false" onAction="#backhome" text="Home" />
+                    </children>
+                </Pane>
+            </children>
+        </StackPane>
+    </children>
+    <effect>
+        <DropShadow color="#1b1eeb" />
+    </effect>
+</AnchorPane>
